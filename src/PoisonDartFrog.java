@@ -3,8 +3,8 @@ import java.awt.*;
 public class PoisonDartFrog extends Frog{
     private int turnsAfterAttack;
 
-    public PoisonDartFrog(){
-        //TODO:Make this construct
+    public PoisonDartFrog(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
     }
 
     public void move(){

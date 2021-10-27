@@ -3,6 +3,10 @@ import java.awt.*;
 public class SpringPeeper extends Frog{
     private int turnsAfterScream;
 
+    public SpringPeeper(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
+    }
+
     public void move() {
         //TODO: create move method
     }

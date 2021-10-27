@@ -1,6 +1,10 @@
 import java.awt.*;
 
-public class BluePoisonArrowFrog {
+public class BluePoisonArrowFrog extends Frog{
+
+    public BluePoisonArrowFrog(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
+    }
 
     public void move() {
         //TODO: create move method

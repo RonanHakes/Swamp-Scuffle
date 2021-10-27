@@ -5,7 +5,6 @@ public class Window extends JPanel{
     private int width;
     private int height;
 
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("BattleFrogs");
         Window w = new Window();
@@ -13,8 +12,9 @@ public class Window extends JPanel{
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-
+    public void gameLoop() {
 
     }
 
@@ -26,7 +26,4 @@ public class Window extends JPanel{
         b.paint(g2d); // paint board
     }
 
-    public void gameLoop() {
-
-    }
 }

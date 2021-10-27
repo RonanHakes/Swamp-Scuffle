@@ -5,6 +5,10 @@ public class Tadpole extends Unit{
     private int turnsAfterHatch;
     private boolean isDisabled;
 
+    public Tadpole(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
+    }
+
     public void move() {
         //TODO: create move method
     }

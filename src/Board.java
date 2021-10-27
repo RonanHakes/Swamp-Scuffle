@@ -3,6 +3,8 @@ import javax.swing.JPanel;
 import java.awt.*;
 
 public class Board {
+    public Player p1 = new Player(1);
+    public Player p2 = new Player(2);
 
 
 
@@ -16,6 +18,9 @@ public class Board {
                 g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile
             }
         }
+
+        GoliathFrog f = new GoliathFrog(1, 1, p1);
+        f.paint(g2d);
 
     }
 

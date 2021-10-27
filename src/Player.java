@@ -6,14 +6,19 @@ public class Player {
     int energyNum = 3;
     int playerNumber;
 
-    public void turn() {
-        //todo
-
+    public Player(int p) {
+        playerNumber = p;
     }
 
     public void starterFrogTurn() {
-        //todo
+
     }
+
+    public void turn() {
+        turnNumber++;
+    }
+
+
 
     public void giveMeanToad() {
         //todo

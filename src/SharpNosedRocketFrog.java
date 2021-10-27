@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class SharpNosedRocketFrog extends Frog{
 
-    public SharpNosedRocketFrog(){
-        //TODO:construct
+    public SharpNosedRocketFrog(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
     }
 
     public void attack(){

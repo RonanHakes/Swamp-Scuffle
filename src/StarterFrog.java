@@ -1,9 +1,9 @@
 import java.awt.*;
 
 public class StarterFrog extends Frog{
-    
-    public StarterFrog(){
-        
+
+    public StarterFrog(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
     }
 
     public void attack(){

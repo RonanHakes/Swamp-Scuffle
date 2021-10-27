@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class AfricanBullFrog extends Frog{
 
-    public AfricanBullFrog(){
-        //TODO:Construct
+    public AfricanBullFrog(int boardX, int boardY, Player p){
+        super(boardX, boardY, p);
     }
 
     public void attack(){
