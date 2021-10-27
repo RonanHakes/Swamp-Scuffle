@@ -3,10 +3,6 @@ import javax.swing.JPanel;
 import java.awt.*;
 
 public class Board {
-    public Player p1 = new Player(1);
-    public Player p2 = new Player(2);
-
-
 
     private Tile[][] board = new Tile[8][8]; // create 2d array of tiles with length 8 and height 8
 
@@ -19,8 +15,7 @@ public class Board {
             }
         }
 
-        GoliathFrog f = new GoliathFrog(1, 1, p1);
-        f.paint(g2d);
+
 
     }
 
