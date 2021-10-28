@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class AfricanBullFrog extends Frog{
 
-    public AfricanBullFrog(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public AfricanBullFrog(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
     }
 
     public void attack(){

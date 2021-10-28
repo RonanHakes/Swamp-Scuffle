@@ -8,6 +8,7 @@ public class Window extends JPanel{
     Player p1 = new Player(1, this);
     Player p2 = new Player(2, this);
     Board b = new Board(); // create instance of board
+    EndturnButton button = new EndturnButton();
 
 
     public static void main(String[] args) {
@@ -31,14 +32,15 @@ public class Window extends JPanel{
             System.out.println("i " + i);
         }
 
+//        System.out.println("moving!");
+//        p1.getFrogsOwned().get(0).move(1,1);
 
-        /* while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
-            p1.turn();
-            p2.turn();
-            Thread.sleep(10);
-        }
 
-        */
+//        while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
+//            p1.turn();
+//            p2.turn();
+//        }
+
 
     }
 
@@ -48,11 +50,17 @@ public class Window extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
+        button.paint(g2d);
         gameLoop(g2d);
+
     }
 
     public Board getBoard(){
         return b;
+    }
+
+    public EndturnButton getButton(){
+        return button;
     }
 
 }

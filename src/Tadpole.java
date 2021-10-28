@@ -5,8 +5,8 @@ public class Tadpole extends Unit{
     private int turnsAfterHatch;
     private boolean isDisabled;
 
-    public Tadpole(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public Tadpole(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
     }
 
     public void move() {

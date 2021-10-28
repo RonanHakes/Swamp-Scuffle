@@ -22,13 +22,14 @@ public abstract class Unit {
     public Unit(int boardX, int boardY, Player p, Window w) {
         this.boardX = boardX;
         this.boardY = boardY;
-        this.graphicsX = this.boardX * 100 + 560 + 25;
-        this.graphicsY = this.boardY * 100 + 100 + 25;
+        this.graphicsX = this.boardX * 100 + 560 + 30;
+        this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
     }
 
     public void setBoardX(int boardX) {
         this.boardX = boardX;
+        graphicsX = boardX * 100 + 585;
     }
 
     public int getBoardX(){
@@ -37,6 +38,7 @@ public abstract class Unit {
 
     public void setBoardY(int boardY) {
         this.boardY = boardY;
+        graphicsY = boardY * 100 + 125;
     }
 
     public int getBoardY(){
@@ -50,4 +52,5 @@ public abstract class Unit {
     public Window getW() {
         return w;
     }
+
 }

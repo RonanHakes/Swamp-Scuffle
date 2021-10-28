@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class PurpleFrog extends Frog{
 
-    public PurpleFrog(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public PurpleFrog(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
     }
 
     public void attack(){
