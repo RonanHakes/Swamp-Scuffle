@@ -1,9 +1,19 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GoliathFrog extends Frog{
+    private BufferedImage img = null;
 
-    public GoliathFrog(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public GoliathFrog(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
+        try {
+            img = ImageIO.read(new File("res\\BaseFrogSprite.png"));
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
     }
 
     public void move(){
@@ -17,7 +27,6 @@ public class GoliathFrog extends Frog{
 
 
     public void paint(Graphics2D g2d){
-        g2d.setColor(Color.GREEN);
-        g2d.fillOval(graphicsX, graphicsY, 50, 50);
+        g2d.drawImage(img, graphicsX, graphicsY, 50,50, null);
     }
 }

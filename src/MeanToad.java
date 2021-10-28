@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class MeanToad extends Frog{
 
-    public MeanToad(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public MeanToad(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
         super.setSpecialFrog(true);
     }
 

@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class SharpNosedRocketFrog extends Frog{
 
-    public SharpNosedRocketFrog(int boardX, int boardY, Player p){
-        super(boardX, boardY, p);
+    public SharpNosedRocketFrog(int boardX, int boardY, Player p, Window w){
+        super(boardX, boardY, p, w);
     }
 
     public void attack(){

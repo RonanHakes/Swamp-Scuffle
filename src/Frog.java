@@ -2,14 +2,34 @@ public abstract class Frog extends Unit {
     private boolean isBuffed;
     private boolean isSpecialFrog;
     private boolean isDisabled;
+    private boolean hasPerformedAction;
 
-    public Frog(int boardX, int boardY, Player p) {
-        super(boardX, boardY, p);
+    public Frog(int boardX, int boardY, Player p, Window w) {
+        super(boardX, boardY, p, w);
     }
 
-    public abstract void move();
+    //the xDiff and yDiff ints can either be 1, 0, or -1 and they are the way that the frog is moving in each direction
+    //For example, if the frog is moving up and to the right they would have xDiff  = 1, yDiff = -1
+    public void move(int xDiff, int yDiff){
+        Tile[][] tileArr = getW().getBoard().getBoard();    //creating a tile array locally
+        if (tileArr[getBoardX() + xDiff][getBoardY() + yDiff].getIsOccupied() == 0){
+            tileArr[getBoardX()][getBoardY()].setIsOccupied(0);    //sets the isOccupied of the tile the frog is moving off of to zero
+            tileArr[getBoardX() + xDiff][getBoardY() + yDiff].setIsOccupied(getBelongsTo().getPlayerNumber());     //Sets the isOccupied of the tile the frog is moving onto to the appropriate number
+            //Changing the actual location of the frog
+            setBoardX(getBoardX() + xDiff);
+            setBoardY(getBoardY() + yDiff);
+            hasPerformedAction = true;
 
-    public abstract void attack();
+        }
+
+    };
+
+    public void attack(Tile attackedTile){
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        if (attackedTile.getIsOccupied() != 0 && attackedTile.getIsOccupied() != getBelongsTo().getPlayerNumber()){
+
+        }
+    };
 
     public void layEgg(){
         //TODO: create lay egg method
@@ -23,5 +43,18 @@ public abstract class Frog extends Unit {
     public void setSpecialFrog(boolean specialFrog) {
 
         isSpecialFrog = specialFrog;
+    }
+
+    public void setHasPerformedAction(boolean hasPerformedAction) {
+        this.hasPerformedAction = hasPerformedAction;
+    }
+
+    public boolean getHasPerformedAction() {
+        return hasPerformedAction;
+    }
+
+    @Override
+    public Window getW() {
+        return super.getW();
     }
 }
