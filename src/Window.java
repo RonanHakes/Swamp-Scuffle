@@ -18,7 +18,7 @@ public class Window extends JPanel{
     }
 
 
-    public void gameLoop(Graphics2D g2d) { // changed it so gameLoop can paint things now
+    public void gameLoop(Graphics2D g2d) throws InterruptedException { // changed it so gameLoop can paint things now
 
 
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
@@ -29,11 +29,14 @@ public class Window extends JPanel{
         }
 
 
-        /*while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
+        /* while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
             p1.turn();
             p2.turn();
+            Thread.sleep(10);
         }
-         */
+
+        */
+
     }
 
 @Override
@@ -43,7 +46,11 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         Board b = new Board(); // create instance of board
         b.paint(g2d); // paint board
+    try {
         gameLoop(g2d); // paints gameLoop
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
+}
 
 }
