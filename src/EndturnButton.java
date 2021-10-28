@@ -4,6 +4,6 @@ import javax.swing.JPanel;
 
 public class EndturnButton {
     public void paint(Graphics2D g2d) {
-        //todo
+
     }
 }

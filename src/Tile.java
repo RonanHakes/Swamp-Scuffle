@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 public class Tile {
     private boolean isBuffed;
-    private boolean isOccupied;
+    private int isOccupied;
     private int homeColumn;
     private int graphicsX; // x coordinate for where tile is being painted
     private int graphicsY; // y coordinate for where tile is being painted
@@ -19,7 +19,23 @@ public class Tile {
     }
 
     public void paint(Graphics2D g2d) {
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(graphicsX, graphicsY, 100, 100);
+        if (isOccupied == 1) {
+            g2d.setColor(Color.BLUE);
+            g2d.fillRect(graphicsX, graphicsY, 100, 100);
+        } else if (isOccupied == 2) {
+            g2d.setColor(Color.RED);
+            g2d.fillRect(graphicsX, graphicsY, 100, 100);
+        } else {
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(graphicsX, graphicsY, 100, 100);
+        }
+    }
+
+    public void setIsOccupied(int isOccupied) {
+        this.isOccupied = isOccupied;
+    }
+
+    public int getIsOccupied(){
+        return isOccupied;
     }
 }

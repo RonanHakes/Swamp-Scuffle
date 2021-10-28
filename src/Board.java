@@ -4,7 +4,11 @@ import java.awt.*;
 
 public class Board {
 
-    private Tile[][] board = new Tile[8][8]; // create 2d array of tiles with length 8 and height 8
+    private Tile[][] board; // create 2d array of tiles with length 8 and height 8
+
+    public Board(){
+        board = new Tile[8][8];
+    }
 
     public void paint(Graphics2D g2d) {
         for (int i = 0; i < 8; i++) { // loops horizontally
@@ -19,7 +23,9 @@ public class Board {
 
     }
 
-
+    public Tile[][] getBoard() {
+        return board;
+    }
 }
 
 
