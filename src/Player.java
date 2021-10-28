@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Player {
     private int numberofFrogs = 0;
@@ -7,20 +8,19 @@ public class Player {
     private int turnNumber = 0;
     private int energyNum = 3;
     private int playerNumber;
-    private Unit[] unitsOwned;
+    private ArrayList<Unit> unitsOwned = new ArrayList<>();;
 
     public Player(int p) {
         playerNumber = p;
-        this.unitsOwned = new Unit[]{new GoliathFrog(1, 1, this)};
     }
 
     public void starterFrogTurn() {
-
+        unitsOwned.add(new GoliathFrog(1, 1, this));
     }
 
     public void turn() {
 
-        for (int i = 0; i < unitsOwned.length; i++){
+        for (int i = 0; i < unitsOwned.size(); i++){
 
         }
 
@@ -33,7 +33,7 @@ public class Player {
         //todo
     }
 
-    public Unit[] getUnitsOwned() {
+    public ArrayList<Unit> getUnitsOwned() {
         return unitsOwned;
     }
 }
