@@ -80,6 +80,7 @@ public abstract class Unit {
     public void moveToTile(Tile t){     //A method to move a unit onto a specific instance of the tile class, should make my life easier
         getOccupiedTile().setOccupiedBy(null);
         t.setOccupiedBy(this);
-        setBoardX(t.get);
+        setBoardX(t.getBoardX());
+
     }
 }

@@ -47,4 +47,20 @@ public class Tile {
     public Unit getOccupiedBy() {
         return occupiedBy;
     }
+
+    public void setBoardY(int boardY) {
+        this.boardY = boardY;
+    }
+
+    public void setBoardX(int boardX) {
+        this.boardX = boardX;
+    }
+
+    public int getBoardX() {
+        return boardX;
+    }
+
+    public int getBoardY() {
+        return boardY;
+    }
 }
