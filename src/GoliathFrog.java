@@ -20,7 +20,7 @@ public class GoliathFrog extends Frog{
         }
 
         try {
-            img = ImageIO.read(new File("res\\BaseFrogSprite.png"));
+            img = ImageIO.read(new File("res\\GoliathFrogSprite.png"));
         } catch (IOException e) {
             System.out.println("Can't find image.");
         }

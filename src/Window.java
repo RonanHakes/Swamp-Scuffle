@@ -1,10 +1,42 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Window extends JPanel{
-    public Window w;
+    public Window() {
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                button.mousePressed(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        setFocusable(true);
+    }
     private int width;
     private int height;
+    private boolean isTurn;
     Player p1 = new Player(1, this);
     Player p2 = new Player(2, this);
     Board b = new Board(); // create instance of board <-- todo:stinks!
@@ -16,12 +48,19 @@ public class Window extends JPanel{
         Window w = new Window();
         frame.add(w);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
         frame.setVisible(true);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void endGame(){
+        System.out.println("Game end");
+        System.exit(0);
+    }
 
-    public void gameLoop(Graphics2D g2d) { // changed it so gameLoop can paint things now
+
+    public void gameLoop(Graphics2D g2d) throws InterruptedException { // changed it so gameLoop can paint things now
         b.paint(g2d);   //repaints the board at the start of each gameloop
 
         //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
@@ -48,14 +87,16 @@ public class Window extends JPanel{
         p1.getFrogsOwned().get(0).die();                        //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 
 
-//        while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
-//            p1.turn();
-//            p2.turn();
-//        }
+        //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
+            p1.turn();
+            p2.turn();
 
-        //fixed that error im so smart the frogs dont multiply anymore
+        //}
+
+        //fixed that error im so smart the frogs don't multiply anymore
         p1.wipeAll();
         p2.wipeAll();
+
 
 
     }
@@ -67,8 +108,14 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
         button.paint(g2d);
+    try {
         gameLoop(g2d);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
 
+    //make this show end of game menu, also, add that menu <-- todo
+//        System.exit(0);
     }
 
     public Board getBoard(){
@@ -78,5 +125,6 @@ public class Window extends JPanel{
     public EndturnButton getButton(){
         return button;
     }
+
 
 }
