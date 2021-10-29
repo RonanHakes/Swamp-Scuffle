@@ -20,6 +20,14 @@ public class Player {
 
     }
 
+    public void wipeAll(){      //Allows everything from the previous game to be reset to starting default so a new game can begin
+        numberofFrogs = 0;
+        turnNumber = 0;
+        energyNum = 3;
+        unitsOwned.clear();
+        frogsOwned.clear();
+    }
+
     public void starterFrogTurn(Graphics2D g2d) { // changed it so starterFrogTurn can paint the frog after creating it
 
         int x = 0;

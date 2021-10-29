@@ -7,7 +7,7 @@ public class Window extends JPanel{
     private int height;
     Player p1 = new Player(1, this);
     Player p2 = new Player(2, this);
-    Board b = new Board(); // create instance of board
+    Board b = new Board(); // create instance of board <-- todo:stinks!
     EndturnButton button = new EndturnButton();
 
 
@@ -28,6 +28,11 @@ public class Window extends JPanel{
         p1.setStarterFrogTurnCounter(0);
         p2.setStarterFrogTurnCounter(0);
 
+        //These lines cause errors dont know why skull emoji todo <-- that (something to do with resizing wqindow prolly)
+        //Not having these lines causes the never mind i figured it out ignore this bit moved down to line 56 57 go look i was doing this at the beginning of the turn when it should have been at the end i get it i get it
+//        p1.wipeAll();
+//        p2.wipeAll();
+
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
             p1.starterFrogTurn(g2d);
             System.out.println("Player 1 starter frog pick!");  //for testing, TODO: remove this later
@@ -47,6 +52,10 @@ public class Window extends JPanel{
 //            p1.turn();
 //            p2.turn();
 //        }
+
+        //fixed that error im so smart the frogs dont multiply anymore
+        p1.wipeAll();
+        p2.wipeAll();
 
 
     }
