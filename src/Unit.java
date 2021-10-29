@@ -21,6 +21,9 @@ public abstract class Unit {
         occupiedTile.setOccupiedBy(null);
         belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this)); //this removes the unit that is dying from the owner player's unitsOwned arrayList through the use of a lambda function
         System.out.println("post-lambda:" + belongsTo.getUnitsOwned().toString());
+        if (belongsTo.getUnitsOwned().size()==0) {
+            w.endGame();
+        }
     }
 
     public Unit(int boardX, int boardY, Player p, Window w) {

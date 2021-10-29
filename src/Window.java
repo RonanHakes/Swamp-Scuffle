@@ -8,17 +8,17 @@ public class Window extends JPanel{
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                button.mouseClicked(e);
+
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                button.mousePressed(e);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                button.mouseReleased(e);
+
             }
 
             @Override
@@ -36,6 +36,7 @@ public class Window extends JPanel{
     }
     private int width;
     private int height;
+    private boolean isTurn;
     Player p1 = new Player(1, this);
     Player p2 = new Player(2, this);
     Board b = new Board(); // create instance of board <-- todo:stinks!
@@ -53,8 +54,13 @@ public class Window extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void endGame(){
+        System.out.println("Game end");
+        System.exit(0);
+    }
 
-    public void gameLoop(Graphics2D g2d) { // changed it so gameLoop can paint things now
+
+    public void gameLoop(Graphics2D g2d) throws InterruptedException { // changed it so gameLoop can paint things now
         b.paint(g2d);   //repaints the board at the start of each gameloop
 
         //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
@@ -102,9 +108,13 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
         button.paint(g2d);
+    try {
         gameLoop(g2d);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
 
-        //make this show end of game menu, also, add that menu <-- todo
+    //make this show end of game menu, also, add that menu <-- todo
 //        System.exit(0);
     }
 

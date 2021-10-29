@@ -78,7 +78,8 @@ public class Player implements MouseListener{
 
     }
 
-    public void turn() {
+    public void turn() throws InterruptedException {
+        w.getButton().setIsClicked(false);
         turnNumber++; // increases turnNumber counter by 1
         System.out.println("turno " + turnNumber);
         if (frogsOwned.size() >= turnNumber) {
@@ -90,9 +91,10 @@ public class Player implements MouseListener{
             if (unitsOwned.size() == 0) { // ends game if player has no units
                 System.out.println("Game end!");
                 System.exit(0);
-
-           // }
             }
+
+        //}
+        System.out.println("turn end");
 
     }
 

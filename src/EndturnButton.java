@@ -21,16 +21,15 @@ public class EndturnButton implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        isClicked = true;
-        System.out.println(isClicked);
+
 
     }
     public void mousePressed(MouseEvent e) {
+        isClicked = true;
+        System.out.println("click");
 
     }
     public void mouseReleased(MouseEvent e) {
-        isClicked = false;
-        System.out.println(isClicked);
     }
     public void mouseEntered(MouseEvent e) {
 
@@ -46,6 +45,10 @@ public class EndturnButton implements MouseListener {
 
     public boolean getIsClicked(){
         return isClicked;
+    }
+
+    public void setIsClicked(boolean b){
+        isClicked = b;
     }
 
 }
