@@ -22,7 +22,11 @@ public class Window extends JPanel{
 
 
     public void gameLoop(Graphics2D g2d) { // changed it so gameLoop can paint things now
+        b.paint(g2d);   //repaints the board at the start of each gameloop
 
+        //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
+        p1.setStarterFrogTurnCounter(0);
+        p2.setStarterFrogTurnCounter(0);
 
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
             p1.starterFrogTurn(g2d);
@@ -33,9 +37,10 @@ public class Window extends JPanel{
         }
 
 //        System.out.println("moving!");
-//        System.out.println(p1.getFrogsOwned().get(0).getW());
-//        p1.getFrogsOwned().get(0).move(1,1);
-        p1.getFrogsOwned().get(0).die();
+        System.out.println(p1.getW());                          //Okay why does this line work
+        System.out.println(p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
+//        p1.getFrogsOwned().get(0).move(1,1);                  //Because the previous line doesn't work, this one doesn't either
+        p1.getFrogsOwned().get(0).die();                        //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 
 
 //        while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method

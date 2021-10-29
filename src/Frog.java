@@ -19,14 +19,21 @@ public abstract class Frog extends Unit {
             tileArr[getBoardX()][getBoardY()].setOccupiedBy(null);      //removes the unit that is moving from the occupiedBy field of the tile it is moving off of
 
             //Changing the actual location of the frog
-            setBoardX(getBoardX() + xDiff);
-            setBoardY(getBoardY() + yDiff);
+            moveToTile(tileArr[getBoardX() + xDiff][getBoardY() + yDiff]);  //this replaces the individially changing the BoardX and boardY of the frog and this actually works
             setOccupiedTile(tileArr[getBoardX()][getBoardY()]);
             hasPerformedAction = true;
 
         }
 
     };
+
+    @Override
+    public void die(){      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
+
+        super.die();
+        belongsTo.getFrogsOwned().removeIf(Unit -> (Unit == this)); //this removes the frog that is dying from the owner player's frogsOwned arrayList through the use of a lambda function
+
+    }
 
     public void attack(Tile attackedTile){
         Tile[][] tileArr = getW().getBoard().getBoard();

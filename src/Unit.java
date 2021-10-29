@@ -16,11 +16,11 @@ public abstract class Unit {
     public abstract void paint(Graphics2D g2d);
 
     public void die(){
-        //todo
+
         occupiedTile.setIsOccupied(0);
         occupiedTile.setOccupiedBy(null);
-        belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this));
-        System.out.println("post-lamda:" + belongsTo.getUnitsOwned());
+        belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this)); //this removes the unit that is dying from the owner player's unitsOwned arrayList through the use of a lambda function
+        System.out.println("post-lambda:" + belongsTo.getUnitsOwned().toString());
     }
 
     public Unit(int boardX, int boardY, Player p, Window w) {
@@ -78,9 +78,16 @@ public abstract class Unit {
     }
 
     public void moveToTile(Tile t){     //A method to move a unit onto a specific instance of the tile class, should make my life easier
-        getOccupiedTile().setOccupiedBy(null);
-        t.setOccupiedBy(this);
-        setBoardX(t.getBoardX());
 
+        //This bit essentially removes the unit from the occupied tile that it is being moved off of, as long as it is actually being moved off of a tile
+        if (getOccupiedTile() != null){
+            getOccupiedTile().setOccupiedBy(null);
+            getOccupiedTile().setIsOccupied(0);
+        }
+        occupiedTile = t;
+        t.setOccupiedBy(this);
+        t.setIsOccupied(belongsTo.getPlayerNumber());
+        setBoardX(t.getBoardX());
+        setBoardY(t.getBoardY());
     }
 }
