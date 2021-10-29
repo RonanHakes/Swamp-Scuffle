@@ -33,7 +33,9 @@ public class Window extends JPanel{
         }
 
 //        System.out.println("moving!");
+//        System.out.println(p1.getFrogsOwned().get(0).getW());
 //        p1.getFrogsOwned().get(0).move(1,1);
+        p1.getFrogsOwned().get(0).die();
 
 
 //        while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method

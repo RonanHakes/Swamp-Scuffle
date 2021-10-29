@@ -38,6 +38,7 @@ public class Player {
         frogsOwned.add(f);
         w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
         System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
+        w.getBoard().getBoard()[x][y].setOccupiedBy(f);
         w.getBoard().getBoard()[x][y].paint(g2d);   //repaints the tile
         unitsOwned.get(unitsOwned.size()-1).paint(g2d); // paints last unit in list
 
@@ -78,4 +79,6 @@ public class Player {
     public ArrayList<Frog> getFrogsOwned() {
         return frogsOwned;
     }
+
+
 }

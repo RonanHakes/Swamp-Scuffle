@@ -17,6 +17,10 @@ public abstract class Unit {
 
     public void die(){
         //todo
+        occupiedTile.setIsOccupied(0);
+        occupiedTile.setOccupiedBy(null);
+        belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this));
+        System.out.println("post-lamda:" + belongsTo.getUnitsOwned());
     }
 
     public Unit(int boardX, int boardY, Player p, Window w) {
@@ -25,8 +29,12 @@ public abstract class Unit {
         this.graphicsX = this.boardX * 100 + 560 + 30;
         this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
+        hitPoints = 1;
     }
 
+    public void takeDamage(int d){
+        hitPoints -= d;
+    }
     public void setBoardX(int boardX) {
         this.boardX = boardX;
         graphicsX = boardX * 100 + 585;
@@ -53,4 +61,25 @@ public abstract class Unit {
         return w;
     }
 
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public Tile getOccupiedTile() {
+        return occupiedTile;
+    }
+
+    public void setOccupiedTile(Tile occupiedTile) {
+        this.occupiedTile = occupiedTile;
+    }
+
+    public void moveToTile(Tile t){     //A method to move a unit onto a specific instance of the tile class, should make my life easier
+        getOccupiedTile().setOccupiedBy(null);
+        t.setOccupiedBy(this);
+        setBoardX(t.get);
+    }
 }
