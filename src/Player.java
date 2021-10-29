@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-public class Player {
+public class Player implements mouseListener{
     private Window w;
     private int numberofFrogs = 0;
     private boolean isTurn;
@@ -65,6 +65,7 @@ public class Player {
             if (unitsOwned.size() == 0) { // ends game if player has no units
                 System.out.println("Game end!");
                 System.exit(0);
+
             }
 
 

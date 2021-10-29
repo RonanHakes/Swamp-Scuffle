@@ -35,6 +35,7 @@ public abstract class Frog extends Unit {
 
     }
 
+    //Default frog attack method
     public void attack(Tile attackedTile){
         Tile[][] tileArr = getW().getBoard().getBoard();
         if (attackedTile.getIsOccupied() != 0 && attackedTile.getIsOccupied() != getBelongsTo().getPlayerNumber()){

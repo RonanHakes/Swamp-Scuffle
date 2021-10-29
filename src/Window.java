@@ -16,7 +16,9 @@ public class Window extends JPanel{
         Window w = new Window();
         frame.add(w);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
         frame.setVisible(true);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -53,9 +55,10 @@ public class Window extends JPanel{
 //            p2.turn();
 //        }
 
-        //fixed that error im so smart the frogs dont multiply anymore
+        //fixed that error im so smart the frogs don't multiply anymore
         p1.wipeAll();
         p2.wipeAll();
+
 
 
     }
@@ -69,6 +72,8 @@ public class Window extends JPanel{
         button.paint(g2d);
         gameLoop(g2d);
 
+        //make this show end of game menu, also, add that menu <-- todo
+        System.exit(0);
     }
 
     public Board getBoard(){

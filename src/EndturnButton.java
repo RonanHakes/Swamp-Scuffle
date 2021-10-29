@@ -22,6 +22,7 @@ public class EndturnButton implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         isClicked = true;
+        System.out.println("Click!");
     }
     public void mousePressed(MouseEvent e) {
 
