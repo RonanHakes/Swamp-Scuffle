@@ -9,6 +9,7 @@ public class GoliathFrog extends Frog{
 
     public GoliathFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
+        setHitPoints(2);
         try {
             img = ImageIO.read(new File("res\\BaseFrogSprite.png"));
         } catch (IOException e) {

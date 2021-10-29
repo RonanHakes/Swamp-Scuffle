@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 public class Player {
@@ -38,6 +39,8 @@ public class Player {
         frogsOwned.add(f);
         w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
         System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
+        w.getBoard().getBoard()[x][y].setOccupiedBy(f);
+        f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
         w.getBoard().getBoard()[x][y].paint(g2d);   //repaints the tile
         unitsOwned.get(unitsOwned.size()-1).paint(g2d); // paints last unit in list
 
@@ -67,6 +70,10 @@ public class Player {
         //todo
     }
 
+    public Window getW() {
+        return w;
+    }
+
     public ArrayList<Unit> getUnitsOwned() {
         return unitsOwned;
     }
@@ -77,5 +84,17 @@ public class Player {
 
     public ArrayList<Frog> getFrogsOwned() {
         return frogsOwned;
+    }
+
+    public void setFrogsOwned(ArrayList<Frog> fArr) {
+        frogsOwned = fArr;
+    }
+
+    public void setUnitsOwned(ArrayList<Unit> unitsOwned) {
+        this.unitsOwned = unitsOwned;
+    }
+
+    public void setStarterFrogTurnCounter(int starterFrogTurnCounter) {
+        this.starterFrogTurnCounter = starterFrogTurnCounter;
     }
 }

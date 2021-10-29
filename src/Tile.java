@@ -10,6 +10,7 @@ public class Tile {
     private int graphicsY; // y coordinate for where tile is being painted
     private int boardX; // x coordinate for board
     private int boardY; // y coordinate for board
+    public Unit occupiedBy;
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
@@ -37,5 +38,29 @@ public class Tile {
 
     public int getIsOccupied(){
         return isOccupied;
+    }
+
+    public void setOccupiedBy(Unit occupiedBy) {
+        this.occupiedBy = occupiedBy;
+    }
+
+    public Unit getOccupiedBy() {
+        return occupiedBy;
+    }
+
+    public void setBoardY(int boardY) {
+        this.boardY = boardY;
+    }
+
+    public void setBoardX(int boardX) {
+        this.boardX = boardX;
+    }
+
+    public int getBoardX() {
+        return boardX;
+    }
+
+    public int getBoardY() {
+        return boardY;
     }
 }
