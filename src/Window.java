@@ -1,8 +1,39 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Window extends JPanel{
-    public Window w;
+    public Window() {
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                button.mouseClicked(e);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                button.mouseReleased(e);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        setFocusable(true);
+    }
     private int width;
     private int height;
     Player p1 = new Player(1, this);
@@ -50,10 +81,11 @@ public class Window extends JPanel{
         p1.getFrogsOwned().get(0).die();                        //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 
 
-//        while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
-//            p1.turn();
-//            p2.turn();
-//        }
+        //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
+            p1.turn();
+            p2.turn();
+
+        //}
 
         //fixed that error im so smart the frogs don't multiply anymore
         p1.wipeAll();
@@ -73,7 +105,7 @@ public class Window extends JPanel{
         gameLoop(g2d);
 
         //make this show end of game menu, also, add that menu <-- todo
-        System.exit(0);
+//        System.exit(0);
     }
 
     public Board getBoard(){
@@ -83,5 +115,6 @@ public class Window extends JPanel{
     public EndturnButton getButton(){
         return button;
     }
+
 
 }

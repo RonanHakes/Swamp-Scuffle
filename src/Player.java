@@ -2,8 +2,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.imageio.*;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.awt.event.MouseEvent;
 
-public class Player implements mouseListener{
+public class Player implements MouseListener{
     private Window w;
     private int numberofFrogs = 0;
     private boolean isTurn;
@@ -13,6 +21,22 @@ public class Player implements mouseListener{
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
     private int starterFrogTurnCounter = 0;
+
+    public void mouseClicked(MouseEvent e) {
+
+    }
+    public void mousePressed(MouseEvent e) {
+
+    }
+    public void mouseReleased(MouseEvent e) {
+
+    }
+    public void mouseEntered(MouseEvent e) {
+
+    }
+    public void mouseExited(MouseEvent e) {
+
+    }
 
     public Player(int p, Window w) {
         playerNumber = p;
@@ -56,20 +80,19 @@ public class Player implements mouseListener{
 
     public void turn() {
         turnNumber++; // increases turnNumber counter by 1
+        System.out.println("turno " + turnNumber);
         if (frogsOwned.size() >= turnNumber) {
             energyNum +=turnNumber;
         } else {
             energyNum += frogsOwned.size();
         }
-        while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
+        //while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
             if (unitsOwned.size() == 0) { // ends game if player has no units
                 System.out.println("Game end!");
                 System.exit(0);
 
+           // }
             }
-
-
-        }
 
     }
 
