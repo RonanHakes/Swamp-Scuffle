@@ -8,18 +8,14 @@ public class Board {
 
     public Board(){
         board = new Tile[8][8];
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                board[i][j] = new Tile(i, j, i * 100 + 560, j * 100 + 100);     //Fills up the board and sets the proper values for each tile
-            }
-        }
     }
 
     public void paint(Graphics2D g2d) {
         for (int i = 0; i < 8; i++) { // loops horizontally
             for (int j = 0; j < 8; j++) { // loops vertically
+                board[i][j] = new Tile(i, j, i * 100 + 560, j * 100 + 100); // sets graphicsX and graphicsY values for tile
                 board[i][j].paint(g2d); // paints tile
-//                g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile <-- remove
+                g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile
             }
         }
 

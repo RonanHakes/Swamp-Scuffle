@@ -23,34 +23,18 @@ public class Tile {
         if (isOccupied == 1) {
             g2d.setColor(Color.BLUE);
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
-            if(occupiedBy != null){
-                occupiedBy.paint(g2d);
-                System.out.println("null1: " + this.toString());
-                System.out.println("wAWAWAW: " + occupiedBy.toString());
-            }
-
-
+            occupiedBy.paint(g2d);
+            System.out.println("wAWAWAW: " + occupiedBy.toString());
         } else if (isOccupied == 2) {
             g2d.setColor(Color.RED);
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
-            if(occupiedBy != null){
-                occupiedBy.paint(g2d);
-                System.out.println("null2: " + this.toString());    //Prints out the tile, this is for testing
-                System.out.println("wAWAWAW: " + occupiedBy.toString());    //Prints the unit occupying this tile, also for testing
-            }
-
+            occupiedBy.paint(g2d);
+            System.out.println("wAWAWAW: " + occupiedBy.toString());
         } else {
-            g2d.setColor(Color.WHITE);
-            g2d.fillRect(graphicsX,graphicsY,100,100);
-
             g2d.setColor(Color.BLACK);
-            g2d.drawString(String.valueOf(graphicsX) + "," + String.valueOf(graphicsY), graphicsX * 100 + 560 + 50, graphicsY * 100 + 100 + 50); // writes coordinate on tile
-
             g2d.drawRect(graphicsX, graphicsY, 100, 100);
-
-//            System.out.println("weenie fart");
+            System.out.println("weenie fart");
         }
-
 
 
     }
@@ -85,19 +69,5 @@ public class Tile {
 
     public int getBoardY() {
         return boardY;
-    }
-
-    @Override
-    public String toString() {
-        return "Tile{" +
-                "isBuffed=" + isBuffed +
-                ", isOccupied=" + isOccupied +
-                ", homeColumn=" + homeColumn +
-                ", graphicsX=" + graphicsX +
-                ", graphicsY=" + graphicsY +
-                ", boardX=" + boardX +
-                ", boardY=" + boardY +
-                ", occupiedBy=" + occupiedBy +
-                '}';
     }
 }
