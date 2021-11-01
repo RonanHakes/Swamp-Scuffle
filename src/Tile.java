@@ -23,13 +23,20 @@ public class Tile {
         if (isOccupied == 1) {
             g2d.setColor(Color.BLUE);
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
+            occupiedBy.paint(g2d);
+            System.out.println("wAWAWAW: " + occupiedBy.toString());
         } else if (isOccupied == 2) {
             g2d.setColor(Color.RED);
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
+            occupiedBy.paint(g2d);
+            System.out.println("wAWAWAW: " + occupiedBy.toString());
         } else {
             g2d.setColor(Color.BLACK);
             g2d.drawRect(graphicsX, graphicsY, 100, 100);
+            System.out.println("weenie fart");
         }
+
+
     }
 
     public void setIsOccupied(int isOccupied) {

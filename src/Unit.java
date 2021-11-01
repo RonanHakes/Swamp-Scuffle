@@ -13,6 +13,7 @@ public abstract class Unit {
     protected Player belongsTo;
     protected Tile occupiedTile;
 
+
     public abstract void paint(Graphics2D g2d);
 
     public void die(){
@@ -27,11 +28,17 @@ public abstract class Unit {
     }
 
     public Unit(int boardX, int boardY, Player p, Window w) {
+        Tile[][] tileArr = w.getBoard().getBoard();
+        System.out.println("tiles: " + tileArr );
         this.boardX = boardX;
         this.boardY = boardY;
         this.graphicsX = this.boardX * 100 + 560 + 30;
         this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
+        this.w = w;
+        tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
+        w.getBoard().setBoard(tileArr);
+
         hitPoints = 1;
     }
 

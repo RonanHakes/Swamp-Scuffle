@@ -52,7 +52,7 @@ public class Player implements MouseListener{
         frogsOwned.clear();
     }
 
-    public void starterFrogTurn(Graphics2D g2d) { // changed it so starterFrogTurn can paint the frog after creating it
+    public void starterFrogTurn() { // changed it so starterFrogTurn can paint the frog after creating it
 
         int x = 0;
         int y = starterFrogTurnCounter;
@@ -63,7 +63,7 @@ public class Player implements MouseListener{
         }
 
         //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-        GoliathFrog f = new GoliathFrog(x, y, this, w);
+       MeanToad f = new MeanToad(x, y, this, w);
 
         System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
@@ -73,14 +73,17 @@ public class Player implements MouseListener{
         System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
         w.getBoard().getBoard()[x][y].setOccupiedBy(f);
         f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
-        w.getBoard().getBoard()[x][y].paint(g2d);   //repaints the tile
-        unitsOwned.get(unitsOwned.size()-1).paint(g2d); // paints last unit in list
-
+//        w.getBoard().getBoard()[x][y].paint(g2d);   //repaints the tile   //Removing g2d stuff come back later and delete this if everything works <-- todo
+//        unitsOwned.get(unitsOwned.size()-1).paint(g2d); // paints last unit in list   //Removing g2d stuff come back later and delete this if everything works <-- todo
+        w.repaint();
     }
 
     public void turn() throws InterruptedException {
         w.getButton().setIsClicked(false);
         turnNumber++; // increases turnNumber counter by 1
+        for (int i = 0; i < frogsOwned.size(); i++) {
+            frogsOwned.get(i).setHasPerformedAction(false);
+        }
         System.out.println("turno " + turnNumber);
         if (frogsOwned.size() >= turnNumber) {
             energyNum +=turnNumber;

@@ -50,8 +50,12 @@ public class Window extends JPanel{
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setVisible(true);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        try {
+            w.gameLoop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void endGame(){
@@ -60,8 +64,9 @@ public class Window extends JPanel{
     }
 
 
-    public void gameLoop(Graphics2D g2d) throws InterruptedException { // changed it so gameLoop can paint things now
-        b.paint(g2d);   //repaints the board at the start of each gameloop
+    public void gameLoop() throws InterruptedException { // changed it so gameLoop can paint things now
+//        b.paint(g2d);   //repaints the board at the start of each gameloop    //Removing g2d stuff come back later and delete this if everything works <-- todo
+        repaint();
 
         //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
         p1.setStarterFrogTurnCounter(0);
@@ -73,18 +78,20 @@ public class Window extends JPanel{
 //        p2.wipeAll();
 
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
-            p1.starterFrogTurn(g2d);
+            p1.starterFrogTurn();
             System.out.println("Player 1 starter frog pick!");  //for testing, TODO: remove this later
-            p2.starterFrogTurn(g2d);
+            p2.starterFrogTurn();
             System.out.println("Player 2 starter frog pick!");  //Ditto
             System.out.println("i " + i);
         }
 
 //        System.out.println("moving!");
-        System.out.println(p1.getW());                          //Okay why does this line work
-        System.out.println(p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
-//        p1.getFrogsOwned().get(0).move(1,1);                  //Because the previous line doesn't work, this one doesn't either
-        p1.getFrogsOwned().get(0).die();                        //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
+        System.out.println("p1.getW: " + p1.getW());                          //Okay why does this line work
+        System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
+        System.out.println("p1.getFrogsOwned.get(0): " + p1.getFrogsOwned().get(0));
+        p1.getFrogsOwned().get(0).move(1,1);                  //Because the previous line doesn't work, this one doesn't either
+        repaint();
+        System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 
 
         //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
@@ -108,11 +115,7 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
         button.paint(g2d);
-    try {
-        gameLoop(g2d);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
+
 
     //make this show end of game menu, also, add that menu <-- todo
 //        System.exit(0);

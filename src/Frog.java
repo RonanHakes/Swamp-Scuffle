@@ -1,31 +1,42 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public abstract class Frog extends Unit {
     private boolean isBuffed;
     private boolean isSpecialFrog;
     private boolean isDisabled;
     private boolean hasPerformedAction;
+    protected BufferedImage img = null;
+    protected int widthMultiplier;
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
+
+        System.out.println("w: " + w);
     }
 
-    //the xDiff and yDiff ints can either be 1, 0, or -1 and they are the way that the frog is moving in each direction
-    //For example, if the frog is moving up and to the right they would have xDiff  = 1, yDiff = -1
-    public void move(int xDiff, int yDiff){
+
+    public void move(int x, int y){
         Tile[][] tileArr = getW().getBoard().getBoard();    //creating a tile array locally
-        if (tileArr[getBoardX() + xDiff][getBoardY() + yDiff].getIsOccupied() == 0){
+        if (tileArr[x][y].getIsOccupied() == 0){
             tileArr[getBoardX()][getBoardY()].setIsOccupied(0);    //sets the isOccupied of the tile the frog is moving off of to zero
-            tileArr[getBoardX() + xDiff][getBoardY() + yDiff].setIsOccupied(getBelongsTo().getPlayerNumber());     //Sets the isOccupied of the tile the frog is moving onto to the appropriate number
-            tileArr[getBoardX() + xDiff][getBoardY() + yDiff].setOccupiedBy(tileArr[getBoardX()][getBoardY()].getOccupiedBy());     //sets the unit occupying the tile that is being moved to to the unit that is moving
+            tileArr[x][y].setIsOccupied(getBelongsTo().getPlayerNumber());     //Sets the isOccupied of the tile the frog is moving onto to the appropriate number
+            tileArr[x][y].setOccupiedBy(tileArr[getBoardX()][getBoardY()].getOccupiedBy());     //sets the unit occupying the tile that is being moved to to the unit that is moving
             tileArr[getBoardX()][getBoardY()].setOccupiedBy(null);      //removes the unit that is moving from the occupiedBy field of the tile it is moving off of
 
+//            tileArr[getBoardX()][getBoardY()].paint(g2d);     //Removing g2d stuff come back later and delete this if everything works <-- todo
+
             //Changing the actual location of the frog
-            moveToTile(tileArr[getBoardX() + xDiff][getBoardY() + yDiff]);  //this replaces the individially changing the BoardX and boardY of the frog and this actually works
+            moveToTile(tileArr[x][y]);  //this replaces the individually changing the BoardX and boardY of the frog and this actually works
             setOccupiedTile(tileArr[getBoardX()][getBoardY()]);
             hasPerformedAction = true;
 
-        }
+            getW().getBoard().setBoard(tileArr);
 
-    };
+//            paint(g2d);   //Removing g2d stuff come back later and delete this if everything works <-- todo
+            w.repaint();
+        }
+    }
 
     @Override
     public void die(){      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
@@ -71,5 +82,15 @@ public abstract class Frog extends Unit {
     @Override
     public Window getW() {
         return super.getW();
+    }
+
+    public void paint(Graphics2D g2d){
+
+        if (widthMultiplier == -1){     //There's gotta be a better way of doing this (changing the x co-ordinate based on which way it should be facing)
+            g2d.drawImage(img, graphicsX + 50, graphicsY, 50 * widthMultiplier,50, null);
+        } else {
+            g2d.drawImage(img, graphicsX , graphicsY, 50 * widthMultiplier,50, null);
+        }
+
     }
 }

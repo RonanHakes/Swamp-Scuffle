@@ -1,10 +1,29 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class PoisonDartFrog extends Frog{
-    private int turnsAfterAttack;
+public class PoisonDartFrog extends Frog {
 
     public PoisonDartFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
+        setHitPoints(2);
+
+        if (p.getPlayerNumber() == 1){
+            widthMultiplier = 1;
+        } else {
+            widthMultiplier = -1;
+        }
+
+        try {
+            img = ImageIO.read(new File("res\\PoisonDartSprite.png"));
+            if (img != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
     }
 
     public void move(){
@@ -12,10 +31,6 @@ public class PoisonDartFrog extends Frog{
     }
 
     public void attack(){
-        //TODO: attack
-    }
-
-    public void paint(Graphics2D g2d){
-        //TODO: paint
+        //TODO: Attack
     }
 }

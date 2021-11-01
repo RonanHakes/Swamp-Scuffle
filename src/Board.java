@@ -26,6 +26,12 @@ public class Board {
     public Tile[][] getBoard() {
         return board;
     }
+
+    public void setBoard(Tile[][] board) {
+        this.board = board;
+    }
+
+
 }
 
 
