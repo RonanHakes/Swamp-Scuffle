@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -29,7 +30,7 @@ public abstract class Unit {
 
     public Unit(int boardX, int boardY, Player p, Window w) {
         Tile[][] tileArr = w.getBoard().getBoard();
-        System.out.println("tiles: " + tileArr );
+        System.out.println("tiles: " + Arrays.deepToString(tileArr));
         this.boardX = boardX;
         this.boardY = boardY;
         this.graphicsX = this.boardX * 100 + 560 + 30;
