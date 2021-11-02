@@ -15,4 +15,19 @@ public class Egg extends Unit{
     public void move() {
         //this doesn't do anything. Eggs can't move dummy
     }
+
+    @Override
+    public boolean canMoveTo(Tile t) {
+        return false;
+    }
+
+    @Override
+    public void onClicked() {
+
+    }
+
+    @Override
+    public void onUnclicked() {
+
+    }
 }

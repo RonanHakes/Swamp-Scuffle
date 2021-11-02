@@ -20,4 +20,19 @@ public class Tadpole extends Unit{
     public void paint(Graphics2D g2d) {
         //TODO: create paint method
     }
+
+    @Override
+    public boolean canMoveTo(Tile t) {
+        return false;
+    }
+
+    @Override
+    public void onUnclicked() {
+
+    }
+
+    @Override
+    public void onClicked() {
+
+    }
 }

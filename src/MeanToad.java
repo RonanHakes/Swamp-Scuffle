@@ -1,6 +1,4 @@
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ public class MeanToad extends Frog {
         hitPoints++;
     }
 
-    public MeanToad(int boardX, int boardY, Player p, Window w){
+    public MeanToad(int boardY, int boardX, Player p, Window w){
         super(boardX, boardY, p, w);
         setHitPoints(3);
 
