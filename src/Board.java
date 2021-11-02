@@ -19,7 +19,7 @@ public class Board {
         for (int i = 0; i < 8; i++) { // loops horizontally
             for (int j = 0; j < 8; j++) { // loops vertically
                 board[i][j].paint(g2d); // paints tile
-//                g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile <-- remove
+                g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile <--remove eventually
             }
         }
 
@@ -33,6 +33,10 @@ public class Board {
 
     public void setBoard(Tile[][] board) {
         this.board = board;
+    }
+
+    public Tile avgTile(Tile t1, Tile t2){      //Returns the tile that is closest to the mid point between two tiles
+        return board[(t1.getBoardX() + t2.getBoardX()) / 2][(t1.getBoardY() + t2.getBoardX()) / 2];
     }
 
 

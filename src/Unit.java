@@ -101,4 +101,22 @@ public abstract class Unit {
         setBoardX(t.getBoardX());
         setBoardY(t.getBoardY());
     }
+
+    public boolean isFrog(){    //I'm so smart, this gets overridden in Frog and returns true
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "boardX=" + boardX +
+                ", boardY=" + boardY +
+                ", graphicsX=" + graphicsX +
+                ", graphicsY=" + graphicsY +
+                ", w=" + w +
+                ", hitPoints=" + hitPoints +
+                ", belongsTo=" + belongsTo +
+                ", occupiedTile=" + occupiedTile +
+                '}';
+    }
 }

@@ -10,7 +10,8 @@ public class Tile {
     private int graphicsY; // y coordinate for where tile is being painted
     private int boardX; // x coordinate for board
     private int boardY; // y coordinate for board
-    public Unit occupiedBy;
+    private Unit occupiedBy;
+    private Color altColor; //Any color other than the default team colours that a square should be painted
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
@@ -25,8 +26,8 @@ public class Tile {
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
-                System.out.println("null1: " + this.toString());
-                System.out.println("wAWAWAW: " + occupiedBy.toString());
+//                System.out.println("null1: " + this.toString());
+
             }
 
 
@@ -35,8 +36,8 @@ public class Tile {
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
-                System.out.println("null2: " + this.toString());    //Prints out the tile, this is for testing
-                System.out.println("wAWAWAW: " + occupiedBy.toString());    //Prints the unit occupying this tile, also for testing
+//                System.out.println("null2: " + this.toString());    //Prints out the tile, this is for testing
+
             }
 
         } else {
@@ -44,11 +45,10 @@ public class Tile {
             g2d.fillRect(graphicsX,graphicsY,100,100);
 
             g2d.setColor(Color.BLACK);
-            g2d.drawString(String.valueOf(graphicsX) + "," + String.valueOf(graphicsY), graphicsX * 100 + 560 + 50, graphicsY * 100 + 100 + 50); // writes coordinate on tile
 
             g2d.drawRect(graphicsX, graphicsY, 100, 100);
 
-//            System.out.println("weenie fart");
+//
         }
 
 
@@ -87,17 +87,42 @@ public class Tile {
         return boardY;
     }
 
+
+
+
+
     @Override
     public String toString() {
-        return "Tile{" +
-                "isBuffed=" + isBuffed +
-                ", isOccupied=" + isOccupied +
-                ", homeColumn=" + homeColumn +
-                ", graphicsX=" + graphicsX +
-                ", graphicsY=" + graphicsY +
-                ", boardX=" + boardX +
-                ", boardY=" + boardY +
-                ", occupiedBy=" + occupiedBy +
-                '}';
+        if (occupiedBy == null){
+            return "Tile{" +
+                    "isBuffed=" + isBuffed +
+                    ", isOccupied=" + isOccupied +
+                    ", homeColumn=" + homeColumn +
+                    ", graphicsX=" + graphicsX +
+                    ", graphicsY=" + graphicsY +
+                    ", boardX=" + boardX +
+                    ", boardY=" + boardY +
+                    '}';
+        } else {
+            return "Tile{" +
+                    "isBuffed=" + isBuffed +
+                    ", isOccupied=" + isOccupied +
+                    ", homeColumn=" + homeColumn +
+                    ", graphicsX=" + graphicsX +
+                    ", graphicsY=" + graphicsY +
+                    ", boardX=" + boardX +
+                    ", boardY=" + boardY +
+                    ", occupiedBy (info)=" + occupiedBy.getBelongsTo().getPlayerNumber() +
+                    '}';
+        }
+
+    }
+
+    public Color getAltColor() {
+        return altColor;
+    }
+
+    public void setAltColor(Color altColor) {
+        this.altColor = altColor;
     }
 }

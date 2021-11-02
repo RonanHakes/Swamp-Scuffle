@@ -85,11 +85,11 @@ public class Window extends JPanel{
             System.out.println("i " + i);
         }
 
-//        System.out.println("moving!");
+        System.out.println("moving!");
         System.out.println("p1.getW: " + p1.getW());                          //Okay why does this line work
         System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
         System.out.println("p1.getFrogsOwned.get(0): " + p1.getFrogsOwned().get(0));
-        p1.getFrogsOwned().get(0).move(1,1);                  //Because the previous line doesn't work, this one doesn't either
+        p1.getFrogsOwned().get(0).move(b.getBoard()[1][1]);                 //Because the previous line doesn't work, this one doesn't either
         repaint();
         System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 

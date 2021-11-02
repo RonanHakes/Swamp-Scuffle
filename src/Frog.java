@@ -16,26 +16,24 @@ public abstract class Frog extends Unit {
     }
 
 
-    public void move(int x, int y){
-        Tile[][] tileArr = getW().getBoard().getBoard();    //creating a tile array locally
-        if (tileArr[x][y].getIsOccupied() == 0){
-            tileArr[getBoardX()][getBoardY()].setIsOccupied(0);    //sets the isOccupied of the tile the frog is moving off of to zero
-            tileArr[x][y].setIsOccupied(getBelongsTo().getPlayerNumber());     //Sets the isOccupied of the tile the frog is moving onto to the appropriate number
-            tileArr[x][y].setOccupiedBy(tileArr[getBoardX()][getBoardY()].getOccupiedBy());     //sets the unit occupying the tile that is being moved to to the unit that is moving
-            tileArr[getBoardX()][getBoardY()].setOccupiedBy(null);      //removes the unit that is moving from the occupiedBy field of the tile it is moving off of
+    public void move(Tile t) {
 
-//            tileArr[getBoardX()][getBoardY()].paint(g2d);     //Removing g2d stuff come back later and delete this if everything works <-- todo
-
-            //Changing the actual location of the frog
-            moveToTile(tileArr[x][y]);  //this replaces the individually changing the BoardX and boardY of the frog and this actually works
-            setOccupiedTile(tileArr[getBoardX()][getBoardY()]);
+        if (canMoveTo(t)) {
+            moveToTile(t);
             hasPerformedAction = true;
-
-            getW().getBoard().setBoard(tileArr);
-
-//            paint(g2d);   //Removing g2d stuff come back later and delete this if everything works <-- todo
-            w.repaint();
+            setOccupiedTile(t);
         }
+        w.repaint();
+    }
+
+    public boolean canMoveTo(Tile t){
+        int x = t.getBoardX();
+        int y = t.getBoardX();
+
+        if (getW().getBoard().getBoard()[x][y].getIsOccupied() == 1 || getW().getBoard().getBoard()[x][y].getIsOccupied() == 2 || !isValidOneTileRadius(t)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -48,14 +46,51 @@ public abstract class Frog extends Unit {
 
     //Default frog attack method
     public void attack(Tile attackedTile){
-        Tile[][] tileArr = getW().getBoard().getBoard();
-        if (attackedTile.getIsOccupied() != 0 && attackedTile.getIsOccupied() != getBelongsTo().getPlayerNumber()){
+        if (canAttack(attackedTile)){
             attackedTile.getOccupiedBy().takeDamage(1);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
             }
-        }
+        }   //todo dont forget to add buffs
     };
+
+    public boolean canAttack(Tile t){
+
+        return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidOneTileRadius(t);
+    }
+
+    public void isClicked(){    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+
+            }
+        }
+
+    }
+
+    protected boolean isValidOneTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a one tile radius of the frog
+        int x = t.getBoardX();
+        int y = t.getBoardX();
+
+        //Checks if the tile is actually on the board
+        if(x < 0 || x > 7) {
+            return false;
+        }
+
+        if(y < 0 || y > 7) {
+            return false;
+        }
+
+        //Checks 1 square radius
+        if (x > boardX + 1 || x < boardX - 1) {
+            return false;
+        }
+        if (y > boardY + 1 || y < boardY - 1) {
+            return false;
+        }
+        return true;
+    }
 
     public void layEgg(){
         //TODO: create lay egg method
@@ -92,5 +127,28 @@ public abstract class Frog extends Unit {
             g2d.drawImage(img, graphicsX , graphicsY, 50 * widthMultiplier,50, null);
         }
 
+//        System.out.println(this);
+
+    }
+
+    @Override
+    public boolean isFrog(){    //Overrides the isFrog in Unit, so that if the unit is a frog, it will return true and if a unit is not, it will return false
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Frog{" +
+                "isBuffed=" + isBuffed +
+                ", isSpecialFrog=" + isSpecialFrog +
+                ", isDisabled=" + isDisabled +
+                ", hasPerformedAction=" + hasPerformedAction +
+                ", img=" + img +
+                ", widthMultiplier=" + widthMultiplier +
+                "} " + super.toString();
+    }
+
+    public boolean isMeanToad(){
+        return false;
     }
 }
