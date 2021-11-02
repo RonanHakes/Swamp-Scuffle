@@ -32,7 +32,7 @@ public abstract class Frog extends Unit {
         int x = t.getBoardX();
         int y = t.getBoardX();
 
-        if (getW().getBoard().getBoard()[x][y].getIsOccupied() == 1 || getW().getBoard().getBoard()[x][y].getIsOccupied() == 2 || !isValidOneTileRadius(t)) {
+        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t)) {
             return false;
         }
         return true;
@@ -65,19 +65,32 @@ public abstract class Frog extends Unit {
     @Override
     public void onClicked(){    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
         Tile[][] tileArr = getW().getBoard().getBoard();
-        Tile current = null;
+        Tile current;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
-                if (canAttack(current)){
+                if (current.getBoardX() == boardX && current.getBoardY() == boardY){
+                    current.setAltColor(Color.GREEN);
+                } else if (canAttack(current)){
                     current.setAltColor(new Color(139,0,0));
+                } else if (canUseUtility(current)){
+                    current.setAltColor(new Color(35,60,150));
                 } else if (canMoveTo(current)){
                     current.setAltColor(Color.YELLOW);
-                } else if (canUseUtility(current)){
-                    current.setAltColor(new Color(50,60,150));
                 }
             }
         }
+
+        /*
+        The hierarchy of which action on a tile should take priority (and its color) goes as follows:
+
+            --Green: it is the tile the selected unit is on--
+            --Dark Red: it is a tile the selected unit can attack--
+            --Deep Blue: the selected unit can use a utility ability on that tile--
+            --Yellow: the selected unit can move to that tile--
+            --Corresponding team color: the tile is occupied by a team member--
+            --White: nothing can be done on this tile, and it is unoccupied--
+        */
     }
 
     @Override
@@ -99,7 +112,7 @@ public abstract class Frog extends Unit {
 
     protected boolean isValidOneTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a one tile radius of the frog
         int x = t.getBoardX();
-        int y = t.getBoardX();
+        int y = t.getBoardY();
 
         //Checks if the tile is actually on the board
         if(x < 0 || x > 7) {
@@ -115,6 +128,11 @@ public abstract class Frog extends Unit {
             return false;
         }
         if (y > boardY + 1 || y < boardY - 1) {
+            return false;
+        }
+
+        //Checks if the tile is the one that the unit is already on
+        if (y == boardY && x == boardX){
             return false;
         }
         return true;
