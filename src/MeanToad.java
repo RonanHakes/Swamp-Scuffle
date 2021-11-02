@@ -8,6 +8,15 @@ public class MeanToad extends Frog {
 
     private boolean hasIncreasedHP = false;
 
+    public boolean getHasIncreasedHP() {
+        return hasIncreasedHP;
+    }
+
+    public void increaseHP() {
+        hasIncreasedHP = true;
+        hitPoints++;
+    }
+
     public MeanToad(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
         setHitPoints(3);
@@ -49,19 +58,30 @@ public class MeanToad extends Frog {
         return true;
     }
 
+    @Override
     public void move(Tile t){
         super.move(t);
         int x = t.getBoardX();
         int y = t.getBoardX();
-        for (int i = boardX - 1; i <= boardX + 1; i++) {   //Cylce through 8 squares around it, check if they are occupied, check if they are a mean toad
+        for (int i = boardX - 1; i <= boardX + 1; i++) {   //Cycle through 8 squares around it, check if they are occupied, check if they are a mean toad
             for (int j = boardY - 1; j <= boardY + 1; j++) {
-                if (i >= 0 && i <= 7 && j >= 0 && j <= 7 && i != boardX && j != boardX) {
-
+                if (i >= 0 && i <= 7 && j >= 0 && j <= 7 && (i != boardX || j != boardY)) {
+                    if (getW().getBoard().getBoard()[i][j].getIsOccupied() != 0){
+                        if (getW().getBoard().getBoard()[i][j].getOccupiedBy().isMeanToad()) {
+                            if (!hasIncreasedHP) {
+                                increaseHP();
+                            }
+                            if (!((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).hasIncreasedHP){   //Basym dum
+                                ((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).increaseHP();
+                            }
+                        }
+                    }
                 }
             }
+        }
     }
 
-    public void attack(){
+    public void attack(Tile t){
         //TODO: Attack
     }
 

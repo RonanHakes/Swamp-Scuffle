@@ -51,6 +51,14 @@ public abstract class Unit {
         graphicsX = boardX * 100 + 585;
     }
 
+    public abstract void onClicked();    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
+
+    public abstract void onUnclicked();  //Resets the alt colors of all the tiles when the frog is unclicked
+
+    public abstract boolean canMoveTo(Tile t);
+
+
+
     public int getBoardX(){
         return boardX;
     }
@@ -118,5 +126,9 @@ public abstract class Unit {
                 ", belongsTo=" + belongsTo +
                 ", occupiedTile=" + occupiedTile +
                 '}';
+    }
+
+    public boolean isMeanToad(){
+        return false;
     }
 }

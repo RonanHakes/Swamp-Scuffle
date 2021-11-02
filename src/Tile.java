@@ -22,7 +22,11 @@ public class Tile {
 
     public void paint(Graphics2D g2d) {
         if (isOccupied == 1) {
-            g2d.setColor(Color.BLUE);
+            if(altColor != null){   //Alt colors take priority
+                g2d.setColor(altColor);
+            } else {
+                g2d.setColor(Color.BLUE);
+            }
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
@@ -32,7 +36,11 @@ public class Tile {
 
 
         } else if (isOccupied == 2) {
-            g2d.setColor(Color.RED);
+            if(altColor != null){
+                g2d.setColor(altColor);
+            } else {
+                g2d.setColor(Color.RED);
+            }
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
@@ -41,7 +49,11 @@ public class Tile {
             }
 
         } else {
-            g2d.setColor(Color.WHITE);
+            if(altColor != null){
+                g2d.setColor(altColor);
+            } else {
+                g2d.setColor(Color.WHITE);
+            }
             g2d.fillRect(graphicsX,graphicsY,100,100);
 
             g2d.setColor(Color.BLACK);

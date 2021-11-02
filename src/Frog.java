@@ -22,10 +22,12 @@ public abstract class Frog extends Unit {
             moveToTile(t);
             hasPerformedAction = true;
             setOccupiedTile(t);
+            onUnclicked();
         }
         w.repaint();
     }
 
+    @Override
     public boolean canMoveTo(Tile t){
         int x = t.getBoardX();
         int y = t.getBoardX();
@@ -51,7 +53,8 @@ public abstract class Frog extends Unit {
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
             }
-        }   //todo dont forget to add buffs
+            onUnclicked();
+        }   //todo dont forget to add buffs and unclick
     };
 
     public boolean canAttack(Tile t){
@@ -59,14 +62,39 @@ public abstract class Frog extends Unit {
         return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidOneTileRadius(t);
     }
 
-    public void isClicked(){    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
+    @Override
+    public void onClicked(){    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
         Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current = null;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
-
+                current = tileArr[i][j];
+                if (canAttack(current)){
+                    current.setAltColor(new Color(139,0,0));
+                } else if (canMoveTo(current)){
+                    current.setAltColor(Color.YELLOW);
+                } else if (canUseUtility(current)){
+                    current.setAltColor(new Color(50,60,150));
+                }
             }
         }
+    }
 
+    @Override
+    public void onUnclicked(){  //Resets the alt colors of all the tiles when the frog is unclicked
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current = null;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                current = tileArr[i][j];
+                current.setAltColor(null);
+            }
+        }
+    }
+
+
+    public boolean canUseUtility(Tile t){ //This will be overridden by the frogs who have utility moves, but do not remove here!
+        return false;
     }
 
     protected boolean isValidOneTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a one tile radius of the frog
@@ -148,6 +176,7 @@ public abstract class Frog extends Unit {
                 "} " + super.toString();
     }
 
+    @Override
     public boolean isMeanToad(){
         return false;
     }
