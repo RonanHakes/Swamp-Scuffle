@@ -30,7 +30,5 @@ public class AfricanBullFrog extends Frog {
         //TODO: move
     }
 
-    public void attack(){
-        //TODO: Attack
-    }
+    
 }
