@@ -11,8 +11,10 @@ public abstract class Unit {
     protected Window w;
 
     protected int hitPoints;
+    protected int maxHitPoints;
     protected Player belongsTo;
     protected Tile occupiedTile;
+    protected boolean hasPerformedAction;
 
 
     public abstract void paint(Graphics2D g2d);
@@ -41,6 +43,7 @@ public abstract class Unit {
         w.getBoard().setBoard(tileArr);
 
         hitPoints = 1;
+        maxHitPoints = hitPoints;
     }
 
     public void takeDamage(int d){
@@ -57,7 +60,9 @@ public abstract class Unit {
 
     public abstract boolean canMoveTo(Tile t);
 
-
+    public int getMaxHitPoints() {
+        return maxHitPoints;
+    }
 
     public int getBoardX(){
         return boardX;
