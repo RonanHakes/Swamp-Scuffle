@@ -33,4 +33,9 @@ public class PoisonDartFrog extends Frog {
     public void attack(){
         //TODO: Attack
     }
+
+    public boolean canAttack(){
+
+    }
+
 }
