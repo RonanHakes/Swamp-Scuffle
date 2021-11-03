@@ -10,15 +10,20 @@ public class SharpNosedRocketFrog extends Frog {
         super(boardX, boardY, p, w);
         setHitPoints(2);
 
-        if (p.getPlayerNumber() == 1){
-            widthMultiplier = 1;
-        } else {
-            widthMultiplier = -1;
-        }
+
 
         try {
             img = ImageIO.read(new File("res\\SharpNosedSprite.png"));
             if (img != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+
+        try {
+            zappedSprite = ImageIO.read(new File("res\\SharpNosedLightning.png"));
+            if (zappedSprite != null) {
                 System.out.println("found image");
             }
         } catch (IOException e) {
@@ -89,6 +94,27 @@ public class SharpNosedRocketFrog extends Frog {
         return false;
     }
 
+    @Override
+    public void onClicked(){
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                current = tileArr[i][j];
+                if (current.getBoardX() == boardX && current.getBoardY() == boardY){
+                    current.setAltColor(Color.GREEN);
+                } else if (canAttack(current) || canJumpAttack(current)){
+                    current.setAltColor(new Color(139,0,0));
+                } else if (canUseUtility(current)){
+                    current.setAltColor(new Color(35,60,150));
+                } else if (canMoveTo(current)){
+                    current.setAltColor(Color.YELLOW);
+                }
+            }
+        }
+
+    }
+
     public boolean canJumpAttack(Tile t){   //Checks if a tile can be attacked by the jump move
         int x = t.getBoardX();
         int y = t.getBoardX();
@@ -112,11 +138,16 @@ public class SharpNosedRocketFrog extends Frog {
     @Override
     public void attack(Tile attackedTile){
         if (canJumpAttack(attackedTile)){
+            belongsTo.giveEnergy(-2);
             attackedTile.getOccupiedBy().takeDamage(2);
             if(attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
+                if(isBuffed){
+                    rewardKill(attackedTile.getOccupiedBy());
+                }
             }
         } else if (canAttack(attackedTile)){
+            belongsTo.giveEnergy(-2);
             attackedTile.getOccupiedBy().takeDamage(1);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
@@ -125,7 +156,7 @@ public class SharpNosedRocketFrog extends Frog {
                 }
             }
             onUnclicked();
-        }   //todo dont forget to add buffs
+        }
     }
 
 }

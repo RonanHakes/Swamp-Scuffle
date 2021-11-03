@@ -15,6 +15,9 @@ public abstract class Unit {
     protected Player belongsTo;
     protected Tile occupiedTile;
     protected boolean hasPerformedAction;
+    protected Image altSprite;
+    protected boolean isHeavy;
+    protected int widthMultiplier;
 
 
     public abstract void paint(Graphics2D g2d);
@@ -42,8 +45,15 @@ public abstract class Unit {
         tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
         w.getBoard().setBoard(tileArr);
 
+        if (p.getPlayerNumber() == 1){
+            widthMultiplier = 1;
+        } else {
+            widthMultiplier = -1;
+        }
+
         hitPoints = 1;
         maxHitPoints = hitPoints;
+        isHeavy = false;
     }
 
     public void takeDamage(int d){

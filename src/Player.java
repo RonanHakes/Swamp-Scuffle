@@ -54,7 +54,7 @@ public class Player implements MouseListener{
         }
 
         //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-       MeanToad f = new MeanToad(y, x, this, w);
+       AfricanBullFrog f = new AfricanBullFrog(y, x, this, w);
 
         System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
