@@ -9,5 +9,10 @@ Fix:
 - Add a close window button (menu maybe?)
 - Implement egg sprites
 - Add animations
+- implement energy in backend
+- Undisable disabled units in turn loop
 For future:
 - change how the backend works to remove boardX and boardY redundancies and replace with instances of Tile or something idk but there is definitely a better way of doing this
+- Add a main menu
+- Add online functionality :o
+- Give the game a better way of signaling to the player that they are doing something wrong

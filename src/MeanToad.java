@@ -35,22 +35,17 @@ public class MeanToad extends Frog {
         }
     }
 
-    public boolean canMoveTo(Tile t) {
+
+    public boolean canAttack(Tile t){
+        return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidTwoTileRadius(t) && !isDisabled && belongsTo.getEnergyNum() >= 2;
+    }
+
+    @Override
+    public boolean canMoveTo(Tile t){
         int x = t.getBoardX();
         int y = t.getBoardX();
-        if (super.canMoveTo(t)) {
-            return true;
-        }
-        if(x < 0 || x > 7) {
-            return false;
-        }
-        if(y < 0 || y > 7) {
-            return false;
-        }
-        if (x > boardX + 2 || x < boardX - 2) { // checks if x value of tile to be moved to is 2 tiles or less away from current tile
-            return false;
-        }
-        if (y > boardY + 2 || y < boardY - 2) { // checks if y value of tile to be moved to is 2 tiles or less away from current tile
+
+        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidTwoTileRadius(t) || isDisabled || belongsTo.getEnergyNum() <= 1) {
             return false;
         }
         return true;
@@ -77,10 +72,20 @@ public class MeanToad extends Frog {
                 }
             }
         }
+        onUnclicked();
     }
 
-    public void attack(Tile t){
-        //TODO: Attack
+    public void attack(Tile attackedTile){
+        if (canAttack(attackedTile)){
+            attackedTile.getOccupiedBy().takeDamage(2);
+            if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
+                attackedTile.getOccupiedBy().die();
+                if(isBuffed){
+                    rewardKill(attackedTile.getOccupiedBy());
+                }
+            }
+            onUnclicked();
+        }   //todo dont forget to add buffs
     }
 
     @Override

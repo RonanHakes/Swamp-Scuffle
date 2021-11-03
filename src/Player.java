@@ -64,8 +64,7 @@ public class Player implements MouseListener{
         System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
         w.getBoard().getBoard()[x][y].setOccupiedBy(f);
         f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
-//        w.getBoard().getBoard()[x][y].paint(g2d);   //repaints the tile   //Removing g2d stuff come back later and delete this if everything works <-- todo
-//        unitsOwned.get(unitsOwned.size()-1).paint(g2d); // paints last unit in list   //Removing g2d stuff come back later and delete this if everything works <-- todo
+
         w.repaint();
     }
 
@@ -124,5 +123,22 @@ public class Player implements MouseListener{
 
     public void setStarterFrogTurnCounter(int starterFrogTurnCounter) {
         this.starterFrogTurnCounter = starterFrogTurnCounter;
+    }
+
+    public int getEnergyNum() {
+        return energyNum;
+    }
+
+    public void setEnergyNum(int energyNum) {
+        this.energyNum = energyNum;
+    }
+
+    public void giveEnergy(int num){
+        if (energyNum + num < 0){
+            setEnergyNum(0);
+        } else {
+            setEnergyNum(energyNum + num);
+        }
+
     }
 }

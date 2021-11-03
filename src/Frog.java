@@ -2,10 +2,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Frog extends Unit {
-    private boolean isBuffed;
-    private boolean isSpecialFrog;
-    private boolean isDisabled;
-    private boolean hasPerformedAction;
+    protected boolean isBuffed;
+    protected boolean isSpecialFrog;
+    protected boolean isDisabled;
     protected BufferedImage img = null;
     protected int widthMultiplier;
 
@@ -15,6 +14,10 @@ public abstract class Frog extends Unit {
         System.out.println("w: " + w);
     }
 
+    public void setDisabled(boolean b){
+        isDisabled = b;
+    }
+
 
     public void move(Tile t) {
 
@@ -22,13 +25,18 @@ public abstract class Frog extends Unit {
             moveToTile(t);
             hasPerformedAction = true;
             setOccupiedTile(t);
-            onUnclicked();
+            belongsTo.giveEnergy(-1);   //Giving the player -1 energy subtracts 1 energy for moving
         }
+        onUnclicked();
         w.repaint();
+
     }
 
-    @Override
+
     public boolean canMoveTo(Tile t){
+        if(isDisabled || belongsTo.getEnergyNum() <= 0){
+            return false;
+        }
         int x = t.getBoardX();
         int y = t.getBoardX();
 
@@ -50,16 +58,24 @@ public abstract class Frog extends Unit {
     public void attack(Tile attackedTile){
         if (canAttack(attackedTile)){
             attackedTile.getOccupiedBy().takeDamage(1);
+            belongsTo.giveEnergy(-2);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
+                if(isBuffed){
+                    rewardKill(attackedTile.getOccupiedBy());
+                }
+
             }
             onUnclicked();
-        }   //todo dont forget to add buffs and unclick
-    };
+        }   //todo dont forget to add buffs
+    }
 
     public boolean canAttack(Tile t){
+        if (isDisabled || belongsTo.getEnergyNum() <= 1){
+            return false;
+        }
 
-        return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidOneTileRadius(t);
+        return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidOneTileRadius(t);   //Checks if the tile is occupied by an enemy and within a one tile radius
     }
 
     @Override
@@ -105,6 +121,10 @@ public abstract class Frog extends Unit {
         }
     }
 
+    public void rewardKill(Unit victim){
+        belongsTo.giveEnergy(victim.getMaxHitPoints());
+    }
+
 
     public boolean canUseUtility(Tile t){ //This will be overridden by the frogs who have utility moves, but do not remove here!
         return false;
@@ -128,6 +148,37 @@ public abstract class Frog extends Unit {
             return false;
         }
         if (y > boardY + 1 || y < boardY - 1) {
+            return false;
+        }
+
+        //Checks if the tile is the one that the unit is already on
+        if (y == boardY && x == boardX){
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean isValidTwoTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a two tile radius of the frog
+        if (isValidOneTileRadius(t)) {
+            return true;
+        }
+        int x = t.getBoardX();
+        int y = t.getBoardY();
+
+        //Checks if the tile is actually on the board
+        if(x < 0 || x > 7) {
+            return false;
+        }
+
+        if(y < 0 || y > 7) {
+            return false;
+        }
+
+        //Checks 1 square radius
+        if (x > boardX + 2 || x < boardX - 2) {
+            return false;
+        }
+        if (y > boardY + 2 || y < boardY - 2) {
             return false;
         }
 
