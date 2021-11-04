@@ -35,7 +35,7 @@ public abstract class Frog extends Unit {
 
 
     public boolean canMoveTo(Tile t){
-        if(isDisabled || belongsTo.getEnergyNum() <= 0){
+        if(isDisabled || belongsTo.getEnergyNum() <= 0 || hasPerformedAction){
             return false;
         }
         int x = t.getBoardX();
@@ -65,8 +65,8 @@ public abstract class Frog extends Unit {
                 if(isBuffed){
                     rewardKill(attackedTile.getOccupiedBy());
                 }
-
             }
+            hasPerformedAction = true;
             onUnclicked();
         }   //todo dont forget to add buffs
     }
@@ -85,7 +85,7 @@ public abstract class Frog extends Unit {
     }
 
     public boolean canAttack(Tile t){
-        if (isDisabled || belongsTo.getEnergyNum() <= 1){
+        if (isDisabled || belongsTo.getEnergyNum() <= 1 || hasPerformedAction){
             return false;
         }
 
@@ -103,10 +103,13 @@ public abstract class Frog extends Unit {
                     current.setAltColor(Color.GREEN);
                 } else if (canAttack(current)){
                     current.setAltColor(new Color(139,0,0));
+                    current.setCanAttack(true);
                 } else if (canUseUtility(current)){
                     current.setAltColor(new Color(35,60,150));
+                    current.setCanUseUtility(true);
                 } else if (canMoveTo(current)){
                     current.setAltColor(Color.YELLOW);
+                    current.setCanMoveTo(true);
                 }
             }
         }
@@ -134,6 +137,7 @@ public abstract class Frog extends Unit {
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
                 current.setAltColor(null);
+                current.unclickWipe();
             }
         }
         isClicked = false;
@@ -194,7 +198,11 @@ public abstract class Frog extends Unit {
             return false;
         }
 
-        //Checks 1 square radius
+        if (y == boardY && x == boardX){
+            return false;
+        }
+
+        //Checks 2 square radius
         if (x > boardX + 2 || x < boardX - 2) {
             return false;
         }
@@ -203,9 +211,7 @@ public abstract class Frog extends Unit {
         }
 
         //Checks if the tile is the one that the unit is already on
-        if (y == boardY && x == boardX){
-            return false;
-        }
+
         return true;
     }
 
@@ -243,6 +249,8 @@ public abstract class Frog extends Unit {
         } else {
             g2d.drawImage(img, graphicsX , graphicsY, 50 * widthMultiplier,50, null);
         }
+
+//        if()
 
 //        System.out.println(this);
 

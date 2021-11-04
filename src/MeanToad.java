@@ -46,15 +46,18 @@ public class MeanToad extends Frog {
 
 
     public boolean canAttack(Tile t){
-        return t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidTwoTileRadius(t) && !isDisabled && belongsTo.getEnergyNum() >= 2;
+        return !hasPerformedAction && t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidTwoTileRadius(t) && !isDisabled && belongsTo.getEnergyNum() >= 2;
     }
 
     @Override
     public boolean canMoveTo(Tile t){
+        if(isDisabled || belongsTo.getEnergyNum() <= 0 || hasPerformedAction){
+            return false;
+        }
         int x = t.getBoardX();
-        int y = t.getBoardX();
+        int y = t.getBoardY();
 
-        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidTwoTileRadius(t) || isDisabled || belongsTo.getEnergyNum() <= 1) {
+        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t) && !isValidTwoTileRadius(t)) {
             return false;
         }
         return true;
@@ -94,6 +97,7 @@ public class MeanToad extends Frog {
                     rewardKill(attackedTile.getOccupiedBy());
                 }
             }
+            hasPerformedAction = true;
             onUnclicked();
         }   //todo dont forget to add buffs
     }

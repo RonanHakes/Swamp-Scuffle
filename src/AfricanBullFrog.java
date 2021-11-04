@@ -48,7 +48,7 @@ public class AfricanBullFrog extends Frog {
     }
 
     public void onAllyClicked(){
-        //This is a stupid dumb lazy way of doing this and it probably won't work
+        //This is a stupid dumb lazy way of doing this, and it probably won't work
         Tile[][] tileArr = getW().getBoard().getBoard();
         Tile current;
         for(int i = 0; i < 8; i++){
@@ -78,6 +78,11 @@ public class AfricanBullFrog extends Frog {
     public boolean canUseUtility(Tile t){
         return t.isCanUseUtility()|| (t.getIsOccupied() == belongsTo.getPlayerNumber() && isValidOneTileRadius(t));
 
+    }
+
+    @Override
+    public void useUtility(Tile t){
+        //todo: fix this later
     }
 
     

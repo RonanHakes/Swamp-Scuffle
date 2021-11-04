@@ -66,7 +66,7 @@ public class Player implements MouseListener{
         }
 
         //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-        GoliathFrog f = new GoliathFrog(x, y, this, w);
+        MeanToad f = new MeanToad(x, y, this, w);
 
         System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
@@ -81,21 +81,30 @@ public class Player implements MouseListener{
     }
 
     public void turn() throws InterruptedException {
+        Tile[][] tileArr = w.getBoard().getBoard();
         w.getButton().setIsClicked(false);
         turnNumber++; // increases turnNumber counter by 1
-
+        System.out.println("Hello");
+        if (frogsOwned.size() >= turnNumber) {
+            energyPerTurn = turnNumber;
+        } else {
+        System.out.println("Frogs ownes size " + frogsOwned.size());
+            energyPerTurn = frogsOwned.size();
+        }
+        energyNum += energyPerTurn;
         w.repaint();
         System.out.println("turn: " + w.getWhoseTurn().playerNumber);
         for (int i = 0; i < frogsOwned.size(); i++) {
             frogsOwned.get(i).setHasPerformedAction(false);
+
+        }
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                tileArr[i][j].setAltColor(null);
+            }
         }
         System.out.println("turno " + turnNumber);
-        if (frogsOwned.size() >= turnNumber) {
-            energyPerTurn = turnNumber;
-        } else {
-            energyPerTurn = frogsOwned.size();
-        }
-        energyNum += energyPerTurn;
+
         /*while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
             if (unitsOwned.size() == 0) { // ends game if player has no units
                 System.out.println("Game end!");
