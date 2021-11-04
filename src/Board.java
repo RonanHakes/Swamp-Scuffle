@@ -1,6 +1,8 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.EventListener;
 
 public class Board {
 
@@ -25,6 +27,10 @@ public class Board {
 
 
 
+    }
+
+    public Tile clickedOn(MouseEvent e){
+        return board[(e.getX() - 560) / 100 ][(e.getY() - 100) / 100];  //This returns the specific tile instance that is clicked on
     }
 
     public Tile[][] getBoard() {

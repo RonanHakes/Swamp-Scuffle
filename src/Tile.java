@@ -12,12 +12,15 @@ public class Tile {
     private int boardY; // y coordinate for board
     private Unit occupiedBy;
     private Color altColor; //Any color other than the default team colours that a square should be painted
+    private boolean canUseUtility;
+//    private int
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
         this.boardY = boardY;
         this.graphicsX = graphicsX;
         this.graphicsY = graphicsY;
+        canUseUtility = false;
     }
 
     public void paint(Graphics2D g2d) {
@@ -136,5 +139,13 @@ public class Tile {
 
     public void setAltColor(Color altColor) {
         this.altColor = altColor;
+    }
+
+    public boolean isCanUseUtility() {
+        return canUseUtility;
+    }
+
+    public void setCanUseUtility(boolean canUseUtility) {
+        this.canUseUtility = canUseUtility;
     }
 }

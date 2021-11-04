@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class PoisonDartFrog extends Frog {
     boolean isCharged = true;
+    Tile targetTile;
 
     public PoisonDartFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
@@ -20,6 +21,14 @@ public class PoisonDartFrog extends Frog {
         try {
             img = ImageIO.read(new File("res\\PoisonDartSprite.png"));
             if (img != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+        try {
+            zappedSprite = ImageIO.read(new File("res\\PoisonDartLightning.png"));
+            if (zappedSprite != null) {
                 System.out.println("found image");
             }
         } catch (IOException e) {
@@ -47,21 +56,24 @@ public class PoisonDartFrog extends Frog {
 
     public void attack(Tile attackedTile){
         if (isCharged) {
-            if (canAttack(attackedTile)){
-                attackedTile.getOccupiedBy().takeDamage(1);
+            if (canAttack(targetTile)){
+                belongsTo.giveEnergy(-2);
+                targetTile.getOccupiedBy().takeDamage(1);
                 isCharged = false;
-                if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                    attackedTile.getOccupiedBy().die();
+                if (targetTile.getOccupiedBy().getHitPoints() <= 0){
+                    targetTile.getOccupiedBy().die();
                     if(isBuffed){
-                        rewardKill(attackedTile.getOccupiedBy());
+                        rewardKill(targetTile.getOccupiedBy());
                     }
                 }
+                targetTile = null;
                 onUnclicked();
-            }   //todo dont forget to add buffs
+            }
 
 
         } else {
             isCharged = true;
+            targetTile = attackedTile;
         }
 
     }

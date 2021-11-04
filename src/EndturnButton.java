@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 public class EndturnButton implements MouseListener {
     private boolean isClicked = false;
     private BufferedImage img = null;
+    private int graphicsX = 1920-200;
+    private int graphicsY = 1080-300;
 
     public EndturnButton() {
         try {
@@ -19,14 +21,20 @@ public class EndturnButton implements MouseListener {
         }
     }
 
+    public BufferedImage getImg(){
+        return img;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
 
     }
     public void mousePressed(MouseEvent e) {
+
         isClicked = true;
         System.out.println("click");
+
 
     }
     public void mouseReleased(MouseEvent e) {
@@ -40,7 +48,7 @@ public class EndturnButton implements MouseListener {
 
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(img, 1920-200, 1080-300, null);
+        g2d.drawImage(img, graphicsX, graphicsY, null);
     }
 
     public boolean getIsClicked(){
@@ -51,5 +59,20 @@ public class EndturnButton implements MouseListener {
         isClicked = b;
     }
 
+    public int getGraphicsY() {
+        return graphicsY;
+    }
+
+    public void setGraphicsY(int graphicsY) {
+        this.graphicsY = graphicsY;
+    }
+
+    public int getGraphicsX() {
+        return graphicsX;
+    }
+
+    public void setGraphicsX(int graphicsX) {
+        this.graphicsX = graphicsX;
+    }
 }
 

@@ -24,6 +24,14 @@ public class BluePoisonArrowFrog extends Frog {
         } catch (IOException e) {
             System.out.println("Can't find image.");
         }
+        try {
+            zappedSprite = ImageIO.read(new File("res\\BluePoisonArrowLightning.png"));
+            if (zappedSprite != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
     }
 
     public void move(){

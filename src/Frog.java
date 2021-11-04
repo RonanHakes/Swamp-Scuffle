@@ -6,7 +6,8 @@ public abstract class Frog extends Unit {
     protected boolean isSpecialFrog;
     protected boolean isDisabled;
     protected BufferedImage img = null;
-    protected int widthMultiplier;
+
+    protected BufferedImage zappedSprite;
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
@@ -38,7 +39,7 @@ public abstract class Frog extends Unit {
             return false;
         }
         int x = t.getBoardX();
-        int y = t.getBoardX();
+        int y = t.getBoardY();
 
         if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t)) {
             return false;
@@ -70,6 +71,19 @@ public abstract class Frog extends Unit {
         }   //todo dont forget to add buffs
     }
 
+    protected void attackNoCheck(Tile attackedTile){
+        attackedTile.getOccupiedBy().takeDamage(1);
+        belongsTo.giveEnergy(-2);
+        if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
+            attackedTile.getOccupiedBy().die();
+            if(isBuffed){
+                rewardKill(attackedTile.getOccupiedBy());
+            }
+
+        }
+        onUnclicked();
+    }
+
     public boolean canAttack(Tile t){
         if (isDisabled || belongsTo.getEnergyNum() <= 1){
             return false;
@@ -96,6 +110,9 @@ public abstract class Frog extends Unit {
                 }
             }
         }
+        isClicked = true;
+        belongsTo.setHasClickedUnit(true);
+        w.repaint();
 
         /*
         The hierarchy of which action on a tile should take priority (and its color) goes as follows:
@@ -119,6 +136,9 @@ public abstract class Frog extends Unit {
                 current.setAltColor(null);
             }
         }
+        isClicked = false;
+        belongsTo.setHasClickedUnit(false);
+        w.repaint();
     }
 
     public void rewardKill(Unit victim){

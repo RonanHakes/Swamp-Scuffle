@@ -15,8 +15,9 @@ public class MeanToad extends Frog {
         hitPoints++;
     }
 
-    public MeanToad(int boardY, int boardX, Player p, Window w){
+    public MeanToad(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
+        isHeavy = true;
         setHitPoints(3);
 
         if (p.getPlayerNumber() == 1){
@@ -28,6 +29,14 @@ public class MeanToad extends Frog {
         try {
             img = ImageIO.read(new File("res\\MeanToadSprite.png"));
             if (img != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+        try {
+            zappedSprite = ImageIO.read(new File("res\\MeanToadLightning.png"));
+            if (zappedSprite != null) {
                 System.out.println("found image");
             }
         } catch (IOException e) {
@@ -77,6 +86,7 @@ public class MeanToad extends Frog {
 
     public void attack(Tile attackedTile){
         if (canAttack(attackedTile)){
+            belongsTo.giveEnergy(-2);
             attackedTile.getOccupiedBy().takeDamage(2);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
