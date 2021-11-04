@@ -54,7 +54,7 @@ public class Player implements MouseListener{
         }
 
         //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-       AfricanBullFrog f = new AfricanBullFrog(y, x, this, w);
+        GoliathFrog f = new GoliathFrog(x, y, this, w);
 
         System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
@@ -62,7 +62,7 @@ public class Player implements MouseListener{
         frogsOwned.add(f);
         w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
         System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
-        w.getBoard().getBoard()[x][y].setOccupiedBy(f);
+
         f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
 
         w.repaint();

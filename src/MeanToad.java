@@ -15,7 +15,7 @@ public class MeanToad extends Frog {
         hitPoints++;
     }
 
-    public MeanToad(int boardY, int boardX, Player p, Window w){
+    public MeanToad(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
         isHeavy = true;
         setHitPoints(3);

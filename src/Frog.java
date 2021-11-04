@@ -9,7 +9,7 @@ public abstract class Frog extends Unit {
 
     protected BufferedImage zappedSprite;
 
-    public Frog(int boardX, int boardY, Player p, Window w) {
+    public Frog(int boardY, int boardX, Player p, Window w) {
         super(boardX, boardY, p, w);
 
         System.out.println("w: " + w);

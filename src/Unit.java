@@ -42,7 +42,7 @@ public abstract class Unit {
         this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
         this.w = w;
-        tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
+        moveToTile(tileArr[boardX][boardY]);
         w.getBoard().setBoard(tileArr);
 
         if (p.getPlayerNumber() == 1){
@@ -123,6 +123,7 @@ public abstract class Unit {
         t.setIsOccupied(belongsTo.getPlayerNumber());
         setBoardX(t.getBoardX());
         setBoardY(t.getBoardY());
+        w.repaint();
     }
 
     public boolean isFrog(){    //I'm so smart, this gets overridden in Frog and returns true
