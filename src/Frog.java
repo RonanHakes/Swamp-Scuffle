@@ -9,7 +9,7 @@ public abstract class Frog extends Unit {
 
     protected BufferedImage zappedSprite;
 
-    public Frog(int boardY, int boardX, Player p, Window w) {
+    public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
 
         System.out.println("w: " + w);
@@ -39,7 +39,7 @@ public abstract class Frog extends Unit {
             return false;
         }
         int x = t.getBoardX();
-        int y = t.getBoardX();
+        int y = t.getBoardY();
 
         if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t)) {
             return false;
@@ -110,6 +110,9 @@ public abstract class Frog extends Unit {
                 }
             }
         }
+        isClicked = true;
+        belongsTo.setHasClickedUnit(true);
+        w.repaint();
 
         /*
         The hierarchy of which action on a tile should take priority (and its color) goes as follows:
@@ -133,6 +136,9 @@ public abstract class Frog extends Unit {
                 current.setAltColor(null);
             }
         }
+        isClicked = false;
+        belongsTo.setHasClickedUnit(false);
+        w.repaint();
     }
 
     public void rewardKill(Unit victim){

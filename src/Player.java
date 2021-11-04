@@ -12,6 +12,9 @@ public class Player implements MouseListener{
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
     private int starterFrogTurnCounter = 0;
+    private boolean hasClickedUnit;
+    private int energyPerTurn;
+    private PlayerInfoSegment pIS;
 
     public void mouseClicked(MouseEvent e) {
 
@@ -29,10 +32,19 @@ public class Player implements MouseListener{
 
     }
 
-    public Player(int p, Window w) {
-        playerNumber = p;
+    public Player(int pNum, Window w) {
+        playerNumber = pNum;
         this.w = w;
+        hasClickedUnit = false;
+        pIS = new PlayerInfoSegment(this);
+    }
 
+    public boolean isHasClickedUnit() {
+        return hasClickedUnit;
+    }
+
+    public void setHasClickedUnit(boolean hasClickedUnit) {
+        this.hasClickedUnit = hasClickedUnit;
     }
 
     public void wipeAll(){      //Allows everything from the previous game to be reset to starting default so a new game can begin
@@ -71,25 +83,33 @@ public class Player implements MouseListener{
     public void turn() throws InterruptedException {
         w.getButton().setIsClicked(false);
         turnNumber++; // increases turnNumber counter by 1
+
+        w.repaint();
+        System.out.println("turn: " + w.getWhoseTurn().playerNumber);
         for (int i = 0; i < frogsOwned.size(); i++) {
             frogsOwned.get(i).setHasPerformedAction(false);
         }
         System.out.println("turno " + turnNumber);
         if (frogsOwned.size() >= turnNumber) {
-            energyNum +=turnNumber;
+            energyPerTurn = turnNumber;
         } else {
-            energyNum += frogsOwned.size();
+            energyPerTurn = frogsOwned.size();
         }
-        //while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
+        energyNum += energyPerTurn;
+        /*while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
             if (unitsOwned.size() == 0) { // ends game if player has no units
                 System.out.println("Game end!");
                 System.exit(0);
             }
 
-        //}
-        System.out.println("turn end");
+        }
+
+         */
 
     }
+
+
+
 
 
 
@@ -99,6 +119,10 @@ public class Player implements MouseListener{
 
     public Window getW() {
         return w;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
     public ArrayList<Unit> getUnitsOwned() {
@@ -129,8 +153,13 @@ public class Player implements MouseListener{
         return energyNum;
     }
 
+
     public void setEnergyNum(int energyNum) {
         this.energyNum = energyNum;
+    }
+
+    public int getEnergyPerTurn() {
+        return energyPerTurn;
     }
 
     public void giveEnergy(int num){
@@ -140,5 +169,13 @@ public class Player implements MouseListener{
             setEnergyNum(energyNum + num);
         }
 
+    }
+
+    public PlayerInfoSegment getpIS() {
+        return pIS;
+    }
+
+    public void setpIS(PlayerInfoSegment pIS) {
+        this.pIS = pIS;
     }
 }

@@ -18,6 +18,7 @@ public abstract class Unit {
     protected Image altSprite;
     protected boolean isHeavy;
     protected int widthMultiplier;
+    protected boolean isClicked;
 
 
     public abstract void paint(Graphics2D g2d);
@@ -42,7 +43,6 @@ public abstract class Unit {
         this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
         this.w = w;
-        moveToTile(tileArr[boardX][boardY]);
         w.getBoard().setBoard(tileArr);
 
         if (p.getPlayerNumber() == 1){
@@ -54,6 +54,15 @@ public abstract class Unit {
         hitPoints = 1;
         maxHitPoints = hitPoints;
         isHeavy = false;
+        isClicked = false;
+    }
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean b){
+        isClicked = b;
     }
 
     public void takeDamage(int d){
