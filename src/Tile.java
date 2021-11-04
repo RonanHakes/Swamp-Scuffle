@@ -13,6 +13,9 @@ public class Tile {
     private Unit occupiedBy;
     private Color altColor; //Any color other than the default team colours that a square should be painted
     private boolean canUseUtility;
+    private boolean canMoveTo;
+    private boolean canAttack;
+
 //    private int
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
@@ -68,6 +71,12 @@ public class Tile {
 
 
 
+    }
+
+    public void unclickWipe(){
+        canMoveTo = false;
+        canAttack = false;
+        canUseUtility = false;
     }
 
     public void setIsOccupied(int isOccupied) {
@@ -147,5 +156,21 @@ public class Tile {
 
     public void setCanUseUtility(boolean canUseUtility) {
         this.canUseUtility = canUseUtility;
+    }
+
+    public boolean isCanMoveTo() {
+        return canMoveTo;
+    }
+
+    public void setCanMoveTo(boolean canMoveTo) {
+        this.canMoveTo = canMoveTo;
+    }
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
     }
 }

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 public class Window extends JPanel{
     public Window() {
@@ -26,14 +27,24 @@ public class Window extends JPanel{
                 } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900){  //this looks ridiculous, but it is just checking if the click is in the whole board area
                     Tile t = b.clickedOn(e);
                     System.out.println("Tile clicked: " + t.toString());
-                    if (t.getIsOccupied() == whoseTurn.getPlayerNumber() ){ //Checks if there is an allied unit on the tile being clicked on
+                    if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
                             t.getOccupiedBy().onClicked();
                             System.out.println("reached it!");
                         } else {
                             t.getOccupiedBy().onUnclicked();
                         }
-
+                    }
+                    for (int i = 0; i < whoseTurn.getFrogsOwned().size(); i++) {
+                        if (whoseTurn.getFrogsOwned().get(i).isClicked()) {
+                            if (whoseTurn.getFrogsOwned().get(i).canAttack(t)) {
+                                whoseTurn.getFrogsOwned().get(i).attack(t);
+                            } else if (whoseTurn.getFrogsOwned().get(i).canUseUtility(t)) {
+                                whoseTurn.getFrogsOwned().get(i).useUtility(t);
+                            } else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
+                                whoseTurn.getFrogsOwned().get(i).move(t);
+                            }
+                        }
                     }
                 }
 
@@ -126,20 +137,26 @@ public class Window extends JPanel{
         System.out.println("p1.getW: " + p1.getW());                          //Okay why does this line work
         System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
         System.out.println("p2.getFrogsOwned.get(0): " + p2.getFrogsOwned().get(0));
-        p1.getFrogsOwned().get(0).move(b.getBoard()[1][1]);                 //Because the previous line doesn't work, this one doesn't either
-        p2.getFrogsOwned().get(0).moveToTile(b.getBoard()[2][1]);
+//        p1.getFrogsOwned().get(0).move(b.getBoard()[1][1]);                 //Because the previous line doesn't work, this one doesn't either
+//        p2.getFrogsOwned().get(0).moveToTile(b.getBoard()[2][1]);
         repaint();
         System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
-
-
+        System.out.println("Player 1 Units: " + Arrays.deepToString(p1.getUnitsOwned().toArray()));
+        System.out.println("Player 1 Units Length" + p1.getUnitsOwned().size());
+        System.out.println("Player 2 Units: " + Arrays.deepToString(p2.getUnitsOwned().toArray()));
+        System.out.println("Player 2 Units Length" + p2.getUnitsOwned().size());
+        System.out.println("Player 1 Frogs: " + Arrays.deepToString(p1.getFrogsOwned().toArray()));
+        System.out.println("Player 1 Frogs Length" + p1.getFrogsOwned().size());
+        System.out.println("Player 2 Frogs: " + Arrays.deepToString(p2.getFrogsOwned().toArray()));
+        System.out.println("Player 2 Frogs Length" + p2.getFrogsOwned().size());
         //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
 //        p1.turn();
 
         //}
 
         //fixed that error im so smart the frogs don't multiply anymore
-        p1.wipeAll();
-        p2.wipeAll();
+//        p1.wipeAll();
+//        p2.wipeAll();
 
 
 
