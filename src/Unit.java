@@ -28,6 +28,14 @@ public abstract class Unit {
         g2d.drawImage(altSprite,graphicsX + 50, graphicsY, 50 * widthMultiplier,50, null);
     }
 
+    public BufferedImage getAltSprite() {
+        return altSprite;
+    }
+
+    public void setAltSprite(BufferedImage altSprite) {
+        this.altSprite = altSprite;
+    }
+
     public void die(){
 
         occupiedTile.setIsOccupied(0);

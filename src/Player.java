@@ -32,7 +32,7 @@ public class Player implements MouseListener{
                     }
                 }
             } else {
-                if ( x >= 50 && x <= 1920 && y>= 0 && y <= 50) {
+                if ( x >= 1920-50-150 && x <= 1920-50 && y>= 0 && y <= 50) {
                     if (getW().getBoard().getBoard()[0][1].getIsOccupied() == 0) {
                         AfricanBullFrog f = new AfricanBullFrog(0, 1, this, w);
                     }
@@ -40,6 +40,9 @@ public class Player implements MouseListener{
             }
 
         }
+    }
+    public void createAfricanBullfrog(int x, int y) {
+        AfricanBullFrog f = new AfricanBullFrog(x, y, this, w);
     }
     public void mouseReleased(MouseEvent e) {
 
@@ -80,25 +83,45 @@ public class Player implements MouseListener{
         frogsOwned.clear();
     }
 
-    public void starterFrogTurn() { // changed it so starterFrogTurn can paint the frog after creating it
-        int x = 0;
+    public boolean getIsStarterFrogTurn(){
+        return isStarterFrogTurn;
+    }
+
+
+    public void starterFrogTurn(MouseEvent e) { // changed it so starterFrogTurn can paint the frog after creating it
+        int x;
         int y = starterFrogTurnCounter;
-        if (playerNumber == 1){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        if (playerNumber == 1) {
             x = 0;
-        } else if (playerNumber == 2){
+        } else {
             x = 7;
         }
 
-        //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-        MeanToad f = new MeanToad(x, y, this, w);
+        if (mouseX >= 50 && mouseX <= 200 && y>= 0 && y <= 50) {
+            if (getW().getBoard().getBoard()[0][1].getIsOccupied() == 0) {
+                AfricanBullFrog f = new AfricanBullFrog(x, y, this, w);
+                y++;
+            }
+        }
 
-        System.out.println(starterFrogTurnCounter + " count!");
+
+
+
+
+
+        //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
+        //MeanToad f = new MeanToad(x, y, this, w);
+
+        //System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
 
-        w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
-        System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
+        //w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
+        //System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
 
-        f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
+        //
+        // f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
 
         w.repaint();
     }
@@ -139,6 +162,11 @@ public class Player implements MouseListener{
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 tileArr[i][j].setAltColor(null);
+                if(tileArr[i][j].getOccupiedBy() != null){
+                    if (tileArr[i][j].getOccupiedBy().getAltSprite() != null){
+                        tileArr[i][j].getOccupiedBy().setAltSprite(null);
+                    }
+                }
             }
         }
         System.out.println("turno " + turnNumber);
@@ -224,5 +252,9 @@ public class Player implements MouseListener{
 
     public void setpIS(PlayerInfoSegment pIS) {
         this.pIS = pIS;
+    }
+
+    public void setStarterFrogTurn(boolean starterFrogTurn) {
+        isStarterFrogTurn = starterFrogTurn;
     }
 }

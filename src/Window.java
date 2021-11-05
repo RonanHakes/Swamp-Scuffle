@@ -1,13 +1,18 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Window extends JPanel{
     public Window() {
+        setZappedSprite();
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -18,6 +23,14 @@ public class Window extends JPanel{
             public void mousePressed(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
+
+                if (p1.getIsStarterFrogTurn()){
+                    p1.starterFrogTurn(e);
+                }
+                if (p2.getIsStarterFrogTurn()){
+                    p2.starterFrogTurn(e);
+                }
+
 
 
                 if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight()){   //Checks if the mousepress is within the end turn button
@@ -75,13 +88,15 @@ public class Window extends JPanel{
     private int width;
     private int height;
     private boolean isTurn;
-    private Player p1 = new Player(1, this);
-    private Player p2 = new Player(2, this);
-    private Board b = new Board(); // create instance of board <-- todo:stinks!
-    private EndturnButton button = new EndturnButton();
+    private final Player p1 = new Player(1, this);
+    private final Player p2 = new Player(2, this);
+    private final Board b = new Board(); // create instance of board <-- todo:stinks!
+    private final EndturnButton button = new EndturnButton();
     private Player whoseTurn = p1;
     private boolean isStarterFrogTurn = true;
-    private String listOfChoosableFrogTypes[] = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
+    private int starterFrogTurnCounter = 0;
+    private String[] listOfChoosableFrogTypes = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
+    private BufferedImage zappedSprite;
 
 
 
@@ -108,6 +123,16 @@ public class Window extends JPanel{
     }
 
 
+    public void setZappedSprite() {
+        try {
+            zappedSprite = ImageIO.read(new File("res\\PurpleFrogAttack.png"));
+            if (zappedSprite != null) {
+                System.out.println("found image!!*");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("BattleFrogs");
@@ -141,30 +166,36 @@ public class Window extends JPanel{
 
 
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
-            p1.starterFrogTurn();
+            if (!p2.getIsStarterFrogTurn()){
+                p1.setStarterFrogTurn(true);
+            }
+
             System.out.println("Player 1 starter frog pick!");  //for testing, TODO: remove this later
-            p2.starterFrogTurn();
+            if (!p1.getIsStarterFrogTurn()){
+                p2.setStarterFrogTurn(true);
+            }
+
             System.out.println("Player 2 starter frog pick!");  //Ditto
             System.out.println("i " + i);
         }
 
         System.out.println("moving!");
         System.out.println("p1.getW: " + p1.getW());                          //Okay why does this line work
-        System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
-        System.out.println("p2.getFrogsOwned.get(0): " + p2.getFrogsOwned().get(0));
+        //System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
+        //System.out.println("p2.getFrogsOwned.get(0): " + p2.getFrogsOwned().get(0));
 //        p1.getFrogsOwned().get(0).move(b.getBoard()[1][1]);                 //Because the previous line doesn't work, this one doesn't either
 //        p2.getFrogsOwned().get(0).moveToTile(b.getBoard()[2][1]);
         repaint();
-        System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
-        System.out.println("Player 1 Units: " + Arrays.deepToString(p1.getUnitsOwned().toArray()));
-        System.out.println("Player 1 Units Length" + p1.getUnitsOwned().size());
-        System.out.println("Player 2 Units: " + Arrays.deepToString(p2.getUnitsOwned().toArray()));
-        System.out.println("Player 2 Units Length" + p2.getUnitsOwned().size());
-        System.out.println("Player 1 Frogs: " + Arrays.deepToString(p1.getFrogsOwned().toArray()));
-        System.out.println("Player 1 Frogs Length" + p1.getFrogsOwned().size());
-        System.out.println("Player 2 Frogs: " + Arrays.deepToString(p2.getFrogsOwned().toArray()));
-        System.out.println("Player 2 Frogs Length" + p2.getFrogsOwned().size());
-        new Egg(5,5,p1, p1.getFrogsOwned().get(0),this);
+//        System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
+//        System.out.println("Player 1 Units: " + Arrays.deepToString(p1.getUnitsOwned().toArray()));
+//        System.out.println("Player 1 Units Length" + p1.getUnitsOwned().size());
+//        System.out.println("Player 2 Units: " + Arrays.deepToString(p2.getUnitsOwned().toArray()));
+//        System.out.println("Player 2 Units Length" + p2.getUnitsOwned().size());
+//        System.out.println("Player 1 Frogs: " + Arrays.deepToString(p1.getFrogsOwned().toArray()));
+//        System.out.println("Player 1 Frogs Length" + p1.getFrogsOwned().size());
+//        System.out.println("Player 2 Frogs: " + Arrays.deepToString(p2.getFrogsOwned().toArray()));
+//        System.out.println("Player 2 Frogs Length" + p2.getFrogsOwned().size());
+//        new Egg(5,5,p1, p1.getFrogsOwned().get(0),this);
         //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
 //        p1.turn();
 

@@ -18,7 +18,7 @@ public abstract class Frog extends Unit {
 
         belongsTo.setfrogsOwned(fl);    //Actually moves those changes to player
         belongsTo.setUnitsOwned(ul);
-
+        w.repaint();
         System.out.println("w: " + w);
     }
 
@@ -273,6 +273,8 @@ public abstract class Frog extends Unit {
 
         isSpecialFrog = specialFrog;
     }
+
+
 
     public void setHasPerformedAction(boolean hasPerformedAction) {
         this.hasPerformedAction = hasPerformedAction;
