@@ -17,7 +17,7 @@ public class PlayerInfoSegment {
             System.out.println("PLayer 1 Energy per turn: " + String.valueOf(player.getEnergyPerTurn()));
 
         } else {
-            g2d.drawString("Turn Number: " + String.valueOf(player.getTurnNumber()), 1920 - 100, 50);
+            g2d.drawString("Turn Number: " + String.valueOf(player.getTurnNumber()), 1920 - 150, 50);
             g2d.drawString("Energy: " + String.valueOf(player.getEnergyNum()), 1920 - 150, 75);
             g2d.drawString("Energy per turn: " + String.valueOf(player.getEnergyPerTurn()), 1920-150, 100);
             System.out.println("Player 2 Energy per turn: " + String.valueOf(player.getEnergyPerTurn()));

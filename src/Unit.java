@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,13 +16,25 @@ public abstract class Unit {
     protected Player belongsTo;
     protected Tile occupiedTile;
     protected boolean hasPerformedAction;
-    protected Image altSprite;
+    protected BufferedImage altSprite;
     protected boolean isHeavy;
     protected int widthMultiplier;
     protected boolean isClicked;
 
 
     public abstract void paint(Graphics2D g2d);
+
+    public void paintAltSprite(Graphics2D g2d){
+        g2d.drawImage(altSprite,graphicsX + 50, graphicsY, 50 * widthMultiplier,50, null);
+    }
+
+    public BufferedImage getAltSprite() {
+        return altSprite;
+    }
+
+    public void setAltSprite(BufferedImage altSprite) {
+        this.altSprite = altSprite;
+    }
 
     public void die(){
 

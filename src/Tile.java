@@ -37,6 +37,9 @@ public class Tile {
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
 //                System.out.println("null1: " + this.toString());
+                if (occupiedBy.altSprite != null){
+                    occupiedBy.paintAltSprite(g2d);
+                }
 
             }
 
@@ -50,6 +53,9 @@ public class Tile {
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
+                if (occupiedBy.altSprite != null){
+                    occupiedBy.paintAltSprite(g2d);
+                }
 //                System.out.println("null2: " + this.toString());    //Prints out the tile, this is for testing
 
             }

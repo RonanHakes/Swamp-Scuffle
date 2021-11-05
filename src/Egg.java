@@ -1,12 +1,25 @@
 import java.awt.*;
+import java.util.Arrays;
 
 public class Egg extends Unit{
 
-    public Egg(int boardX, int boardY, Player p, Window w){
-        super(boardX, boardY, p, w);
-    }
-    private Frog frogType;
+    private Class<?extends Frog> frogType;  //Frog type stores which subclass of Frog needs to be hatched from the egg
     private int turnsAfterLaid;
+
+    public Egg(int boardX, int boardY, Player p, Frog parent, Window w){
+        super(boardX, boardY, p, w);
+        this.frogType = parent.getClass();
+        System.out.println("FROG TYPE!!!!: " + frogType);
+    }
+
+//    public void hatch(){  TODO
+//        Tadpole t = new Tadpole(boardX, boardY, belongsTo, frogType,w){
+//
+//        }
+//        die();
+//
+//    }
+
 
     public void paint(Graphics2D g2d) {
         //TODO: create paint method
@@ -30,4 +43,6 @@ public class Egg extends Unit{
     public void onUnclicked() {
 
     }
+
+
 }

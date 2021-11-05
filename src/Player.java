@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.awt.*;
 
 public class Player implements MouseListener{
     private Window w;
@@ -15,12 +16,33 @@ public class Player implements MouseListener{
     private boolean hasClickedUnit;
     private int energyPerTurn;
     private PlayerInfoSegment pIS;
+    private boolean isStarterFrogTurn;
 
     public void mouseClicked(MouseEvent e) {
 
     }
     public void mousePressed(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        if (isStarterFrogTurn) {
+            if (playerNumber == 1) {
+                if ( x >= 50 && x <= 200 && y>= 0 && y <= 50) {
+                    if (getW().getBoard().getBoard()[0][1].getIsOccupied() == 0) {
+                        AfricanBullFrog f = new AfricanBullFrog(0, 1, this, w);
+                    }
+                }
+            } else {
+                if ( x >= 1920-50-150 && x <= 1920-50 && y>= 0 && y <= 50) {
+                    if (getW().getBoard().getBoard()[0][1].getIsOccupied() == 0) {
+                        AfricanBullFrog f = new AfricanBullFrog(0, 1, this, w);
+                    }
+                }
+            }
 
+        }
+    }
+    public void createAfricanBullfrog(int x, int y) {
+        AfricanBullFrog f = new AfricanBullFrog(x, y, this, w);
     }
     public void mouseReleased(MouseEvent e) {
 
@@ -39,6 +61,12 @@ public class Player implements MouseListener{
         pIS = new PlayerInfoSegment(this);
     }
 
+    public void setfrogsOwned(ArrayList<Frog> fl){
+        this.frogsOwned = fl;
+    }
+
+
+
     public boolean isHasClickedUnit() {
         return hasClickedUnit;
     }
@@ -55,29 +83,62 @@ public class Player implements MouseListener{
         frogsOwned.clear();
     }
 
-    public void starterFrogTurn() { // changed it so starterFrogTurn can paint the frog after creating it
+    public boolean getIsStarterFrogTurn(){
+        return isStarterFrogTurn;
+    }
 
-        int x = 0;
+
+    public void starterFrogTurn(MouseEvent e) { // changed it so starterFrogTurn can paint the frog after creating it
+        int x;
         int y = starterFrogTurnCounter;
-        if (playerNumber == 1){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        if (playerNumber == 1) {
             x = 0;
-        } else if (playerNumber == 2){
+        } else {
             x = 7;
         }
 
+        if (mouseX >= 50 && mouseX <= 200 && y>= 0 && y <= 50) {
+            if (getW().getBoard().getBoard()[0][1].getIsOccupied() == 0) {
+                AfricanBullFrog f = new AfricanBullFrog(x, y, this, w);
+                y++;
+            }
+        }
+
+
+
+
+
+
         //This will have to be changed later once we add the menu to pick a frog, this bit sets the frog the player picks
-        MeanToad f = new MeanToad(x, y, this, w);
+        //MeanToad f = new MeanToad(x, y, this, w);
 
-        System.out.println(starterFrogTurnCounter + " count!");
+        //System.out.println(starterFrogTurnCounter + " count!");
         starterFrogTurnCounter++;
-        unitsOwned.add(f); // adds unit to end of unitsOwned list
-        frogsOwned.add(f);
-        w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
-        System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
 
-        f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
+        //w.getBoard().getBoard()[x][y].setIsOccupied(playerNumber); //Sets the tile that the frog is on to the correct isOccupied value
+        //System.out.println("isOccupied " + w.getBoard().getBoard()[x][y].getIsOccupied());
+
+        //
+        // f.moveToTile(w.getBoard().getBoard()[x][y]);    //I have no idea if this is redundant or not, check this out later <-- todo
 
         w.repaint();
+    }
+
+    public void paint(Graphics2D g2d) {
+        if (this.playerNumber == 1) {
+            for (int i = 0; i < 7; i++) {
+                g2d.drawRect(50, i*50+150, 150, 50);
+                g2d.drawString(w.getListOfChoosableFrogTypes()[i], 50, i * 50 + 175);
+            }
+
+        } else {
+            for (int i = 0; i < 7; i++) {
+                g2d.drawRect(1920-200, i*50+150, 150, 50);
+                g2d.drawString(w.getListOfChoosableFrogTypes()[i], 1920-200, i * 50 + 175);
+            }
+        }
     }
 
     public void turn() throws InterruptedException {
@@ -101,6 +162,11 @@ public class Player implements MouseListener{
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 tileArr[i][j].setAltColor(null);
+                if(tileArr[i][j].getOccupiedBy() != null){
+                    if (tileArr[i][j].getOccupiedBy().getAltSprite() != null){
+                        tileArr[i][j].getOccupiedBy().setAltSprite(null);
+                    }
+                }
             }
         }
         System.out.println("turno " + turnNumber);
@@ -186,5 +252,9 @@ public class Player implements MouseListener{
 
     public void setpIS(PlayerInfoSegment pIS) {
         this.pIS = pIS;
+    }
+
+    public void setStarterFrogTurn(boolean starterFrogTurn) {
+        isStarterFrogTurn = starterFrogTurn;
     }
 }
