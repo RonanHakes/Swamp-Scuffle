@@ -1,16 +1,23 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Frog extends Unit {
     protected boolean isBuffed;
     protected boolean isSpecialFrog;
     protected boolean isDisabled;
     protected BufferedImage img = null;
-
     protected BufferedImage zappedSprite;
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
+        ArrayList<Frog> fl = belongsTo.getFrogsOwned();
+        ArrayList<Unit> ul = belongsTo.getUnitsOwned();
+        ul.add(this); // adds unit to end of unitsOwned list
+        fl.add(this); // adds unit to end of frogsOwned list
+
+        belongsTo.setfrogsOwned(fl);    //Actually moves those changes to player
+        belongsTo.setUnitsOwned(ul);
 
         System.out.println("w: " + w);
     }
@@ -217,6 +224,44 @@ public abstract class Frog extends Unit {
 
     public void layEgg(){
         //TODO: create lay egg method
+        Tile[][] tileArr = w.getBoard().getBoard();
+        int xCurrent = boardX;
+        int yCurrent = boardY;
+
+        if(canLayEgg()){
+            Egg e = new Egg(xCurrent, yCurrent, belongsTo, this, w);
+
+            switch(belongsTo.getPlayerNumber()){
+                case 1:
+                    moveToTile(tileArr[boardX + 1][boardY]);
+                    e.moveToTile(tileArr[xCurrent][yCurrent]);
+                case 2:
+                    moveToTile(tileArr[boardX + 1][boardY]);
+                    e.moveToTile(tileArr[xCurrent][yCurrent]);
+                default:
+                    System.out.println("impossible.");
+            }
+        }
+
+
+
+    }
+
+    private boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
+        Tile[][] tileArr = w.getBoard().getBoard();
+        switch ((belongsTo.getPlayerNumber())){
+            case 1:
+                if (boardX == 0 && tileArr[boardX + 1][boardY].getIsOccupied() == 0){
+                    return true;
+                }
+            case 2:
+                if (boardX == 7 && tileArr[boardX - 1][boardY].getIsOccupied() == 0){
+                    return true;
+                }
+            default:
+                System.out.println("How");
+        }
+        return false;
     }
 
     public boolean isSpecialFrog() {

@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Window extends JPanel{
     public Window() {
@@ -16,6 +18,8 @@ public class Window extends JPanel{
             public void mousePressed(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
+
+
                 if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight()){   //Checks if the mousepress is within the end turn button
                     button.mousePressed(e);
                     try {
@@ -76,9 +80,17 @@ public class Window extends JPanel{
     private Board b = new Board(); // create instance of board <-- todo:stinks!
     private EndturnButton button = new EndturnButton();
     private Player whoseTurn = p1;
+    private boolean isStarterFrogTurn = true;
+    private String listOfChoosableFrogTypes[] = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
 
+
+
+    public String[] getListOfChoosableFrogTypes() {
+        return listOfChoosableFrogTypes;
+    }
 
     public void switchTurn() throws InterruptedException {
+        isStarterFrogTurn = false;
         System.out.println("turn end");
         if (whoseTurn == p1) {
             whoseTurn = p2;
@@ -118,12 +130,15 @@ public class Window extends JPanel{
     }
 
 
-    public void gameLoop() throws InterruptedException { // changed it so gameLoop can paint things now
+    public void gameLoop() throws InterruptedException { //This is where the whole game runs from
+
         repaint();
+
 
         //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
         p1.setStarterFrogTurnCounter(0);
         p2.setStarterFrogTurnCounter(0);
+
 
         for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
             p1.starterFrogTurn();
@@ -149,6 +164,7 @@ public class Window extends JPanel{
         System.out.println("Player 1 Frogs Length" + p1.getFrogsOwned().size());
         System.out.println("Player 2 Frogs: " + Arrays.deepToString(p2.getFrogsOwned().toArray()));
         System.out.println("Player 2 Frogs Length" + p2.getFrogsOwned().size());
+        new Egg(5,5,p1, p1.getFrogsOwned().get(0),this);
         //while (true) { // changed it so it checks if a player has no units at the end of each turn in the turn method
 //        p1.turn();
 
@@ -172,6 +188,8 @@ public class Window extends JPanel{
         g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
         p1.getpIS().paint(g2d);
         p2.getpIS().paint(g2d);
+        p1.paint(g2d);
+        p2.paint(g2d);
 
 
 

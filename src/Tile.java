@@ -50,6 +50,7 @@ public class Tile {
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
+                occupiedBy.
 //                System.out.println("null2: " + this.toString());    //Prints out the tile, this is for testing
 
             }

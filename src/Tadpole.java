@@ -1,13 +1,18 @@
 import java.awt.*;
 
 public class Tadpole extends Unit{
-    private Frog frogType;
+    private Class frogType;
     private int turnsAfterHatch;
     private boolean isDisabled;
 
-    public Tadpole(int boardX, int boardY, Player p, Window w){
+    public Tadpole(int boardX, int boardY, Player p, Class<?extends Frog> ft, Window w){
         super(boardX, boardY, p, w);
+        frogType = ft;
     }
+//    TODO:come back to this
+//    public <Frog> void metamorphize(){
+//        Frog ft = new Frog();
+//    }
 
     public void move() {
         //TODO: create move method
