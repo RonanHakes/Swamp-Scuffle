@@ -152,6 +152,11 @@ public class Player implements MouseListener{
                 }
             }
         }
+        for (int i = 0; i < frogsOwned.size(); i++) {
+            if (frogsOwned.get(i).getClass() == PoisonDartFrog.class) {
+                frogsOwned.get(i).increaseTurnAfterAttack();
+            }
+        }
         System.out.println("turno " + turnNumber);
 
 

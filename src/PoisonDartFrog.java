@@ -6,11 +6,18 @@ import java.io.IOException;
 
 public class PoisonDartFrog extends Frog {
     boolean isCharged = true;
+    int turnAfterAttack;
     Tile targetTile;
+    boolean turnAfterAttackhasIncreased;
+
+    public void increaseTurnAfterAttack() {
+        turnAfterAttack++;
+    }
 
     public PoisonDartFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
-
+        turnAfterAttack = 2;
+        turnAfterAttackhasIncreased = false;
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
         } else {
@@ -44,13 +51,24 @@ public class PoisonDartFrog extends Frog {
     }
     @Override
     public boolean canAttack(Tile t) {
-    return (isValidTwoTileRadius(t) && t.getIsOccupied() != belongsTo.getPlayerNumber() && t.getIsOccupied() != 0 && !hasPerformedAction && isCharged);
+        if ((!isDisabled && belongsTo.getEnergyNum() >= 2 && t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && !hasPerformedAction && isValidTwoTileRadius(t) && turnAfterAttack >= 2)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
     @Override
     public void attack(Tile attackedTile){
-        super.attack(attackedTile);
-        isCharged = false;
+        if (canAttack(attackedTile)) {
+            super.attack(attackedTile);
+            turnAfterAttack = 0;
+        } else {
+            onUnclicked();
+        }
+
 
     }
 
@@ -66,6 +84,10 @@ public class PoisonDartFrog extends Frog {
         if (!super.isValidTwoTileRadius(t)) {
             return false;
         }
+        if (super.isValidOneTileRadius(t)) {
+            return true;
+        }
+
         int x = t.getBoardX();
         int y = t.getBoardY();
         if(x < 0 || x > 7) {
