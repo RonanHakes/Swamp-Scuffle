@@ -8,6 +8,11 @@ public abstract class Frog extends Unit {
     protected boolean isDisabled;
     protected BufferedImage img = null;
     protected BufferedImage zappedSprite;
+    int turnAfterAttack;
+
+    public void increaseTurnAfterAttack() {
+        turnAfterAttack++;
+    }
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);

@@ -39,14 +39,7 @@ public class EndturnButton implements MouseListener {
         System.out.println("stinky butt");
         Player p = w.getWhoseTurn();
         ArrayList<Frog> fl = p.getFrogsOwned();
-        for (int i = 0; i < fl.size(); i++){
-            if (fl.get(i) instanceof PoisonDartFrog){
-                System.out.println("ok dokay");
-                ((PoisonDartFrog) fl.get(i)).resetCharge();
-            }
-        }
         p.setfrogsOwned(fl);
-
         isClicked = true;
         System.out.println("click");
 
