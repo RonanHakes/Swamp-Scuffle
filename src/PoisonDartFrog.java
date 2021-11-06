@@ -10,7 +10,6 @@ public class PoisonDartFrog extends Frog {
 
     public PoisonDartFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
-        setHitPoints(2);
 
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
@@ -43,39 +42,22 @@ public class PoisonDartFrog extends Frog {
     public void attack(){
         //TODO: Attack
     }
-@Override
-    public boolean canAttack(Tile t){
-        if (t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber()) {   //Checks if the tile being attacked is occupied by an enemy
-            if (isValidOneTileRadius(t) || isValidTwoTileRadius(t)) {
-                return true;
-            }
-
-        }
-        return false;
+    @Override
+    public boolean canAttack(Tile t) {
+    return (isValidTwoTileRadius(t) && t.getIsOccupied() != belongsTo.getPlayerNumber() && t.getIsOccupied() != 0 && !hasPerformedAction && isCharged);
     }
 
+    @Override
     public void attack(Tile attackedTile){
-        if (isCharged) {
-            if (canAttack(targetTile)){
-                belongsTo.giveEnergy(-2);
-                targetTile.getOccupiedBy().takeDamage(1);
-                isCharged = false;
-                if (targetTile.getOccupiedBy().getHitPoints() <= 0){
-                    targetTile.getOccupiedBy().die();
-                    if(isBuffed){
-                        rewardKill(targetTile.getOccupiedBy());
-                    }
-                }
-                targetTile = null;
-                onUnclicked();
-            }
+        super.attack(attackedTile);
+        isCharged = false;
 
+    }
 
-        } else {
+    public void resetCharge(){
+        if (!isCharged){
             isCharged = true;
-            targetTile = attackedTile;
         }
-
     }
 
 
@@ -94,7 +76,7 @@ public class PoisonDartFrog extends Frog {
             return false;
         }
 
-        if ((x == boardX + 2 || x == boardY - 2) && (y != boardY + 1 && y != boardY - 1 )) {
+        if ((x == boardX + 2 || x == boardX - 2) && (y != boardY + 1 && y != boardY - 1 )) {
             return true;
         }
         if ((y == boardY + 2 || y == boardY - 2) && (x != boardX + 1 && x != boardX - 1 )) {
