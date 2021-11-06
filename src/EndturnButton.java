@@ -6,14 +6,19 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 
 public class EndturnButton implements MouseListener {
     private boolean isClicked = false;
     private BufferedImage img = null;
     private int graphicsX = 1920-200;
     private int graphicsY = 1080-300;
+    private Window w;
 
-    public EndturnButton() {
+    public EndturnButton(Window w) {
+        this.w = w;
+
         try {
             img = ImageIO.read(new File("res\\NoBGEndButton.png"));
         } catch (IOException e) {
@@ -31,6 +36,16 @@ public class EndturnButton implements MouseListener {
 
     }
     public void mousePressed(MouseEvent e) {
+        System.out.println("stinky butt");
+        Player p = w.getWhoseTurn();
+        ArrayList<Frog> fl = p.getFrogsOwned();
+        for (int i = 0; i < fl.size(); i++){
+            if (fl.get(i) instanceof PoisonDartFrog){
+                System.out.println("ok dokay");
+                ((PoisonDartFrog) fl.get(i)).resetCharge();
+            }
+        }
+        p.setfrogsOwned(fl);
 
         isClicked = true;
         System.out.println("click");

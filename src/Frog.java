@@ -65,9 +65,13 @@ public abstract class Frog extends Unit {
     //Default frog attack method
     public void attack(Tile attackedTile){
         if (canAttack(attackedTile)){
+
+            System.out.println("hpO: " + attackedTile.getOccupiedBy().getHitPoints());
             attackedTile.getOccupiedBy().takeDamage(1);
             belongsTo.giveEnergy(-2);
+            System.out.println("hp: " + attackedTile.getOccupiedBy().getHitPoints());
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
+                System.out.println("WHAT");
                 attackedTile.getOccupiedBy().die();
                 if(isBuffed){
                     rewardKill(attackedTile.getOccupiedBy());
@@ -242,9 +246,6 @@ public abstract class Frog extends Unit {
                     System.out.println("impossible.");
             }
         }
-
-
-
     }
 
     private boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog

@@ -8,7 +8,7 @@ public class PurpleFrog extends Frog {
 
     public PurpleFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
-        setHitPoints(2);
+
 
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;

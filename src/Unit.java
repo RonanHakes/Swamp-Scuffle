@@ -37,7 +37,6 @@ public abstract class Unit {
     }
 
     public void die(){
-
         occupiedTile.setIsOccupied(0);
         occupiedTile.setOccupiedBy(null);
         belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this)); //this removes the unit that is dying from the owner player's unitsOwned arrayList through the use of a lambda function
@@ -57,6 +56,9 @@ public abstract class Unit {
         this.graphicsY = this.boardY * 100 + 100 + 30;
         this.belongsTo = p;
         this.w = w;
+        tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
+        tileArr[boardX][boardY].setOccupiedBy(this);
+        occupiedTile = tileArr[boardX][boardY];
         w.getBoard().setBoard(tileArr);
 
         if (p.getPlayerNumber() == 1){
@@ -69,6 +71,7 @@ public abstract class Unit {
         maxHitPoints = hitPoints;
         isHeavy = false;
         isClicked = false;
+        System.out.println("HP:" + hitPoints);
     }
 
     public boolean isClicked() {
@@ -82,6 +85,7 @@ public abstract class Unit {
     public void takeDamage(int d){
         hitPoints -= d;
     }
+
     public void setBoardX(int boardX) {
         this.boardX = boardX;
         graphicsX = boardX * 100 + 585;

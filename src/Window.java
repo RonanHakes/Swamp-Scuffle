@@ -13,6 +13,8 @@ import java.util.Queue;
 public class Window extends JPanel{
     public Window() {
         setZappedSprite();
+        button = new EndturnButton(this);
+
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -24,16 +26,15 @@ public class Window extends JPanel{
                 int x = e.getX();
                 int y = e.getY();
 
-                if (p1.getIsStarterFrogTurn()){
+                if (whoseStarterFrogTurn == p1 && p1.getStarterFrogTurnCounter() < 3){
                     p1.starterFrogTurn(e);
+
                 }
-                if (p2.getIsStarterFrogTurn()){
+                else if (whoseStarterFrogTurn == p2 && p2.getStarterFrogTurnCounter() < 3) {
                     p2.starterFrogTurn(e);
                 }
 
-
-
-                if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight()){   //Checks if the mousepress is within the end turn button
+                if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight() && p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3){   //Checks if the mousepress is within the end turn button
                     button.mousePressed(e);
                     try {
                         switchTurn();
@@ -41,9 +42,10 @@ public class Window extends JPanel{
                         ex.printStackTrace();
                     }
 
-                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900){  //this looks ridiculous, but it is just checking if the click is in the whole board area
+                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900 && p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3){  //this looks ridiculous, but it is just checking if the click is in the whole board area
                     Tile t = b.clickedOn(e);
                     System.out.println("Tile clicked: " + t.toString());
+                    System.out.println("reached it!");
                     if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
                             t.getOccupiedBy().onClicked();
@@ -91,12 +93,27 @@ public class Window extends JPanel{
     private final Player p1 = new Player(1, this);
     private final Player p2 = new Player(2, this);
     private final Board b = new Board(); // create instance of board <-- todo:stinks!
-    private final EndturnButton button = new EndturnButton();
-    private Player whoseTurn = p1;
+    private EndturnButton button;
+    private Player whoseTurn = p2;
     private boolean isStarterFrogTurn = true;
+    private Player whoseStarterFrogTurn = p1;
     private int starterFrogTurnCounter = 0;
     private String[] listOfChoosableFrogTypes = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
     private BufferedImage zappedSprite;
+
+    public Player getp1() {
+        return p1;
+    }
+    public Player getp2() {
+        return p2;
+    }
+    public void setWhoseStarterFrogTurn(Player p) {
+        whoseStarterFrogTurn = p;
+    }
+
+    public Player getWhoseStarterFrogTurn() {
+        return whoseStarterFrogTurn;
+    }
 
 
 
@@ -156,16 +173,9 @@ public class Window extends JPanel{
 
 
     public void gameLoop() throws InterruptedException { //This is where the whole game runs from
-
         repaint();
 
-
-        //This fixes the issue where the starter frogs move down when the window is resized, however there could still be a potential issue where units move around when the window is resized <-- todo:look into this issue later
-        p1.setStarterFrogTurnCounter(0);
-        p2.setStarterFrogTurnCounter(0);
-
-
-        for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
+        /*for (int i = 0; i < 3; i++){    //Loops the starter frog choice turn 3 times per player
             if (!p2.getIsStarterFrogTurn()){
                 p1.setStarterFrogTurn(true);
             }
@@ -179,13 +189,17 @@ public class Window extends JPanel{
             System.out.println("i " + i);
         }
 
+
+
         System.out.println("moving!");
-        System.out.println("p1.getW: " + p1.getW());                          //Okay why does this line work
+        System.out.println("p1.getW: " + p1.getW());
+                              //Okay why does this line work
+         */
         //System.out.println("p1.getFrogsOwned.get(0).getW: " + p1.getFrogsOwned().get(0).getW());   //And this line does not??? <-- todo: someone figure this out please god i have spent so long and i do not understand -1am Ronan
         //System.out.println("p2.getFrogsOwned.get(0): " + p2.getFrogsOwned().get(0));
 //        p1.getFrogsOwned().get(0).move(b.getBoard()[1][1]);                 //Because the previous line doesn't work, this one doesn't either
 //        p2.getFrogsOwned().get(0).moveToTile(b.getBoard()[2][1]);
-        repaint();
+//        repaint();
 //        System.out.println(p1.getFrogsOwned().get(0).boardX + "," + p1.getFrogsOwned().get(0).boardY);        //p1.getFrogsOwned().get(0).die; //This one does though...      but also why does it not repaint missing the dead frog be honest i can't figure that out
 //        System.out.println("Player 1 Units: " + Arrays.deepToString(p1.getUnitsOwned().toArray()));
 //        System.out.println("Player 1 Units Length" + p1.getUnitsOwned().size());
@@ -221,6 +235,12 @@ public class Window extends JPanel{
         p2.getpIS().paint(g2d);
         p1.paint(g2d);
         p2.paint(g2d);
+        for (int i = 0; i < p1.getUnitsOwned().size(); i++) {
+            p1.getUnitsOwned().get(i).paint(g2d);
+        }
+        for (int i = 0; i < p2.getUnitsOwned().size(); i++) {
+            p2.getUnitsOwned().get(i).paint(g2d);
+        }
 
 
 

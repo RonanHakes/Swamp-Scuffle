@@ -25,8 +25,6 @@ public class Board {
             }
         }
 
-
-
     }
 
     public Tile clickedOn(MouseEvent e){
@@ -42,7 +40,10 @@ public class Board {
     }
 
     public Tile avgTile(Tile t1, Tile t2){      //Returns the tile that is closest to the mid point between two tiles
-        return board[(t1.getBoardX() + t2.getBoardX()) / 2][(t1.getBoardY() + t2.getBoardX()) / 2];
+        if (!((t1.getBoardX() >= 0 && t1.getBoardX() <= 7) && (t2.getBoardX() >= 0 && t2.getBoardX() <= 7) && (t1.getBoardY() >= 0 && t1.getBoardY() <= 7) &&(t2.getBoardY() >= 0 && t2.getBoardY() <= 7))){
+            return board[(t1.getBoardX() + t2.getBoardX()) / 2][(t1.getBoardY() + t2.getBoardX()) / 2];
+        }
+        return t1;
     }
 
 
