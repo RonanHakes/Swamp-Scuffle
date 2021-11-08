@@ -14,6 +14,7 @@ public class Window extends JPanel{
     public Window() {
         setZappedSprite();
         button = new EndturnButton(this);
+        meanButton = new MeanToadButton(this);
 
         addMouseListener(new MouseListener() {
             @Override
@@ -25,6 +26,10 @@ public class Window extends JPanel{
             public void mousePressed(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
+
+                if (x >= 50 && x <= 50 + 462 && y >= 1080 - 250 && y <= 1080 - 250 + 198) {
+                    meanButton.mousePressed(e);
+                }
 
                 if (whoseStarterFrogTurn == p1 && p1.getStarterFrogTurnCounter() < 3){
                     p1.starterFrogTurn(e);
@@ -70,6 +75,13 @@ public class Window extends JPanel{
                             }
                         }
                     }
+                } else {
+                    for (Frog item : whoseTurn.getFrogsOwned()) {
+                        item.onUnclicked();
+                    }
+
+//                    whoseTurn.getFrogsOwned().forEach(Frog -> Frog.onUnclicked());    //<- this one is cooler
+
                 }
 
             }
@@ -108,6 +120,7 @@ public class Window extends JPanel{
     private int starterFrogTurnCounter = 0;
     private String[] listOfChoosableFrogTypes = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
     private BufferedImage zappedSprite;
+    private MeanToadButton meanButton;
 
     public Player getp1() {
         return p1;
@@ -238,8 +251,10 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
         button.paint(g2d);
-        if (p1.getEnergyNum() <= 3 && p2.getStarterFrogTurnCounter() <= 3) {
+        meanButton.paint(g2d);
+        if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
                 g2d.drawString(String.valueOf(whoseStarterFrogTurn.getPlayerNumber()), 1920/2, 50);
+                System.out.println("Working");
         } else {
             g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
         }
@@ -248,13 +263,6 @@ public class Window extends JPanel{
         p2.getpIS().paint(g2d);
         p1.paint(g2d);
         p2.paint(g2d);
-        for (int i = 0; i < p1.getUnitsOwned().size(); i++) {
-            p1.getUnitsOwned().get(i).paint(g2d);
-        }
-        for (int i = 0; i < p2.getUnitsOwned().size(); i++) {
-            p2.getUnitsOwned().get(i).paint(g2d);
-        }
-
 
 
     //make this show end of game menu, also, add that menu <-- todo

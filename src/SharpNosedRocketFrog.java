@@ -50,16 +50,15 @@ public class SharpNosedRocketFrog extends Frog {
         }
         switch (belongsTo.getPlayerNumber()) {
             case 1:
-                if ((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(avgTile)) && t.getIsOccupied() == 0) {
-                    return true;
-                }
             case 2:
                 if ((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(avgTile)) && t.getIsOccupied() == 0) {
                     return true;
                 }
+                break;
             default:
                 System.out.println(belongsTo.getPlayerNumber());
                 System.out.println("How on Earth did you get here?");
+                break;
 
         }
         return false;

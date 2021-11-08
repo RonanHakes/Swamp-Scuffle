@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -48,6 +49,10 @@ public class MeanToad extends Frog {
     public boolean canAttack(Tile t){
         return !hasPerformedAction && t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && isValidTwoTileRadius(t) && !isDisabled && belongsTo.getEnergyNum() >= 2;
     }
+
+    @Override
+    public void layEgg() {}
+
 
     @Override
     public boolean canMoveTo(Tile t){
@@ -105,5 +110,29 @@ public class MeanToad extends Frog {
     @Override
     public boolean isMeanToad(){
         return true;
+    }
+
+    @Override
+    public void paint(Graphics2D g2d){
+        if (hitPoints == 1){
+            try {
+                img = ImageIO.read(new File("res\\MEANESTTOADSprite.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (hitPoints == 2){
+            try {
+                img = ImageIO.read(new File("res\\LowHPMeanToadSprite.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        }
+        super.paint(g2d);
     }
 }

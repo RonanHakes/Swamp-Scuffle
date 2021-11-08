@@ -1,15 +1,19 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Arrays;
 
 public class Egg extends Unit{
-
-    private Class<?extends Frog> frogType;  //Frog type stores which subclass of Frog needs to be hatched from the egg
+    protected BufferedImage img = null;
     private int turnsAfterLaid;
+    private Frog parent;
 
     public Egg(int boardX, int boardY, Player p, Frog parent, Window w){
         super(boardX, boardY, p, w);
-        this.frogType = parent.getClass();
-        System.out.println("FROG TYPE!!!!: " + frogType);
+        this.parent = parent;
     }
 
 //    public void hatch(){  TODO
@@ -22,7 +26,78 @@ public class Egg extends Unit{
 
 
     public void paint(Graphics2D g2d) {
-        //TODO: create paint method
+        if (parent instanceof AfricanBullFrog ) {
+            try {
+                img = ImageIO.read(new File("res\\AfricanBFrogEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof BluePoisonArrowFrog) {
+            try {
+                img = ImageIO.read(new File("res\\BluePoisonEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof GoliathFrog) {
+            try {
+                img = ImageIO.read(new File("res\\GoliathEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof PoisonDartFrog) {
+            try {
+                img = ImageIO.read(new File("res\\PoisonDartEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof PurpleFrog) {
+            try {
+                img = ImageIO.read(new File("res\\PurpleEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof SharpNosedRocketFrog) {
+            try {
+                img = ImageIO.read(new File("res\\SharpNosedEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (parent instanceof SpringPeeper) {
+            try {
+                img = ImageIO.read(new File("res\\SpringPeeperEgg.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        }
+        if(img != null){
+            if (widthMultiplier == -1){     //There's gotta be a better way of doing this (changing the x co-ordinate based on which way it should be facing)
+                g2d.drawImage(img, graphicsX + 50, graphicsY, 50 * widthMultiplier,50, null);
+            } else {
+                g2d.drawImage(img, graphicsX , graphicsY, 50 * widthMultiplier,50, null);
+            }
+        }
+
     }
 
     public void move() {

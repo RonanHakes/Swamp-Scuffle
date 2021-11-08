@@ -20,14 +20,22 @@ public class GoliathFrog extends Frog {
         } catch (IOException e) {
             System.out.println("Can't find image.");
         }
-        try {
-            zappedSprite = ImageIO.read(new File("res\\GoliathFrogLightning.png"));
-            if (zappedSprite != null) {
-                System.out.println("found image");
+
+    }
+
+    @Override
+    public void paint(Graphics2D g2d){
+        if (hitPoints == 1){
+            try {
+                img = ImageIO.read(new File("res\\LowHPGoliathFrogSprite.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
             }
-        } catch (IOException e) {
-            System.out.println("Can't find image.");
         }
+        super.paint(g2d);
     }
 
     public void move(){

@@ -6,7 +6,7 @@ public abstract class Frog extends Unit {
     protected boolean isBuffed;
     protected boolean isSpecialFrog;
     protected boolean isDisabled;
-    protected BufferedImage img = null;
+
     protected BufferedImage zappedSprite;
     int turnAfterAttack;
 
@@ -245,31 +245,40 @@ public abstract class Frog extends Unit {
                 case 1:
                     moveToTile(tileArr[boardX + 1][boardY]);
                     e.moveToTile(tileArr[xCurrent][yCurrent]);
+                    break;
                 case 2:
-                    moveToTile(tileArr[boardX + 1][boardY]);
+                    moveToTile(tileArr[boardX - 1][boardY]);
                     e.moveToTile(tileArr[xCurrent][yCurrent]);
+                    break;
                 default:
                     System.out.println("impossible.");
+                    System.out.println("p: " + belongsTo.getPlayerNumber());
+                    break;
             }
         }
+        belongsTo.setEnergyNum(belongsTo.getEnergyNum() - 3);
+        onUnclicked();
     }
 
     public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
-        if (!isClicked) {
-            return false;0
+        if (!isClicked || belongsTo.getEnergyNum() < 3) {
+            return false;
         }
         switch ((belongsTo.getPlayerNumber())){
             case 1:
                 if (boardX == 0 && tileArr[boardX + 1][boardY].getIsOccupied() == 0){
                     return true;
                 }
+                break;
             case 2:
                 if (boardX == 7 && tileArr[boardX - 1][boardY].getIsOccupied() == 0){
                     return true;
                 }
+                break;
             default:
                 System.out.println("How");
+                break;
         }
         return false;
     }

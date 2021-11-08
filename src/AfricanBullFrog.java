@@ -85,5 +85,20 @@ public class AfricanBullFrog extends Frog {
         //todo: fix this later
     }
 
+    @Override
+    public void paint(Graphics2D g2d){
+        if (hitPoints == 1){
+            try {
+                img = ImageIO.read(new File("res\\LowHPAfricanBullfrogSprite.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        }
+        super.paint(g2d);
+    }
+
     
 }
