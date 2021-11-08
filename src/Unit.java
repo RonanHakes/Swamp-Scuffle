@@ -47,6 +47,10 @@ public abstract class Unit {
         w.repaint();
     }
 
+    public void layEgg() {}
+    public boolean canLayEgg() {return false;}
+
+
     public Unit(int boardX, int boardY, Player p, Window w) {
         Tile[][] tileArr = w.getBoard().getBoard();
         System.out.println("tiles: " + Arrays.deepToString(tileArr));

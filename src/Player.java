@@ -18,7 +18,12 @@ public class Player implements MouseListener{
     private PlayerInfoSegment pIS;
     private boolean isStarterFrogTurn;
     private int homeColumn;
+    private Player opponent;
 
+
+    public Player getOpponent() {
+        return opponent;
+    }
 
     public int getStarterFrogTurnCounter() {
         return starterFrogTurnCounter;
@@ -50,6 +55,11 @@ public class Player implements MouseListener{
             homeColumn = 0;
         } else {
             homeColumn = 7;
+        }
+        if (w.getp1() == this) {
+            opponent = w.getp2();
+        } else {
+            opponent = w.getp1();
         }
     }
 
