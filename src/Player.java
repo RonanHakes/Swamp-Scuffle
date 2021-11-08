@@ -8,7 +8,7 @@ public class Player implements MouseListener{
     private int numberofFrogs = 0;
     private boolean isTurn;
     private int turnNumber = 0;
-    private int energyNum = 3;
+    private int energyNum = 30;
     private int playerNumber;
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
@@ -18,6 +18,9 @@ public class Player implements MouseListener{
     private PlayerInfoSegment pIS;
     private boolean isStarterFrogTurn;
     private int homeColumn;
+    public int getHomeColumn() {
+        return homeColumn;
+    }
     private Player opponent;
 
 
@@ -42,6 +45,7 @@ public class Player implements MouseListener{
     public void mouseEntered(MouseEvent e) {
 
     }
+
     public void mouseExited(MouseEvent e) {
 
     }
@@ -50,7 +54,7 @@ public class Player implements MouseListener{
         playerNumber = pNum;
         this.w = w;
         hasClickedUnit = false;
-        pIS = new PlayerInfoSegment(this);
+        pIS = new PlayerInfoSegment(this, w);
         if (playerNumber == 1) {
             homeColumn = 0;
         } else {
@@ -128,13 +132,17 @@ public class Player implements MouseListener{
     }
 
     public void paint(Graphics2D g2d) {
-        for (int i = 0; i < 7; i++) {
-            g2d.drawRect(50, i * 50 + 150, 150, 50);
-            g2d.drawString(w.getListOfChoosableFrogTypes()[i], 50, i * 50 + 175);
+        if (w.getp1().getStarterFrogTurnCounter() <= 3 && w.getp2().getStarterFrogTurnCounter() <= 3) {
+            for (int i = 0; i < 7; i++) {
+                g2d.drawRect(50, i * 50 + 150, 150, 50);
+                g2d.drawString(w.getListOfChoosableFrogTypes()[i], 50, i * 50 + 175);
+            }
         }
+
     }
 
     public void turn() throws InterruptedException {
+        starterFrogTurnCounter++;
         Tile[][] tileArr = w.getBoard().getBoard();
         w.getButton().setIsClicked(false);
         turnNumber++; // increases turnNumber counter by 1
@@ -257,4 +265,7 @@ public class Player implements MouseListener{
     public void setStarterFrogTurn(boolean starterFrogTurn) {
         isStarterFrogTurn = starterFrogTurn;
     }
+
+
+
 }

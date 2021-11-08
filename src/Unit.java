@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -10,7 +11,7 @@ public abstract class Unit {
     protected int graphicsX;
     protected int graphicsY;
     protected Window w;
-
+    protected BufferedImage img = null;
     protected int hitPoints;
     protected int maxHitPoints;
     protected Player belongsTo;
@@ -62,6 +63,8 @@ public abstract class Unit {
         this.w = w;
         tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
         tileArr[boardX][boardY].setOccupiedBy(this);
+        ArrayList<Unit> temp = belongsTo.getUnitsOwned().add(this);
+        belongsTo.setUnitsOwned(temp);
         occupiedTile = tileArr[boardX][boardY];
         w.getBoard().setBoard(tileArr);
 
