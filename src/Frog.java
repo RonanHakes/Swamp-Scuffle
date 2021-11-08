@@ -232,6 +232,7 @@ public abstract class Frog extends Unit {
     }
 
     public void layEgg(){
+        System.out.println("Layed egg");
         //TODO: create lay egg method
         Tile[][] tileArr = w.getBoard().getBoard();
         int xCurrent = boardX;
@@ -253,8 +254,11 @@ public abstract class Frog extends Unit {
         }
     }
 
-    private boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
+    public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
+        if (!isClicked) {
+            return false;0
+        }
         switch ((belongsTo.getPlayerNumber())){
             case 1:
                 if (boardX == 0 && tileArr[boardX + 1][boardY].getIsOccupied() == 0){

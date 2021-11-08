@@ -28,7 +28,6 @@ public class Window extends JPanel{
 
                 if (whoseStarterFrogTurn == p1 && p1.getStarterFrogTurnCounter() < 3){
                     p1.starterFrogTurn(e);
-
                 }
                 else if (whoseStarterFrogTurn == p2 && p2.getStarterFrogTurnCounter() < 3) {
                     p2.starterFrogTurn(e);
@@ -46,12 +45,16 @@ public class Window extends JPanel{
                     Tile t = b.clickedOn(e);
                     System.out.println("Tile clicked: " + t.toString());
                     System.out.println("reached it!");
+
+                    if (e.getClickCount() == 2) {
+                        if (t.getOccupiedBy().canLayEgg()) {
+                            t.getOccupiedBy().layEgg();
+                        }
+                    }
                     if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
                             t.getOccupiedBy().onClicked();
                             System.out.println("reached it!");
-                        } else {
-                            t.getOccupiedBy().onUnclicked();
                         }
                     }
                     for (int i = 0; i < whoseTurn.getFrogsOwned().size(); i++) {
@@ -62,12 +65,16 @@ public class Window extends JPanel{
                                 whoseTurn.getFrogsOwned().get(i).useUtility(t);
                             } else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
                                 whoseTurn.getFrogsOwned().get(i).move(t);
+                            } else if (t.getIsOccupied() == 0){
+                                whoseTurn.getFrogsOwned().get(i).onUnclicked();
                             }
                         }
                     }
                 }
 
             }
+
+
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -87,6 +94,7 @@ public class Window extends JPanel{
 
         setFocusable(true);
     }
+
     private int width;
     private int height;
     private boolean isTurn;
@@ -230,7 +238,12 @@ public class Window extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         b.paint(g2d); // paint board
         button.paint(g2d);
-        g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
+        if (p1.getEnergyNum() <= 3 && p2.getStarterFrogTurnCounter() <= 3) {
+                g2d.drawString(String.valueOf(whoseStarterFrogTurn.getPlayerNumber()), 1920/2, 50);
+        } else {
+            g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
+        }
+
         p1.getpIS().paint(g2d);
         p2.getpIS().paint(g2d);
         p1.paint(g2d);

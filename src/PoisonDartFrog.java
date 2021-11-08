@@ -8,7 +8,6 @@ public class PoisonDartFrog extends Frog {
     boolean isCharged = true;
     int turnAfterAttack;
     Tile targetTile;
-    boolean turnAfterAttackhasIncreased;
 
     public void increaseTurnAfterAttack() {
         turnAfterAttack++;
@@ -17,7 +16,6 @@ public class PoisonDartFrog extends Frog {
     public PoisonDartFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
         turnAfterAttack = 2;
-        turnAfterAttackhasIncreased = false;
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
         } else {

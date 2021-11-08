@@ -56,7 +56,19 @@ public class EndturnButton implements MouseListener {
 
 
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(img, graphicsX, graphicsY, null);
+        try {
+            if ((w.getp1().getStarterFrogTurnCounter() == 3 && w.getp2().getStarterFrogTurnCounter() == 3)) {
+                g2d.drawImage(img, graphicsX, graphicsY, null);
+                img = ImageIO.read(new File("res\\EndTurnButton.png"));
+            } else {
+                img = ImageIO.read(new File("res\\StartTurnButton.png"));
+                g2d.drawImage(img, graphicsX, graphicsY, null);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+
     }
 
     public boolean getIsClicked(){
