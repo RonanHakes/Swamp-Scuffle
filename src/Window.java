@@ -52,9 +52,12 @@ public class Window extends JPanel{
                     System.out.println("reached it!");
 
                     if (e.getClickCount() == 2) {
-                        if (t.getOccupiedBy().canLayEgg()) {
-                            t.getOccupiedBy().layEgg();
+                        if (t.getIsOccupied() == whoseTurn.getPlayerNumber()) {
+                            if (t.getOccupiedBy().canLayEgg()) {
+                                t.getOccupiedBy().layEgg();
+                            }
                         }
+
                     }
                     if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
@@ -72,6 +75,16 @@ public class Window extends JPanel{
                                 whoseTurn.getFrogsOwned().get(i).move(t);
                             } else if (t.getIsOccupied() == 0){
                                 whoseTurn.getFrogsOwned().get(i).onUnclicked();
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < whoseTurn.getTadpolesOwned().size(); i++) {
+                        if (whoseTurn.getTadpolesOwned().get(i).isClicked()) {
+                            if (whoseTurn.getTadpolesOwned().get(i).canMoveTo(t)) {
+                                whoseTurn.getTadpolesOwned().get(i).move(t);
+                            } else if (t.getIsOccupied() == 0){
+                                whoseTurn.getTadpolesOwned().get(i).onUnclicked();
                             }
                         }
                     }

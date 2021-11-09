@@ -21,6 +21,7 @@ public abstract class Unit {
     protected boolean isHeavy;
     protected int widthMultiplier;
     protected boolean isClicked;
+    protected boolean isDisabled = false;
 
 
     public abstract void paint(Graphics2D g2d);
@@ -45,11 +46,19 @@ public abstract class Unit {
         if (belongsTo.getUnitsOwned().size()==0) {
             w.endGame();
         }
+
         w.repaint();
     }
 
     public void layEgg() {}
     public boolean canLayEgg() {return false;}
+
+    public void setDisabled(boolean b){
+        isDisabled = b;
+        if (b){
+            occupiedTile.setAltColor(Color.GRAY);
+        }
+    }
 
 
     public Unit(int boardX, int boardY, Player p, Window w) {
@@ -63,8 +72,10 @@ public abstract class Unit {
         this.w = w;
         tileArr[boardX][boardY].setIsOccupied(belongsTo.getPlayerNumber());
         tileArr[boardX][boardY].setOccupiedBy(this);
-        ArrayList<Unit> temp = belongsTo.getUnitsOwned().add(this);
-        belongsTo.setUnitsOwned(temp);
+        belongsTo.getUnitsOwned().add(this);
+        System.out.println("Player " + belongsTo.getPlayerNumber() + " Units Owned: " + belongsTo.getUnitsOwned().size());
+        //ArrayList<Unit> temp = belongsTo.getUnitsOwned().add(this);
+        //belongsTo.setUnitsOwned(temp);
         occupiedTile = tileArr[boardX][boardY];
         w.getBoard().setBoard(tileArr);
 
@@ -89,6 +100,8 @@ public abstract class Unit {
         isClicked = b;
     }
 
+
+
     public void takeDamage(int d){
         hitPoints -= d;
     }
@@ -102,11 +115,44 @@ public abstract class Unit {
 
     public abstract void onClicked();    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
 
-    public abstract void onUnclicked();  //Resets the alt colors of all the tiles when the frog is unclicked
+    public void onUnclicked(){  //Resets the alt colors of all the tiles when the frog is unclicked
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current = null;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                current = tileArr[i][j];
+                current.setAltColor(null);
+                current.unclickWipe();
+            }
+        }
+        isClicked = false;
+        belongsTo.setHasClickedUnit(false);
+        w.repaint();
+    }  //Resets the alt colors of all the tiles when the frog is unclicked
 
-    public abstract boolean canMoveTo(Tile t);
+    public boolean canMoveTo(Tile t){
+        if(isDisabled || belongsTo.getEnergyNum() <= 0 || hasPerformedAction){
+            return false;
+        }
+        int x = t.getBoardX();
+        int y = t.getBoardY();
 
-    public void move(Tile t){};
+        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t)) {
+            return false;
+        }
+        return true;
+    }
+
+    public void move(Tile t) {
+        if (canMoveTo(t)) {
+            moveToTile(t);
+            hasPerformedAction = true;
+            setOccupiedTile(t);
+            belongsTo.giveEnergy(-1);   //Giving the player -1 energy subtracts 1 energy for moving
+        }
+        onUnclicked();
+        w.repaint();
+    }
 
     public void attack(Tile t){}
 
@@ -145,6 +191,14 @@ public abstract class Unit {
         return hitPoints;
     }
 
+    public void setHasPerformedAction(boolean hasPerformedAction) {
+        this.hasPerformedAction = hasPerformedAction;
+    }
+
+    public boolean getHasPerformedAction() {
+        return hasPerformedAction;
+    }
+
     public Tile getOccupiedTile() {
         return occupiedTile;
     }
@@ -166,6 +220,67 @@ public abstract class Unit {
         setBoardX(t.getBoardX());
         setBoardY(t.getBoardY());
         w.repaint();
+    }
+
+    protected boolean isValidOneTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a one tile radius of the frog
+        int x = t.getBoardX();
+        int y = t.getBoardY();
+
+        //Checks if the tile is actually on the board
+        if(x < 0 || x > 7) {
+            return false;
+        }
+
+        if(y < 0 || y > 7) {
+            return false;
+        }
+
+        //Checks 1 square radius
+        if (x > boardX + 1 || x < boardX - 1) {
+            return false;
+        }
+        if (y > boardY + 1 || y < boardY - 1) {
+            return false;
+        }
+
+        //Checks if the tile is the one that the unit is already on
+        if (y == boardY && x == boardX){
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean isValidTwoTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a two tile radius of the frog
+        if (isValidOneTileRadius(t)) {
+            return true;
+        }
+        int x = t.getBoardX();
+        int y = t.getBoardY();
+
+        //Checks if the tile is actually on the board
+        if(x < 0 || x > 7) {
+            return false;
+        }
+
+        if(y < 0 || y > 7) {
+            return false;
+        }
+
+        if (y == boardY && x == boardX){
+            return false;
+        }
+
+        //Checks 2 square radius
+        if (x > boardX + 2 || x < boardX - 2) {
+            return false;
+        }
+        if (y > boardY + 2 || y < boardY - 2) {
+            return false;
+        }
+
+        //Checks if the tile is the one that the unit is already on
+
+        return true;
     }
 
     public boolean isFrog(){    //I'm so smart, this gets overridden in Frog and returns true

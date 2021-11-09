@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class Frog extends Unit {
     protected boolean isBuffed;
     protected boolean isSpecialFrog;
-    protected boolean isDisabled;
+
 
     protected BufferedImage zappedSprite;
     int turnAfterAttack;
@@ -16,48 +16,19 @@ public abstract class Frog extends Unit {
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
-        ArrayList<Frog> fl = belongsTo.getFrogsOwned();
-        ArrayList<Unit> ul = belongsTo.getUnitsOwned();
-        ul.add(this); // adds unit to end of unitsOwned list
-        fl.add(this); // adds unit to end of frogsOwned list
+        belongsTo.getFrogsOwned().add(this);
+        System.out.println("Player " + belongsTo.getPlayerNumber() + " Frogs Owned: " + belongsTo.getFrogsOwned().size());
+        //ArrayList<Frog> fl = belongsTo.getFrogsOwned();
+        //ArrayList<Unit> ul = belongsTo.getUnitsOwned();
+        //ul.add(this); // adds unit to end of unitsOwned list
+        //fl.add(this); // adds unit to end of frogsOwned list
 
-        belongsTo.setfrogsOwned(fl);    //Actually moves those changes to player
-        belongsTo.setUnitsOwned(ul);
+        //belongsTo.setfrogsOwned(fl);    //Actually moves those changes to player
+        //belongsTo.setUnitsOwned(ul);
         w.repaint();
         System.out.println("w: " + w);
     }
 
-    public void setDisabled(boolean b){
-        isDisabled = b;
-    }
-
-
-    public void move(Tile t) {
-
-        if (canMoveTo(t)) {
-            moveToTile(t);
-            hasPerformedAction = true;
-            setOccupiedTile(t);
-            belongsTo.giveEnergy(-1);   //Giving the player -1 energy subtracts 1 energy for moving
-        }
-        onUnclicked();
-        w.repaint();
-
-    }
-
-
-    public boolean canMoveTo(Tile t){
-        if(isDisabled || belongsTo.getEnergyNum() <= 0 || hasPerformedAction){
-            return false;
-        }
-        int x = t.getBoardX();
-        int y = t.getBoardY();
-
-        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t)) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public void die(){      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
@@ -145,22 +116,6 @@ public abstract class Frog extends Unit {
         */
     }
 
-    @Override
-    public void onUnclicked(){  //Resets the alt colors of all the tiles when the frog is unclicked
-        Tile[][] tileArr = getW().getBoard().getBoard();
-        Tile current = null;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                current = tileArr[i][j];
-                current.setAltColor(null);
-                current.unclickWipe();
-            }
-        }
-        isClicked = false;
-        belongsTo.setHasClickedUnit(false);
-        w.repaint();
-    }
-
     public void rewardKill(Unit victim){
         belongsTo.giveEnergy(victim.getMaxHitPoints());
     }
@@ -170,66 +125,7 @@ public abstract class Frog extends Unit {
         return false;
     }
 
-    protected boolean isValidOneTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a one tile radius of the frog
-        int x = t.getBoardX();
-        int y = t.getBoardY();
 
-        //Checks if the tile is actually on the board
-        if(x < 0 || x > 7) {
-            return false;
-        }
-
-        if(y < 0 || y > 7) {
-            return false;
-        }
-
-        //Checks 1 square radius
-        if (x > boardX + 1 || x < boardX - 1) {
-            return false;
-        }
-        if (y > boardY + 1 || y < boardY - 1) {
-            return false;
-        }
-
-        //Checks if the tile is the one that the unit is already on
-        if (y == boardY && x == boardX){
-            return false;
-        }
-        return true;
-    }
-
-    protected boolean isValidTwoTileRadius(Tile t){   //Returns true if the tile in question is a valid tile on the board and is within a two tile radius of the frog
-        if (isValidOneTileRadius(t)) {
-            return true;
-        }
-        int x = t.getBoardX();
-        int y = t.getBoardY();
-
-        //Checks if the tile is actually on the board
-        if(x < 0 || x > 7) {
-            return false;
-        }
-
-        if(y < 0 || y > 7) {
-            return false;
-        }
-
-        if (y == boardY && x == boardX){
-            return false;
-        }
-
-        //Checks 2 square radius
-        if (x > boardX + 2 || x < boardX - 2) {
-            return false;
-        }
-        if (y > boardY + 2 || y < boardY - 2) {
-            return false;
-        }
-
-        //Checks if the tile is the one that the unit is already on
-
-        return true;
-    }
 
     public void layEgg(){
         System.out.println("Layed egg");
@@ -258,6 +154,7 @@ public abstract class Frog extends Unit {
         }
         belongsTo.setEnergyNum(belongsTo.getEnergyNum() - 3);
         onUnclicked();
+        setHasPerformedAction(true);
     }
 
     public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
@@ -295,13 +192,7 @@ public abstract class Frog extends Unit {
 
 
 
-    public void setHasPerformedAction(boolean hasPerformedAction) {
-        this.hasPerformedAction = hasPerformedAction;
-    }
 
-    public boolean getHasPerformedAction() {
-        return hasPerformedAction;
-    }
 
     @Override
     public Window getW() {

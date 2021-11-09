@@ -8,21 +8,32 @@ import java.util.Arrays;
 
 public class Egg extends Unit{
     protected BufferedImage img = null;
-    private int turnsAfterLaid;
+    private int turnsAfterLaid = 0;
     private Frog parent;
 
+    public void increaseTurnsAfterLaid() {
+        turnsAfterLaid++;
+    }
+    public int getTurnsAfterLaid() {
+        return turnsAfterLaid;
+    }
     public Egg(int boardX, int boardY, Player p, Frog parent, Window w){
         super(boardX, boardY, p, w);
         this.parent = parent;
+        belongsTo.getEggsOwned().add(this);
+        System.out.println("Player " + belongsTo.getPlayerNumber() + " Eggs Owned: " + belongsTo.getEggsOwned().size());
     }
 
-//    public void hatch(){  TODO
-//        Tadpole t = new Tadpole(boardX, boardY, belongsTo, frogType,w){
-//
-//        }
-//        die();
-//
-//    }
+    public void die() {
+        super.die();
+        belongsTo.getEggsOwned().removeIf(Egg -> (Egg == this));
+    }
+
+    public void hatch() {
+        die();
+        System.out.println("Hatched!!!!!");
+        Tadpole t = new Tadpole(boardX, boardY, belongsTo, parent, w);
+    }
 
 
     public void paint(Graphics2D g2d) {
@@ -100,8 +111,10 @@ public class Egg extends Unit{
 
     }
 
+
     public void move() {
         //this doesn't do anything. Eggs can't move dummy
+
     }
 
     @Override

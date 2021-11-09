@@ -6,25 +6,62 @@ import java.awt.image.BufferedImage;
 
 public class Tadpole extends Unit{
     private Frog parent;
-    private int turnsAfterHatch;
+    private int turnsAfterHatch = 0;
     private boolean isDisabled;
     private BufferedImage img;
 
     public Tadpole(int boardX, int boardY, Player p, Frog parent, Window w){
         super(boardX, boardY, p, w);
+        belongsTo.getTadpolesOwned().add(this);
+        System.out.println("Player " + belongsTo.getPlayerNumber() + " Tadpoles Owned: " + belongsTo.getTadpolesOwned().size());
         this.parent = parent;
     }
-//    TODO:come back to this
-//    public <Frog> void metamorphize(){
-//        Frog ft = new Frog();
-//    }
 
-    public void move() {
-        //TODO: create move method
+    public void die() {
+        super.die();
+        belongsTo.getTadpolesOwned().removeIf(tadpole -> (tadpole == this));
+    }
+    public void increaseTurnsAfterHatch(){
+        turnsAfterHatch++;
     }
 
+    public int getTurnsAfterHatch(){
+        return turnsAfterHatch;
+    }
+
+
     public void metamorphose() {
+        onUnclicked();
+        die();
+
+        System.out.println("Metamorphose!!!!!!");
         //TODO: create metamorphose method
+        if (parent instanceof AfricanBullFrog ) {
+            AfricanBullFrog f = new AfricanBullFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof BluePoisonArrowFrog) {
+            BluePoisonArrowFrog f = new BluePoisonArrowFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof GoliathFrog) {
+            GoliathFrog f = new GoliathFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof MeanToad) {
+            MeanToad f = new MeanToad(boardX, boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof PoisonDartFrog) {
+            PoisonDartFrog f = new PoisonDartFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof PurpleFrog) {
+            PurpleFrog f = new PurpleFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else if (parent instanceof SharpNosedRocketFrog) {
+            SharpNosedRocketFrog f = new SharpNosedRocketFrog(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        } else {
+            SpringPeeper f = new SpringPeeper(boardX,boardY,belongsTo,w);
+            f.isDisabled = true;
+        }
+
     }
 
     public void paint(Graphics2D g2d) {
@@ -113,16 +150,27 @@ public class Tadpole extends Unit{
 
     @Override
     public boolean canMoveTo(Tile t) {
-        return false;
+        return (super.canMoveTo(t) || (t.getIsOccupied() == 0 && !isDisabled && belongsTo.getEnergyNum() >= 1 && !hasPerformedAction && isValidTwoTileRadius(t)));
     }
 
-    @Override
-    public void onUnclicked() {
-
-    }
 
     @Override
     public void onClicked() {
-
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                current = tileArr[i][j];
+                if (current.getBoardX() == boardX && current.getBoardY() == boardY) {
+                    current.setAltColor(Color.GREEN);
+                } else if (canMoveTo(current)){
+                    current.setAltColor(Color.YELLOW);
+                    current.setCanMoveTo(true);
+                }
+            }
+        }
+        isClicked = true;
+        belongsTo.setHasClickedUnit(true);
+        w.repaint();
     }
 }

@@ -27,6 +27,7 @@ public class Tile {
     }
 
     public void paint(Graphics2D g2d) {
+
         if (isOccupied == 1) {
             if(altColor != null){   //Alt colors take priority
                 g2d.setColor(altColor);
@@ -35,6 +36,7 @@ public class Tile {
             }
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
+
                 occupiedBy.paint(g2d);
 //                System.out.println("null1: " + this.toString());
                 if (occupiedBy.altSprite != null){

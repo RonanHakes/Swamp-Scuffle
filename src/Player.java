@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.*;
@@ -12,6 +13,8 @@ public class Player implements MouseListener{
     private int playerNumber;
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
+    private ArrayList<Tadpole> tadpolesOwned = new ArrayList<>(); // arrayList of tadpoles units that are owned
+    private ArrayList<Egg> eggsOwned = new ArrayList<>(); // arrayList of egg units that are owned
     private int starterFrogTurnCounter = 0;
     private boolean hasClickedUnit;
     private int energyPerTurn;
@@ -22,6 +25,16 @@ public class Player implements MouseListener{
         return homeColumn;
     }
     private Player opponent;
+
+    public ArrayList<Egg> getEggsOwned() {
+        return eggsOwned;
+    }
+
+    public ArrayList<Tadpole> getTadpolesOwned() {
+        return tadpolesOwned;
+    }
+
+
 
 
     public Player getOpponent() {
@@ -158,8 +171,45 @@ public class Player implements MouseListener{
         System.out.println("turn: " + w.getWhoseTurn().playerNumber);
         for (int i = 0; i < frogsOwned.size(); i++) {
             frogsOwned.get(i).setHasPerformedAction(false);
+            frogsOwned.get(i).setDisabled(false);
 
         }
+        for (int i = 0; i < tadpolesOwned.size(); i++) {
+            tadpolesOwned.get(i).setHasPerformedAction(false);
+            tadpolesOwned.get(i).setDisabled(false);
+        }
+
+
+        ArrayList<Egg> toRemoveEgg = new ArrayList<Egg>();
+        for (Egg egg : eggsOwned) {
+            egg.increaseTurnsAfterLaid();
+            System.out.println("turns after laid " + egg.getTurnsAfterLaid());
+        }
+        for (Egg egg : eggsOwned) {
+            if (egg.getTurnsAfterLaid() >= 1) {
+                toRemoveEgg.add(egg);
+            }
+        }
+        for (Egg egg: toRemoveEgg) {
+            egg.hatch();
+        }
+
+
+        for (Tadpole tadpole: tadpolesOwned) {
+            tadpole.increaseTurnsAfterHatch();
+            System.out.println("turns after hatch " + tadpole.getTurnsAfterHatch());
+        }
+        ArrayList<Tadpole> toRemoveTadpole = new ArrayList<Tadpole>();
+        for (Tadpole tadpole: tadpolesOwned) {
+            if (tadpole.getTurnsAfterHatch() >= 3) {
+                toRemoveTadpole.add(tadpole);
+            }
+        }
+        for (Tadpole tadpole: toRemoveTadpole) {
+            tadpole.metamorphose();
+        }
+
+
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 tileArr[i][j].setAltColor(null);
