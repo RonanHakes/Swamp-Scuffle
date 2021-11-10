@@ -97,14 +97,15 @@ public class MeanToad extends Frog {
             belongsTo.giveEnergy(-2);
             attackedTile.getOccupiedBy().takeDamage(2);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                attackedTile.getOccupiedBy().die();
                 if(isBuffed){
                     rewardKill(attackedTile.getOccupiedBy());
                 }
+                attackedTile.getOccupiedBy().die();
+                moveToTile(attackedTile);
             }
             hasPerformedAction = true;
             onUnclicked();
-        }   //todo dont forget to add buffs
+        }
     }
 
     @Override

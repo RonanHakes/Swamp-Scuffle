@@ -38,13 +38,7 @@ public class GoliathFrog extends Frog {
         super.paint(g2d);
     }
 
-    public void move(){
-        //TODO: move
-    }
 
-    public void attack(){
-        //TODO: Attack
-    }
 
 
 

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public abstract class Frog extends Unit {
     protected boolean isBuffed;
     protected boolean isSpecialFrog;
-
-
+    private boolean hasLayedEgg = false;
     protected BufferedImage zappedSprite;
     int turnAfterAttack;
 
@@ -41,17 +40,18 @@ public abstract class Frog extends Unit {
     //Default frog attack method
     public void attack(Tile attackedTile){
         if (canAttack(attackedTile)){
-
             System.out.println("hpO: " + attackedTile.getOccupiedBy().getHitPoints());
             attackedTile.getOccupiedBy().takeDamage(1);
             belongsTo.giveEnergy(-2);
             System.out.println("hp: " + attackedTile.getOccupiedBy().getHitPoints());
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                System.out.println("WHAT");
-                attackedTile.getOccupiedBy().die();
                 if(isBuffed){
                     rewardKill(attackedTile.getOccupiedBy());
                 }
+                attackedTile.getOccupiedBy().die();
+                moveToTile(attackedTile);
+
+
             }
             hasPerformedAction = true;
             onUnclicked();
@@ -87,7 +87,11 @@ public abstract class Frog extends Unit {
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
                 if (current.getBoardX() == boardX && current.getBoardY() == boardY){
-                    current.setAltColor(Color.GREEN);
+                    if (isDisabled) {
+                        current.setAltColor(Color.GRAY);
+                    } else {
+                        current.setAltColor(Color.GREEN);
+                    }
                 } else if (canAttack(current)){
                     current.setAltColor(new Color(139,0,0));
                     current.setCanAttack(true);
@@ -155,11 +159,12 @@ public abstract class Frog extends Unit {
         belongsTo.setEnergyNum(belongsTo.getEnergyNum() - 3);
         onUnclicked();
         setHasPerformedAction(true);
+        hasLayedEgg = true;
     }
 
     public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
-        if (!isClicked || belongsTo.getEnergyNum() < 3) {
+        if (!isClicked || belongsTo.getEnergyNum() < 3 || hasLayedEgg) {
             return false;
         }
         switch ((belongsTo.getPlayerNumber())){

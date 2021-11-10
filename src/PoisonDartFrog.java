@@ -40,13 +40,6 @@ public class PoisonDartFrog extends Frog {
         }
     }
 
-    public void move(){
-        //TODO: move
-    }
-
-    public void attack(){
-        //TODO: Attack
-    }
     @Override
     public boolean canAttack(Tile t) {
         if ((!isDisabled && belongsTo.getEnergyNum() >= 2 && t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber() && !hasPerformedAction && isValidTwoTileRadius(t) && turnAfterAttack >= 2)) {

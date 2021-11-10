@@ -154,11 +154,12 @@ public class SharpNosedRocketFrog extends Frog {
             hasPerformedAction = true;
             belongsTo.giveEnergy(-2);
             attackedTile.getOccupiedBy().takeDamage(2);
-            if(attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                attackedTile.getOccupiedBy().die();
+            if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 if(isBuffed){
                     rewardKill(attackedTile.getOccupiedBy());
                 }
+                attackedTile.getOccupiedBy().die();
+                moveToTile(attackedTile);
             }
         } else if (canAttack(attackedTile)){
             hasPerformedAction = true;
@@ -166,8 +167,12 @@ public class SharpNosedRocketFrog extends Frog {
             attackedTile.getOccupiedBy().takeDamage(1);
             if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
                 attackedTile.getOccupiedBy().die();
-                if(isBuffed){
-                    rewardKill(attackedTile.getOccupiedBy());
+                if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
+                    if(isBuffed){
+                        rewardKill(attackedTile.getOccupiedBy());
+                    }
+                    attackedTile.getOccupiedBy().die();
+                    moveToTile(attackedTile);
                 }
             }
 

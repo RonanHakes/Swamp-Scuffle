@@ -44,11 +44,17 @@ public class PurpleFrog extends Frog {
 
         super.attack(attackedTile); //Attacks the attacked tile
         altSprite = zappedSprite;
+
+        if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
+            if(isBuffed){
+                rewardKill(attackedTile.getOccupiedBy());
+            }
+            attackedTile.getOccupiedBy().die();
+            moveToTile(attackedTile);
+        }
         if (toCheck.getIsOccupied() != 0 && toCheck.getIsOccupied() != belongsTo.getPlayerNumber()){
             belongsTo.giveEnergy(2);   //This sucks
             super.attackNoCheck(toCheck);   //Attacks the tile behind the first if it is occupied
-
-
         }
     }
 }

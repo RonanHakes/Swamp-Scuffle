@@ -45,6 +45,7 @@ public abstract class Unit {
         System.out.println("post-lambda:" + belongsTo.getUnitsOwned().toString());
         if (belongsTo.getUnitsOwned().size()==0) {
             w.endGame();
+            System.out.println("WRONG WRONG WRONG");
         }
 
         w.repaint();

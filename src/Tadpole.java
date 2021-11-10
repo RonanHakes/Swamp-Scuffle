@@ -162,7 +162,12 @@ public class Tadpole extends Unit{
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
                 if (current.getBoardX() == boardX && current.getBoardY() == boardY) {
-                    current.setAltColor(Color.GREEN);
+                    if (isDisabled) {
+                        current.setAltColor(Color.GRAY);
+                    } else {
+                        current.setAltColor(Color.GREEN);
+                        System.out.println("YOYOYOYO");
+                    }
                 } else if (canMoveTo(current)){
                     current.setAltColor(Color.YELLOW);
                     current.setCanMoveTo(true);

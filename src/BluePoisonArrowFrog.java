@@ -33,11 +33,5 @@ public class BluePoisonArrowFrog extends Frog {
         }
     }
 
-    public void move(){
-        //TODO: move
-    }
 
-    public void attack(){
-        //TODO: Attack
-    }
 }

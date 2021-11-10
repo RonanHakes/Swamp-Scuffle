@@ -27,6 +27,11 @@ public class Window extends JPanel{
                 int x = e.getX();
                 int y = e.getY();
 
+
+                if (x >= 1920 - 50 && x <= 1920 && y >= 0 && y <= 22) {
+                    close.mousePressed(e);
+                }
+
                 if (x >= 50 && x <= 50 + 462 && y >= 1080 - 250 && y <= 1080 - 250 + 198) {
                     meanButton.mousePressed(e);
                 }
@@ -38,7 +43,7 @@ public class Window extends JPanel{
                     p2.starterFrogTurn(e);
                 }
 
-                if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight() && p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3){   //Checks if the mousepress is within the end turn button
+                if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight() && (p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3)) {   //Checks if the mousepress is within the end turn button
                     button.mousePressed(e);
                     try {
                         switchTurn();
@@ -46,7 +51,7 @@ public class Window extends JPanel{
                         ex.printStackTrace();
                     }
 
-                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900 && p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3){  //this looks ridiculous, but it is just checking if the click is in the whole board area
+                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900 && (p1.getStarterFrogTurnCounter() >= 4)){  //this looks ridiculous, but it is just checking if the click is in the whole board area
                     Tile t = b.clickedOn(e);
                     System.out.println("Tile clicked: " + t.toString());
                     System.out.println("reached it!");
@@ -89,7 +94,7 @@ public class Window extends JPanel{
                         }
                     }
                 } else {
-                    for (Frog item : whoseTurn.getFrogsOwned()) {
+                    for (Unit item : whoseTurn.getUnitsOwned()) {
                         item.onUnclicked();
                     }
 
@@ -134,6 +139,7 @@ public class Window extends JPanel{
     private String[] listOfChoosableFrogTypes = {"African Bullfrog", "Blue Poison Arrow Frog", "Goliath Frog", "Poison Dart Frog", "Purple Frog", "Sharp Nosed Rocket Frog", "Spring Peeper"};
     private BufferedImage zappedSprite;
     private MeanToadButton meanButton;
+    private CloseButton close = new CloseButton(this);
 
     public Player getp1() {
         return p1;
@@ -265,6 +271,7 @@ public class Window extends JPanel{
         b.paint(g2d); // paint board
         button.paint(g2d);
         meanButton.paint(g2d);
+        close.paint(g2d);
         if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
                 g2d.drawString(String.valueOf(whoseStarterFrogTurn.getPlayerNumber()), 1920/2, 50);
                 System.out.println("Working");
