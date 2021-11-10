@@ -8,11 +8,8 @@ public class Player implements MouseListener{
     private Window w;
     private int numberofFrogs = 0;
     private boolean isTurn;
-    private int isClicked = 0;
 
-    public int getIsClicked() {
-        return isClicked;
-    }
+
 
     private int turnNumber = 0;
     private int energyNum = 3;
@@ -114,12 +111,12 @@ public class Player implements MouseListener{
 
 
     public void starterFrogTurn(MouseEvent e) { // changed it so starterFrogTurn can paint the frog after creating it
-
+        int isClicked = 0;
         int x = e.getX();
         int y = e.getY();
         for (int i = 0; i < 7; i++) {
             if ( x >= 50 && x <= 200 && y>= 150 + i * 50 && y <= 200 + i * 50) {
-                System.out.println("Player " + playerNumber + "starter frog turn");
+                System.out.println("Player " + playerNumber + " starter frog turn");
                 //if (getW().getBoard().getBoard()[homeColumn][starterFrogTurnCounter].getIsOccupied() == 0) {
 //                    if (i == 0) {
 //                        new AfricanBullFrog(homeColumn, starterFrogTurnCounter, this, w);

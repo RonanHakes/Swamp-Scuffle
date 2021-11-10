@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Frog extends Unit {
-    protected boolean isBuffed;
+
     protected boolean isSpecialFrog;
     private boolean hasLayedEgg = false;
     protected BufferedImage zappedSprite;

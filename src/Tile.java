@@ -16,7 +16,6 @@ public class Tile {
     private boolean canMoveTo;
     private boolean canAttack;
 
-//    private int
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
@@ -24,6 +23,10 @@ public class Tile {
         this.graphicsX = graphicsX;
         this.graphicsY = graphicsY;
         canUseUtility = false;
+    }
+
+    public boolean isBuffed() {
+        return isBuffed;
     }
 
     public void paint(Graphics2D g2d) {
@@ -182,5 +185,9 @@ public class Tile {
 
     public void setCanAttack(boolean canAttack) {
         this.canAttack = canAttack;
+    }
+
+    public void setBuffed(boolean buffed) {
+        isBuffed = buffed;
     }
 }

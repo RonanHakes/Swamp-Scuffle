@@ -293,6 +293,7 @@ public class Window extends JPanel{
         return b;
     }
 
+
     public EndturnButton getButton(){
         return button;
     }
