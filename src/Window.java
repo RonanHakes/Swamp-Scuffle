@@ -16,6 +16,8 @@ public class Window extends JPanel{
         button = new EndturnButton(this);
         meanButton = new MeanToadButton(this);
 
+
+
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -237,6 +239,7 @@ public class Window extends JPanel{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     public void endGame(){
@@ -311,6 +314,7 @@ public class Window extends JPanel{
         } else {
             g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
         }
+        System.out.println(b.avgTile(b.getBoard()[7][1], b.getBoard()[7][3]));
 
         p1.getpIS().paint(g2d);
         p2.getpIS().paint(g2d);

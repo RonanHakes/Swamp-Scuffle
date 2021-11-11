@@ -76,6 +76,7 @@ public class PurpleFrog extends Frog {
 //            toCheck.getOccupiedBy().setAltSprite(null);
 //            w.repaint();
             super.attackNoCheck(toCheck);
+            belongsTo.tileWipe();
         }
     }
 }

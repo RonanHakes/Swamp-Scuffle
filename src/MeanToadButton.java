@@ -53,16 +53,18 @@ public class MeanToadButton {
         int x = e.getX();
         int y = e.getY();
 
-        for (int i = 0; i < 8; i++) {
+        isClicked = true;
 
+        for (int i = 0; i < 8; i++) {
             if (w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
                 System.out.println("MEAN TOAD YELLOW");
                 w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].setAltColor(Color.YELLOW);
                 w.repaint();
-                System.out.println(w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getAltColor());
+
+
             }
         }
-        isClicked = true;
+
     }
 
     public void mouseReleased(MouseEvent e) {

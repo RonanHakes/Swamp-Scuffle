@@ -310,7 +310,4 @@ public abstract class Unit {
                 '}';
     }
 
-    public boolean isMeanToad(){
-        return false;
-    }
 }

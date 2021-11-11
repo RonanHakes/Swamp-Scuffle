@@ -124,13 +124,10 @@ public class MeanToad extends Frog {
             }
             hasPerformedAction = true;
             onUnclicked();
+            belongsTo.tileWipe();
         }
     }
 
-    @Override
-    public boolean isMeanToad(){
-        return true;
-    }
 
     @Override
     public void paint(Graphics2D g2d){
@@ -153,6 +150,7 @@ public class MeanToad extends Frog {
                 System.out.println("Can't find image.");
             }
         } else if (hitPoints == 4){
+
             try {
                 img = ImageIO.read(new File("res\\LovingToadSprite.png"));
                 if (img != null) {

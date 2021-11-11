@@ -31,6 +31,7 @@ public class Player implements MouseListener{
         return homeColumn;
     }
     private Player opponent;
+    private Color color;
 
     public ArrayList<Egg> getEggsOwned() {
         return eggsOwned;
@@ -76,8 +77,10 @@ public class Player implements MouseListener{
         pIS = new PlayerInfoSegment(this, w);
         if (playerNumber == 1) {
             homeColumn = 0;
+            color = Color.BLUE;
         } else {
             homeColumn = 7;
+            color = Color.RED;
         }
         if (w.getp1() == this) {
             opponent = w.getp2();
@@ -268,7 +271,9 @@ public class Player implements MouseListener{
                         new SpringPeeper(homeColumn, i, this, w);
                         isClicked = 0;
                         starterFrogTurnCounter++;
-
+                        for (int j = 0; j < 8; j++) {
+                            getW().getBoard().getBoard()[homeColumn][j].setAltColor(null);
+                        }
                         w.repaint();
                         if (playerNumber == 1) {
                             w.setWhoseStarterFrogTurn(w.getp2());
@@ -295,6 +300,11 @@ public class Player implements MouseListener{
     public void paint(Graphics2D g2d) {
         if (w.getp1().getStarterFrogTurnCounter() < 3 || w.getp2().getStarterFrogTurnCounter() < 3) {
             for (int i = 0; i < 7; i++) {
+                if (isClicked == i + 1) {
+                    g2d.setColor(color);
+                    g2d.fillRect(50, i * 50 + 150, 150, 50);
+                }
+                g2d.setColor(Color.BLACK);
                 g2d.drawRect(50, i * 50 + 150, 150, 50);
                 g2d.drawString(w.getListOfChoosableFrogTypes()[i], 50, i * 50 + 175);
             }
@@ -362,7 +372,7 @@ public class Player implements MouseListener{
 
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                tileArr[i][j].setAltColor(null);
+                //tileArr[i][j].setAltColor(null);
                 if(tileArr[i][j].getOccupiedBy() != null){
                     if (tileArr[i][j].getOccupiedBy().getAltSprite() != null){
                         tileArr[i][j].getOccupiedBy().setAltSprite(null);
@@ -371,7 +381,7 @@ public class Player implements MouseListener{
             }
         }
         for (int i = 0; i < frogsOwned.size(); i++) {
-            if (frogsOwned.get(i).getClass() == PoisonDartFrog.class) {
+            if (frogsOwned.get(i).getClass() == PoisonDartFrog.class || frogsOwned.get(i).getClass() == SpringPeeper.class) {
                 frogsOwned.get(i).increaseTurnAfterAttack();
             }
         }

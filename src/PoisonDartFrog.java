@@ -58,7 +58,7 @@ public class PoisonDartFrog extends Frog {
         } else {
             onUnclicked();
         }
-
+        belongsTo.tileWipe();
 
     }
 

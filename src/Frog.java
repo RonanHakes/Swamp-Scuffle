@@ -31,34 +31,34 @@ public abstract class Frog extends Unit {
 
 
     @Override
-    public void die(){      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
+    public void die() {      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
         belongsTo.getFrogsOwned().removeIf(Unit -> (Unit == this));
         super.die();
-         //this removes the frog that is dying from the owner player's frogsOwned arrayList through the use of a lambda function
+        //this removes the frog that is dying from the owner player's frogsOwned arrayList through the use of a lambda function
 
     }
 
     //Default frog attack method
-    public void attack(Tile attackedTile){
-        if (canAttack(attackedTile)){
+    public void attack(Tile attackedTile) {
+        if (canAttack(attackedTile)) {
             System.out.println("hpO: " + attackedTile.getOccupiedBy().getHitPoints());
             attackedTile.getOccupiedBy().takeDamage(1);
             belongsTo.giveEnergy(-2);
             System.out.println("hp: " + attackedTile.getOccupiedBy().getHitPoints());
-            if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                if(isBuffed){
+            if (attackedTile.getOccupiedBy().getHitPoints() <= 0) {
+                if (isBuffed) {
                     rewardKill(attackedTile.getOccupiedBy());
                 }
                 attackedTile.getOccupiedBy().die();
                 moveToTile(attackedTile);
                 if (belongsTo.getPlayerNumber() == 1) {
-                    if (w.getp2().getUnitsOwned().size()==0) {
+                    if (w.getp2().getUnitsOwned().size() == 0) {
                         System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
                         w.endGame();
                         System.out.println("WRONG WRONG WRONG");
                     }
                 } else {
-                    if (w.getp1().getUnitsOwned().size()==0) {
+                    if (w.getp1().getUnitsOwned().size() == 0) {
                         System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
                         w.endGame();
                         System.out.println("WRONG WRONG WRONG");
@@ -73,12 +73,13 @@ public abstract class Frog extends Unit {
         }   //todo dont forget to add buffs
     }
 
-    protected void attackNoCheck(Tile attackedTile){
+    protected void attackNoCheck(Tile attackedTile) {
+        System.out.println("hpO: " + attackedTile.getOccupiedBy().getHitPoints());
         attackedTile.getOccupiedBy().takeDamage(1);
         belongsTo.giveEnergy(-2);
-        if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-            attackedTile.getOccupiedBy().die();
-            if(isBuffed){
+        System.out.println("hp: " + attackedTile.getOccupiedBy().getHitPoints());
+        if (attackedTile.getOccupiedBy().getHitPoints() <= 0) {
+            if (isBuffed) {
                 rewardKill(attackedTile.getOccupiedBy());
             }
             attackedTile.getOccupiedBy().die();
@@ -102,8 +103,8 @@ public abstract class Frog extends Unit {
         }
     }
 
-    public boolean canAttack(Tile t){
-        if (isDisabled || belongsTo.getEnergyNum() <= 1 || hasPerformedAction){
+    public boolean canAttack(Tile t) {
+        if (isDisabled || belongsTo.getEnergyNum() <= 1 || hasPerformedAction) {
             return false;
         }
 
@@ -111,25 +112,25 @@ public abstract class Frog extends Unit {
     }
 
     @Override
-    public void onClicked(){    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
+    public void onClicked() {    //Cycles through all the tiles when a frog is clicked and changes the colour of any tiles that are moveable to, attackable, or able to use utility on
         Tile[][] tileArr = getW().getBoard().getBoard();
         Tile current;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 current = tileArr[i][j];
-                if (current.getBoardX() == boardX && current.getBoardY() == boardY){
+                if (current.getBoardX() == boardX && current.getBoardY() == boardY) {
                     if (isDisabled) {
                         current.setAltColor(Color.GRAY);
                     } else {
                         current.setAltColor(Color.GREEN);
                     }
-                } else if (canAttack(current)){
-                    current.setAltColor(new Color(139,0,0));
+                } else if (canAttack(current)) {
+                    current.setAltColor(new Color(139, 0, 0));
                     current.setCanAttack(true);
-                } else if (canUseUtility(current)){
-                    current.setAltColor(new Color(35,60,150));
+                } else if (canUseUtility(current)) {
+                    current.setAltColor(new Color(35, 60, 150));
                     current.setCanUseUtility(true);
-                } else if (canMoveTo(current)){
+                } else if (canMoveTo(current)) {
                     current.setAltColor(Color.YELLOW);
                     current.setCanMoveTo(true);
                 }
@@ -151,28 +152,27 @@ public abstract class Frog extends Unit {
         */
     }
 
-    public void rewardKill(Unit victim){
+    public void rewardKill(Unit victim) {
         belongsTo.giveEnergy(victim.getMaxHitPoints());
     }
 
 
-    public boolean canUseUtility(Tile t){ //This will be overridden by the frogs who have utility moves, but do not remove here!
+    public boolean canUseUtility(Tile t) { //This will be overridden by the frogs who have utility moves, but do not remove here!
         return false;
     }
 
 
-
-    public void layEgg(){
+    public void layEgg() {
         System.out.println("Layed egg");
         //TODO: create lay egg method
         Tile[][] tileArr = w.getBoard().getBoard();
         int xCurrent = boardX;
         int yCurrent = boardY;
 
-        if(canLayEgg()){
+        if (canLayEgg()) {
             Egg e = new Egg(xCurrent, yCurrent, belongsTo, this, w);
 
-            switch(belongsTo.getPlayerNumber()){
+            switch (belongsTo.getPlayerNumber()) {
                 case 1:
                     moveToTile(tileArr[boardX + 1][boardY]);
                     e.moveToTile(tileArr[xCurrent][yCurrent]);
@@ -193,19 +193,19 @@ public abstract class Frog extends Unit {
         hasLayedEgg = true;
     }
 
-    public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
+    public boolean canLayEgg() {      //Checks if an egg can be layed by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
         if (!isClicked || belongsTo.getEnergyNum() < 3 || hasLayedEgg || hasPerformedAction) {
             return false;
         }
-        switch ((belongsTo.getPlayerNumber())){
+        switch ((belongsTo.getPlayerNumber())) {
             case 1:
-                if (boardX == 0 && tileArr[boardX + 1][boardY].getIsOccupied() == 0){
+                if (boardX == 0 && tileArr[boardX + 1][boardY].getIsOccupied() == 0) {
                     return true;
                 }
                 break;
             case 2:
-                if (boardX == 7 && tileArr[boardX - 1][boardY].getIsOccupied() == 0){
+                if (boardX == 7 && tileArr[boardX - 1][boardY].getIsOccupied() == 0) {
                     return true;
                 }
                 break;
@@ -227,20 +227,17 @@ public abstract class Frog extends Unit {
     }
 
 
-
-
-
     @Override
     public Window getW() {
         return super.getW();
     }
 
-    public void paint(Graphics2D g2d){
+    public void paint(Graphics2D g2d) {
 
-        if (widthMultiplier == -1){     //There's gotta be a better way of doing this (changing the x co-ordinate based on which way it should be facing)
-            g2d.drawImage(img, graphicsX + 50, graphicsY, 50 * widthMultiplier,50, null);
+        if (widthMultiplier == -1) {     //There's gotta be a better way of doing this (changing the x co-ordinate based on which way it should be facing)
+            g2d.drawImage(img, graphicsX + 50, graphicsY, 50 * widthMultiplier, 50, null);
         } else {
-            g2d.drawImage(img, graphicsX , graphicsY, 50 * widthMultiplier,50, null);
+            g2d.drawImage(img, graphicsX, graphicsY, 50 * widthMultiplier, 50, null);
         }
 
 //        if()
@@ -250,7 +247,7 @@ public abstract class Frog extends Unit {
     }
 
     @Override
-    public boolean isFrog(){    //Overrides the isFrog in Unit, so that if the unit is a frog, it will return true and if a unit is not, it will return false
+    public boolean isFrog() {    //Overrides the isFrog in Unit, so that if the unit is a frog, it will return true and if a unit is not, it will return false
         return true;
     }
 
@@ -266,8 +263,4 @@ public abstract class Frog extends Unit {
                 "} " + super.toString();
     }
 
-    @Override
-    public boolean isMeanToad(){
-        return false;
-    }
 }

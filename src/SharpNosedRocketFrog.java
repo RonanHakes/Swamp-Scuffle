@@ -38,7 +38,7 @@ public class SharpNosedRocketFrog extends Frog {
         return false;
     }
         int x = t.getBoardX();
-        int y = t.getBoardX();
+        int y = t.getBoardY();
         System.out.println("ot: " + getOccupiedTile());
         Tile avgTile = w.getBoard().avgTile(occupiedTile, t);
         System.out.println("at: " + avgTile);
@@ -146,7 +146,7 @@ public class SharpNosedRocketFrog extends Frog {
                 current = tileArr[i][j];
                 if (current.getBoardX() == boardX && current.getBoardY() == boardY){
                     current.setAltColor(Color.GREEN);
-                } else if (canAttack(current) || canJumpAttack(current)){
+                } else if (canAttack(current)){
                     current.setAltColor(new Color(139,0,0));
                     current.setCanAttack(true);
                 } else if (canUseUtility(current)){
