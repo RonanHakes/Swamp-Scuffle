@@ -225,6 +225,8 @@ public class Window extends JPanel{
     private CloseButton close = new CloseButton(this);
     private BufferedImage background;
     private BufferedImage title;
+    private TitleScreen ts = new TitleScreen(this);
+    private int paintCount = 0;
 
     public Player getp1() {
         return p1;
@@ -296,6 +298,11 @@ public class Window extends JPanel{
 
     }
 
+    public void paintTitleScreen(Graphics2D g2d) throws InterruptedException {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        ts.paint(g2d);
+    }
+
     public void endGame(){
         System.out.println("Game end");
         System.exit(1);
@@ -358,27 +365,47 @@ public class Window extends JPanel{
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.drawImage(background, 0, 0,null);
 
-        g2d.drawImage(title, 1920/2 - 150, 1080 - 175, null);
-        b.paint(g2d); // paint board
-        button.paint(g2d);
-        meanButton.paint(g2d);
-        close.paint(g2d);
-        Font default1 = g2d.getFont();
-        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
+        if (paintCount <= 1){
+            try {
+                paintTitleScreen(g2d);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            paintCount++;
+            repaint();
+            if (paintCount == 2){
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            g2d.drawImage(background, 0, 0,null);
+
+            g2d.drawImage(title, 1920/2 - 150, 1080 - 175, null);
+            b.paint(g2d); // paint board
+            button.paint(g2d);
+            meanButton.paint(g2d);
+            close.paint(g2d);
+            Font default1 = g2d.getFont();
+            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 25));
+            if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
                 g2d.drawString("Player " + String.valueOf(whoseStarterFrogTurn.getPlayerNumber()) + " Starter Frog Turn", 1920/2 - 150, 60 );
                 System.out.println("Working");
-        } else {
-            g2d.drawString("Player " + String.valueOf(whoseTurn.getPlayerNumber()) + " Turn", 1920/2 - 75, 60);
+            } else {
+                g2d.drawString("Player " + String.valueOf(whoseTurn.getPlayerNumber()) + " Turn", 1920/2 - 75, 60);
+            }
+            System.out.println(b.avgTile(b.getBoard()[7][1], b.getBoard()[7][3]));
+            g2d.setFont(default1);
+            p1.getpIS().paint(g2d);
+            p2.getpIS().paint(g2d);
+            p1.paint(g2d);
+            p2.paint(g2d);
         }
-        System.out.println(b.avgTile(b.getBoard()[7][1], b.getBoard()[7][3]));
-        g2d.setFont(default1);
-        p1.getpIS().paint(g2d);
-        p2.getpIS().paint(g2d);
-        p1.paint(g2d);
-        p2.paint(g2d);
+
 
 
     //make this show end of game menu, also, add that menu <-- todo
