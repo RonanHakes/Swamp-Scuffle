@@ -7,8 +7,11 @@ import java.util.Arrays;
 
 public class SharpNosedRocketFrog extends Frog {
 
+
+
     public SharpNosedRocketFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
+
 
         try {
             img = ImageIO.read(new File("res\\SharpNosedSprite.png"));
@@ -49,19 +52,10 @@ public class SharpNosedRocketFrog extends Frog {
         if (super.canMoveTo(t)) { // checks if it is moving only one square
             return true;
         }
-        switch (belongsTo.getPlayerNumber()) {
-            case 1:
-            case 2:
-                if ((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(avgTile)) && t.getIsOccupied() == 0) {
-                    return true;
-                }
-                break;
-            default:
-                System.out.println(belongsTo.getPlayerNumber());
-                System.out.println("How on Earth did you get here?");
-                break;
-
+        if ((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)) && t.getIsOccupied() == 0) {
+            return true;
         }
+
         return false;
 //        if (avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)){  //Checks if there is a unit to jump over
 //        return true;
@@ -74,31 +68,73 @@ public class SharpNosedRocketFrog extends Frog {
 
     }
 
-//    @Override
-//    public boolean canAttack(Tile t) {
-//        if (isDisabled || belongsTo.getEnergyNum() <= 1) {
-//            return false;
-//        }
-//        int x = t.getBoardX();
-//        int y = t.getBoardX();
-//        if (t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber()) {
-//            switch (belongsTo.getPlayerNumber()){
-//                case 1:
-//                    if(x == boardX + 1 && y >= boardY - 1 && y <= boardY + 1) {
-//                        return true;
-//                    }
-//                case 2:
-//                    if(x == boardX - 1 && y >= boardY - 1 && y <= boardY + 1) {
-//                        return true;
-//                    }
-//                default:
-//                    System.out.println(belongsTo.getPlayerNumber());
-//                    System.out.println("How on Earth did you get here?");
-//            }
-//        }
-//
-//        return false;
-//    }
+    @Override
+    public boolean isValidTwoTileRadius(Tile t){  //This is a misnomer actually, because this will only return true not for a radius but only in straight lines
+        if (!super.isValidTwoTileRadius(t)) {
+            return false;
+        }
+
+        int x = t.getBoardX();
+        int y = t.getBoardY();
+        if(x < 0 || x > 7) {
+            return false;
+        }
+
+        if(y < 0 || y > 7) {
+            return false;
+        }
+
+        if ((x == boardX + 2 || x == boardX - 2) && (y != boardY + 1 && y != boardY - 1 )) {
+            return true;
+        }
+        if ((y == boardY + 2 || y == boardY - 2) && (x != boardX + 1 && x != boardX - 1 )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canAttack(Tile t) {
+        if (isDisabled || belongsTo.getEnergyNum() <= 1 || hasPerformedAction) {
+            return false;
+        }
+        Tile avgTile = w.getBoard().avgTile(occupiedTile, t);
+        int x = t.getBoardX();
+        int y = t.getBoardY();
+        if (t.getIsOccupied() != 0 && t.getIsOccupied() != belongsTo.getPlayerNumber()) {
+            switch (belongsTo.getPlayerNumber()){
+                case 1:
+                    if (x == boardX + 1 && y >= boardY - 1 && y <= boardY + 1) {
+                        return true;
+                    }
+                    break;
+                case 2:
+                    if (x == boardX - 1 && y >= boardY - 1 && y <= boardY + 1) {
+                        return true;
+                    }
+                    break;
+                default:
+                    System.out.println(belongsTo.getPlayerNumber());
+                    System.out.println("How on Earth did you get here?");
+            }
+        }
+        if (((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)) && t.getIsOccupied() != w.getWhoseTurn().getPlayerNumber())){
+            switch (belongsTo.getPlayerNumber()) {
+                case 1 -> {
+
+                    return t.getIsOccupied() == 2;
+                }
+                case 2 -> {
+
+                    return t.getIsOccupied() == 1;
+                }
+                default -> System.out.println("Seriously, this isn't possible to reach");
+            }
+        }
+
+        return false;
+    }
 
 
     @Override
@@ -129,66 +165,13 @@ public class SharpNosedRocketFrog extends Frog {
     }
 
 
-    public boolean canJumpAttack(Tile t){   //Checks if a tile can be attacked by the jump move
-        int x = t.getBoardX();
-        int y = t.getBoardX();
-
-        Tile avgTile = w.getBoard().avgTile(occupiedTile, t);
-
-        if ((avgTile.getIsOccupied() != 0 || !hasPerformedAction) && isValidTwoTileRadius(avgTile)){
-            switch(belongsTo.getPlayerNumber()){
-                case 1:
-                    return t.getIsOccupied() == 2;
-                case 2:
-                    return t.getIsOccupied() == 1;
-                default:
-                    System.out.println("Seriously, this isn't possible to reach");
-            }
-        }
-        return false;
-
-    }
-
     @Override
     public void attack(Tile attackedTile){
-        if (canJumpAttack(attackedTile)){
-            hasPerformedAction = true;
-            belongsTo.giveEnergy(-2);
-            attackedTile.getOccupiedBy().takeDamage(2);
-            if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                if(isBuffed){
-                    rewardKill(attackedTile.getOccupiedBy());
-                }
-                attackedTile.getOccupiedBy().die();
-                moveToTile(attackedTile);
-                if (belongsTo.getUnitsOwned().size()==0) {
-                    System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
-                    w.endGame();
-                    System.out.println("WRONG WRONG WRONG");
-                }
-            }
-        } else if (canAttack(attackedTile)){
-            hasPerformedAction = true;
-            belongsTo.giveEnergy(-2);
+        if (isValidTwoTileRadius(attackedTile)) {
             attackedTile.getOccupiedBy().takeDamage(1);
-            if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                attackedTile.getOccupiedBy().die();
-                if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
-                    if(isBuffed){
-                        rewardKill(attackedTile.getOccupiedBy());
-                    }
-                    attackedTile.getOccupiedBy().die();
-                    moveToTile(attackedTile);
-                    if (belongsTo.getUnitsOwned().size()==0) {
-                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
-                        w.endGame();
-                        System.out.println("WRONG WRONG WRONG");
-                    }
-                }
-            }
 
         }
-        onUnclicked();
+        super.attack(attackedTile);
     }
 
 }

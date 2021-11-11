@@ -36,9 +36,33 @@ public class BluePoisonArrowFrog extends Frog {
     }
 
     @Override
-    public void move(Tile t){
-        super.move(t);
+    public void moveToTile(Tile t){
+        super.moveToTile(t);
         buffSurroundingTiles();
+    }
+
+    @Override
+    public void setDisabled(boolean b){
+        super.setDisabled(b);
+        if (b){
+            unbuffSurroundingTiles();
+        } else {
+            buffSurroundingTiles();
+        }
+
+    }
+
+    public void unbuffSurroundingTiles(){
+        //This is terribly inefficient, but it should work for now
+        //This method just buffs all the tiles in a one tile radius around the blue poison arrow frog
+        Tile[][] tileArr = w.getBoard().getBoard();
+        for(int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (isValidTwoTileRadius(tileArr[i][j])){
+                    tileArr[i][j].setBuffed(false);
+                }
+            }
+        }
     }
 
     @Override
@@ -53,7 +77,7 @@ public class BluePoisonArrowFrog extends Frog {
         Tile[][] tileArr = w.getBoard().getBoard();
         for(int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if (isValidOneTileRadius(tileArr[i][j])){
+                if (isValidTwoTileRadius(tileArr[i][j])){
                     tileArr[i][j].setBuffed(true);
                 }
             }

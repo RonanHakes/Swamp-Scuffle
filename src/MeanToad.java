@@ -45,6 +45,7 @@ public class MeanToad extends Frog {
         } catch (IOException e) {
             System.out.println("Can't find image.");
         }
+        checkForFriends();
     }
 
 
@@ -75,23 +76,34 @@ public class MeanToad extends Frog {
         super.move(t);
         int x = t.getBoardX();
         int y = t.getBoardX();
-        for (int i = boardX - 1; i <= boardX + 1; i++) {   //Cycle through 8 squares around it, check if they are occupied, check if they are a mean toad
-            for (int j = boardY - 1; j <= boardY + 1; j++) {
-                if (i >= 0 && i <= 7 && j >= 0 && j <= 7 && (i != boardX || j != boardY)) {
-                    if (getW().getBoard().getBoard()[i][j].getIsOccupied() != 0){
-                        if (getW().getBoard().getBoard()[i][j].getOccupiedBy().isMeanToad()) {
-                            if (!hasIncreasedHP) {
-                                increaseHP();
-                            }
-                            if (!((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).hasIncreasedHP){   //Basym dum
-                                ((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).increaseHP();
-                            }
+        checkForFriends();
+        onUnclicked();
+    }
+
+    @Override
+    public void moveToTile(Tile t){
+        super.moveToTile(t);
+        checkForFriends();
+    }
+
+    private void checkForFriends(){
+        for (int i = 0; i < 8; i++) {   //Cycle through 8 squares around it, check if they are occupied, check if they are a mean toad
+            for (int j = 0; j < 8; j++) {
+                System.out.println("blahblahblah!@!!!!");
+                if ( getW().getBoard().getBoard()[i][j].getIsOccupied() != 0 && isValidOneTileRadius(getW().getBoard().getBoard()[i][j]) && (i != boardX || j != boardY)) {
+                    if (getW().getBoard().getBoard()[i][j].getOccupiedBy() instanceof MeanToad){
+                        if (!hasIncreasedHP) {
+                            increaseHP();
                         }
+                        if (!((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).hasIncreasedHP){   //Basym dum
+                            System.out.println("olololololololol");
+                            ((MeanToad) getW().getBoard().getBoard()[i][j].getOccupiedBy()).increaseHP();
+                        }
+
                     }
                 }
             }
         }
-        onUnclicked();
     }
 
     public void attack(Tile attackedTile){

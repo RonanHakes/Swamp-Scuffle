@@ -23,6 +23,7 @@ public class SpringPeeper extends Frog {
         } catch (IOException e) {
             System.out.println("Can't find image.");
         }
+        turnAfterAttack = 2;
     }
 
     public void move(){

@@ -69,6 +69,7 @@ public abstract class Frog extends Unit {
             }
             hasPerformedAction = true;
             onUnclicked();
+            belongsTo.tileWipe();
         }   //todo dont forget to add buffs
     }
 
@@ -80,9 +81,25 @@ public abstract class Frog extends Unit {
             if(isBuffed){
                 rewardKill(attackedTile.getOccupiedBy());
             }
-
+            attackedTile.getOccupiedBy().die();
+            moveToTile(attackedTile);
+            if (belongsTo.getPlayerNumber() == 1) {
+                if (w.getp2().getUnitsOwned().size() == 0) {
+                    System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                    w.endGame();
+                    System.out.println("WRONG WRONG WRONG");
+                }
+            } else {
+                if (w.getp1().getUnitsOwned().size() == 0) {
+                    System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                    w.endGame();
+                    System.out.println("WRONG WRONG WRONG");
+                }
+            }
+            onUnclicked();
+            hasPerformedAction = true;
+            belongsTo.tileWipe();
         }
-        onUnclicked();
     }
 
     public boolean canAttack(Tile t){

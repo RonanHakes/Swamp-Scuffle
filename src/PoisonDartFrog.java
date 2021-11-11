@@ -7,7 +7,6 @@ import java.io.IOException;
 public class PoisonDartFrog extends Frog {
     boolean isCharged = true;
     int turnAfterAttack;
-    Tile targetTile;
 
     public void increaseTurnAfterAttack() {
         turnAfterAttack++;

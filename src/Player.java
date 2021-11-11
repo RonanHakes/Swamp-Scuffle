@@ -112,11 +112,51 @@ public class Player implements MouseListener{
         return isStarterFrogTurn;
     }
 
+    public void highlightHomeColumn(){
+        for (int i = 0; i < 8; i++){
+            if (getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
+                System.out.println("WORKING!!!!!");
+                getW().getBoard().getBoard()[homeColumn][i].setAltColor(Color.YELLOW);
+                System.out.println("Alt Colour: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
+                w.repaint();
+                System.out.println("Alt Colour 2: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
+            }
+        }
+
+    }
+
+    public void dehighlightHomeColumn(){
+        for (int i = 0; i < 8; i++){
+            if (getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
+                System.out.println("WORKING!!!!!");
+                getW().getBoard().getBoard()[homeColumn][i].setAltColor(Color.YELLOW);
+                System.out.println("Alt Colour: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
+                w.repaint();
+                System.out.println("Alt Colour 2: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
+            }
+        }
+
+    }
+
+    public void tileWipe() {
+        Tile[][] tileArr = getW().getBoard().getBoard();
+        Tile current = null;
+
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                current = tileArr[i][j];
+                current.setAltColor(null);
+
+            }
+        }
+    }
+
 
     public void starterFrogTurn(MouseEvent e) { // changed it so starterFrogTurn can paint the frog after creating it
 
         int x = e.getX();
         int y = e.getY();
+        highlightHomeColumn();
         for (int i = 0; i < 7; i++) {
             if ( x >= 50 && x <= 200 && y>= 150 + i * 50 && y <= 200 + i * 50) {
                 System.out.println("Player " + playerNumber + "starter frog turn");
@@ -134,14 +174,9 @@ public class Player implements MouseListener{
         }
 
         if (isClicked != 0) {
+
             for (int i = 0; i < 8; i++) {
-                if (getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
-                    System.out.println("WORKING!!!!!");
-                    getW().getBoard().getBoard()[homeColumn][i].setAltColor(Color.YELLOW);
-                    System.out.println("Alt Colour: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
-                    w.repaint();
-                    System.out.println("Alt Colour 2: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
-                }
+
 
                 if (x >= homeColumn * 100 + 560 && x <= homeColumn * 100 + 560 + 100 && y >= i * 100 + 100 && y <= i * 100 + 200 && getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
                     if (isClicked == 1) {
@@ -268,6 +303,14 @@ public class Player implements MouseListener{
     }
 
     public void turn() throws InterruptedException {
+        tileWipe();
+//        if (starterFrogTurnCounter < 3){
+//            starterFrogTurnCounter++;
+//        }
+//        if (turnNumber % 20 == 0){
+//            starterFrogTurnCounter--;
+//
+//        }
         w.repaint();
         starterFrogTurnCounter++;
         System.out.println("Starter Frog Turn Counter " + starterFrogTurnCounter);
@@ -392,7 +435,6 @@ public class Player implements MouseListener{
     public int getEnergyNum() {
         return energyNum;
     }
-
 
     public void setEnergyNum(int energyNum) {
         this.energyNum = energyNum;

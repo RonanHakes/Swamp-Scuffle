@@ -116,10 +116,19 @@ public abstract class Unit {
     public void onUnclicked(){  //Resets the alt colors of all the tiles when the frog is unclicked
         Tile[][] tileArr = getW().getBoard().getBoard();
         Tile current = null;
+
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
-                current.setAltColor(null);
+                if (current.isCanAttack() || current.isCanUseUtility() || current.isCanMoveTo() || current.getIsOccupied() != 0){
+                    current.setAltColor(null);
+                }
+//                if (w.getMeanButton().getNumClicked() != 0 || w.getMeanButton().isClicked()){
+//                    System.out.println("numC: " + w.getMeanButton().getNumClicked())
+//                    current.setAltColor(null);
+//                }
+
+
                 current.unclickWipe();
             }
         }
@@ -150,6 +159,7 @@ public abstract class Unit {
         }
         onUnclicked();
         w.repaint();
+        belongsTo.tileWipe();
     }
 
     public void attack(Tile t){}

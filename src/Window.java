@@ -49,6 +49,7 @@ public class Window extends JPanel{
                                 meanButton.setIsClicked(false);
                                 getBoard().getBoard()[whoseTurn.getHomeColumn()][i].setAltColor(null);
                                 repaint();
+                                whoseTurn.tileWipe();
                             }
                         }
                     }
@@ -183,6 +184,10 @@ public class Window extends JPanel{
         return whoseStarterFrogTurn;
     }
 
+    public MeanToadButton getMeanButton() {
+        return this.meanButton;
+    }
+
 
 
     public String[] getListOfChoosableFrogTypes() {
@@ -236,7 +241,7 @@ public class Window extends JPanel{
 
     public void endGame(){
         System.out.println("Game end");
-        System.exit(0);
+        System.exit(1);
     }
 
 
