@@ -55,7 +55,7 @@ public class PurpleFrog extends Frog {
 //        w.repaint();
 
         super.attack(attackedTile); //Attacks the attacked tile
-        altSprite = zappedSprite;
+//        altSprite = zappedSprite;
 
         if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
             if(isBuffed){
