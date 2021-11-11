@@ -64,12 +64,12 @@ public class Tile {
             }
 
         } else {
-            System.out.println("alt color (for real): " + altColor);
+//            System.out.println("alt color (for real): " + altColor);
             if(altColor != null){
                 g2d.setColor(altColor);
-                System.out.println("Current color: " + g2d.getColor()); //<- try this basym
+//                System.out.println("Current color: " + g2d.getColor()); //<- try this basym
             } else {
-                g2d.setColor(Color.WHITE);
+                g2d.setColor(new Color(20, 150, 40));
             }
 
             g2d.fillRect(graphicsX,graphicsY,100,100);

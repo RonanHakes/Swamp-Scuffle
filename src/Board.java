@@ -21,14 +21,19 @@ public class Board {
         for (int i = 0; i < 8; i++) { // loops horizontally
             for (int j = 0; j < 8; j++) { // loops vertically
                 board[i][j].paint(g2d); // paints tile
-                g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile <--remove eventually
+                //g2d.drawString(String.valueOf(i) + "," + String.valueOf(j), i * 100 + 560 + 50, j * 100 + 100 + 50); // writes coordinate on tile <--remove eventually
             }
         }
 
     }
 
     public Tile clickedOn(MouseEvent e){
-        return board[(e.getX() - 560) / 100 ][(e.getY() - 100) / 100];  //This returns the specific tile instance that is clicked on
+        int x = (e.getX() - 560) / 100;
+        int y = (e.getY() - 100) / 100;
+        if (x < 0 || x > 7 || y < 0 || y > 7) {
+            return null;
+        }
+        return board[x][y];  //This returns the specific tile instance that is clicked on
     }
 
     public Tile[][] getBoard() {

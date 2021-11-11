@@ -36,7 +36,7 @@ public class MeanToadButton {
     
     public void paint(Graphics2D g2d) {
         try {
-            if ((w.getp1().getStarterFrogTurnCounter() > 3 && w.getp2().getStarterFrogTurnCounter() >= 3)) {
+            if ((w.getp1().getStarterFrogTurnCounter() > 3)) {
                 img = ImageIO.read(new File("res\\MeanToadButton.png"));
                 g2d.drawImage(img, 50, 1080 - 250, null);
             }
@@ -56,12 +56,12 @@ public class MeanToadButton {
         isClicked = true;
 
         for (int i = 0; i < 8; i++) {
-            if (w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
-                System.out.println("MEAN TOAD YELLOW");
-                w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].setAltColor(Color.YELLOW);
-                w.repaint();
-
-
+            if (w.getWhoseTurn().getEnergyNum() >= 30 && w.getp1().getStarterFrogTurnCounter() > 3) {
+                if (w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
+                    System.out.println("MEAN TOAD YELLOW");
+                    w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].setAltColor(Color.YELLOW);
+                    w.repaint();
+                }
             }
         }
 

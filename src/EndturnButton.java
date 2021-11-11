@@ -40,6 +40,7 @@ public class EndturnButton implements MouseListener {
         System.out.println("stinky butt");
         w.getWhoseTurn().getFrogsOwned().forEach(Unit::onUnclicked);    //makes all units unclicked
         isClicked = true;
+        w.repaint();
         System.out.println("click");
 
 
@@ -56,9 +57,9 @@ public class EndturnButton implements MouseListener {
 
     public void paint(Graphics2D g2d) {
         try {
-            if ((w.getp1().getStarterFrogTurnCounter() > 3)) {
-                g2d.drawImage(img, graphicsX, graphicsY, null);
+            if ((w.getp1().getStarterFrogTurnCounter() > 3 || w.getp1().getTurnNumber() >= 1)) {
                 img = ImageIO.read(new File("res\\EndTurnButton.png"));
+                g2d.drawImage(img, graphicsX, graphicsY, null);
             } else {
                 img = ImageIO.read(new File("res\\StartTurnButton.png"));
                 g2d.drawImage(img, graphicsX, graphicsY, null);

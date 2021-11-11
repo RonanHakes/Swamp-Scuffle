@@ -16,7 +16,12 @@ public abstract class Frog extends Unit {
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
-        belongsTo.getFrogsOwned().add(this);
+        if (this instanceof AfricanBullFrog) {
+            belongsTo.getFrogsOwned().add(this);
+        } else {
+            belongsTo.getFrogsOwned().add(0, this);
+        }
+
         System.out.println("Player " + belongsTo.getPlayerNumber() + " Frogs Owned: " + belongsTo.getFrogsOwned().size());
         //ArrayList<Frog> fl = belongsTo.getFrogsOwned();
         //ArrayList<Unit> ul = belongsTo.getUnitsOwned();
@@ -128,7 +133,7 @@ public abstract class Frog extends Unit {
                     current.setAltColor(new Color(139, 0, 0));
                     current.setCanAttack(true);
                 } else if (canUseUtility(current)) {
-                    current.setAltColor(new Color(35, 60, 150));
+                    current.setAltColor(new Color(60, 180, 200));
                     current.setCanUseUtility(true);
                 } else if (canMoveTo(current)) {
                     current.setAltColor(Color.YELLOW);

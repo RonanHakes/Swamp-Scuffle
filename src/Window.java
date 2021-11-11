@@ -12,9 +12,25 @@ import java.util.Queue;
 
 public class Window extends JPanel{
     public Window() {
-        setZappedSprite();
+        //setZappedSprite();
         button = new EndturnButton(this);
         meanButton = new MeanToadButton(this);
+        try {
+            background = ImageIO.read(new File("res\\PlopSpluppleBackground.png"));
+            if (background != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
+        try {
+            title = ImageIO.read(new File("res\\SwampScuffleGameTitle.png"));
+            if (title != null) {
+                System.out.println("found image");
+            }
+        } catch (IOException e) {
+            System.out.println("Can't find image.");
+        }
 
 
 
@@ -29,7 +45,6 @@ public class Window extends JPanel{
                 int x = e.getX();
                 int y = e.getY();
 
-
                 if (x >= 1920 - 50 && x <= 1920 && y >= 0 && y <= 22) {
                     close.mousePressed(e);
                 }
@@ -39,22 +54,32 @@ public class Window extends JPanel{
                 }
 
                 if (meanButton.isClicked()) {
-                    for (int i = 0; i < 8; i++) {
-                        if (x >= getWhoseTurn().getHomeColumn() * 100 + 560 && x <= getWhoseTurn().getHomeColumn() * 100 + 560 + 100 && y >= i * 100 + 100 && y <= i * 100 + 200 && getBoard().getBoard()[getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
-                            meanButton.setNumClicked(i);
-                            meanButton.setIsClicked(true);
-                            if (getWhoseTurn().getEnergyNum() >= 30) {
-                                getWhoseTurn().setEnergyNum(getWhoseTurn().getEnergyNum() - 30);
-                                new MeanToadEgg(getWhoseTurn().getHomeColumn(), i, getWhoseTurn(), whoseTurn.getW());
-                                repaint();
-                                meanButton.setNumClicked(0);
-                                meanButton.setIsClicked(false);
-                                getBoard().getBoard()[whoseTurn.getHomeColumn()][i].setAltColor(null);
-                                repaint();
-                                whoseTurn.tileWipe();
+                    if (!(x >= 560 && y >= 100 && x <= 1360 && y <= 900) && !(x >= 50 && x <= 50 + 462 && y >= 1080 - 250 && y <= 1080 - 250 + 198)) {
+                        meanButton.setNumClicked(0);
+                        meanButton.setIsClicked(false);
+                        System.out.println("UNHIGHLIGHT");
+                        whoseTurn.dehighlightHomeColumn();
+                        repaint();
+                    }
+                    if (p1.getStarterFrogTurnCounter() > 3) {
+                        for (int i = 0; i < 8; i++) {
+                            if (x >= getWhoseTurn().getHomeColumn() * 100 + 560 && x <= getWhoseTurn().getHomeColumn() * 100 + 560 + 100 && y >= i * 100 + 100 && y <= i * 100 + 200 && getBoard().getBoard()[getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
+                                meanButton.setNumClicked(i);
+                                meanButton.setIsClicked(true);
+                                if (getWhoseTurn().getEnergyNum() >= 30) {
+                                    getWhoseTurn().setEnergyNum(getWhoseTurn().getEnergyNum() - 30);
+                                    new MeanToadEgg(getWhoseTurn().getHomeColumn(), i, getWhoseTurn(), whoseTurn.getW());
+                                    repaint();
+                                    meanButton.setNumClicked(0);
+                                    meanButton.setIsClicked(false);
+                                    getBoard().getBoard()[whoseTurn.getHomeColumn()][i].setAltColor(null);
+                                    repaint();
+                                    whoseTurn.tileWipe();
+                                }
                             }
                         }
                     }
+
                 }
 
 
@@ -78,6 +103,7 @@ public class Window extends JPanel{
                     }
                     try {
                         switchTurn();
+                        repaint();
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -95,6 +121,10 @@ public class Window extends JPanel{
                         }
 
                     }
+
+//                    if (t.getOccupiedBy().isClickedByAfricanBullfrog()){
+//
+//                    }
                     if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
                             t.getOccupiedBy().onClicked();
@@ -102,16 +132,38 @@ public class Window extends JPanel{
                         }
                     }
                     for (int i = 0; i < whoseTurn.getFrogsOwned().size(); i++) {
+
                         if (whoseTurn.getFrogsOwned().get(i).isClicked()) {
                             if (whoseTurn.getFrogsOwned().get(i).canAttack(t)) {
                                 whoseTurn.getFrogsOwned().get(i).attack(t);
                             } else if (whoseTurn.getFrogsOwned().get(i).canUseUtility(t)) {
                                 whoseTurn.getFrogsOwned().get(i).useUtility(t);
-                            } else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
+                            }
+                            else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
                                 whoseTurn.getFrogsOwned().get(i).move(t);
-                            } else if (t.getIsOccupied() == 0){
+                            } else if (whoseTurn.getFrogsOwned().get(i) instanceof AfricanBullFrog && t.getIsOccupied() != 0) {
+
+                                if (whoseTurn.getFrogsOwned().get(i).isValidOneTileRadius(t) && t.getOccupiedBy().belongsTo == whoseTurn) {
+                                    System.out.println("a print statement");
+                                    ((AfricanBullFrog) whoseTurn.getFrogsOwned().get(i)).setAlly(t.getOccupiedBy());
+                                    ((AfricanBullFrog) whoseTurn.getFrogsOwned().get(i)).onAllyClicked(t.getOccupiedBy());
+//                                } else if (whoseTurn.getFrogsOwned().get(i).canAttack(t)) {
+//                                    whoseTurn.getFrogsOwned().get(i).attack(t);
+//                                } else if (whoseTurn.getFrogsOwned().get(i).canUseUtility(t)) {
+//                                    whoseTurn.getFrogsOwned().get(i).useUtility(t);
+//                                }
+//                                else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
+//                                    whoseTurn.getFrogsOwned().get(i).move(t);
+                                }
+
+                            }
+                            else if (t.getIsOccupied() == 0){
                                 whoseTurn.getFrogsOwned().get(i).onUnclicked();
                             }
+                        }
+                        if(whoseTurn.getFrogsOwned().get(i).isClickedByAfricanBullfrog()){
+                            whoseTurn.getFrogsOwned().get(i).getBeingMovedBy().liftAlly(whoseTurn.getFrogsOwned().get(i).getOccupiedTile(), t);
+
                         }
                     }
 
@@ -171,6 +223,8 @@ public class Window extends JPanel{
     private BufferedImage zappedSprite;
     private MeanToadButton meanButton;
     private CloseButton close = new CloseButton(this);
+    private BufferedImage background;
+    private BufferedImage title;
 
     public Player getp1() {
         return p1;
@@ -304,18 +358,23 @@ public class Window extends JPanel{
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawImage(background, 0, 0,null);
+
+        g2d.drawImage(title, 1920/2 - 150, 1080 - 175, null);
         b.paint(g2d); // paint board
         button.paint(g2d);
         meanButton.paint(g2d);
         close.paint(g2d);
+        Font default1 = g2d.getFont();
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 25));
         if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
-                g2d.drawString(String.valueOf(whoseStarterFrogTurn.getPlayerNumber()), 1920/2, 50);
+                g2d.drawString("Player " + String.valueOf(whoseStarterFrogTurn.getPlayerNumber()) + " Starter Frog Turn", 1920/2 - 150, 60 );
                 System.out.println("Working");
         } else {
-            g2d.drawString(String.valueOf(whoseTurn.getPlayerNumber()), 1920/2, 50);
+            g2d.drawString("Player " + String.valueOf(whoseTurn.getPlayerNumber()) + " Turn", 1920/2 - 75, 60);
         }
         System.out.println(b.avgTile(b.getBoard()[7][1], b.getBoard()[7][3]));
-
+        g2d.setFont(default1);
         p1.getpIS().paint(g2d);
         p2.getpIS().paint(g2d);
         p1.paint(g2d);

@@ -23,7 +23,16 @@ public abstract class Unit {
     protected boolean isClicked;
     protected boolean isBuffed;
     protected boolean isDisabled = false;
+    private boolean isClickedByAfricanBullfrog;
+    private AfricanBullFrog beingMovedBy;
 
+    public void setHeavy(boolean heavy) {
+        isHeavy = heavy;
+    }
+
+    public boolean isHeavy() {
+        return isHeavy;
+    }
 
     public abstract void paint(Graphics2D g2d);
 
@@ -310,4 +319,20 @@ public abstract class Unit {
                 '}';
     }
 
+
+    public boolean isClickedByAfricanBullfrog() {
+        return isClickedByAfricanBullfrog;
+    }
+
+    public void setClickedByAfricanBullfrog(boolean clickedByAfricanBullfrog) {
+        isClickedByAfricanBullfrog = clickedByAfricanBullfrog;
+    }
+
+    public AfricanBullFrog getBeingMovedBy() {
+        return beingMovedBy;
+    }
+
+    public void setBeingMovedBy(AfricanBullFrog beingMovedBy) {
+        this.beingMovedBy = beingMovedBy;
+    }
 }

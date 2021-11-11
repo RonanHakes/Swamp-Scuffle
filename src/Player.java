@@ -15,7 +15,7 @@ public class Player implements MouseListener{
     }
 
     private int turnNumber = 0;
-    private int energyNum = 30;
+    private int energyNum = 2;
     private int playerNumber;
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
@@ -132,7 +132,7 @@ public class Player implements MouseListener{
         for (int i = 0; i < 8; i++){
             if (getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
                 System.out.println("WORKING!!!!!");
-                getW().getBoard().getBoard()[homeColumn][i].setAltColor(Color.YELLOW);
+                getW().getBoard().getBoard()[homeColumn][i].setAltColor(null);
                 System.out.println("Alt Colour: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
                 w.repaint();
                 System.out.println("Alt Colour 2: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
@@ -159,7 +159,9 @@ public class Player implements MouseListener{
 
         int x = e.getX();
         int y = e.getY();
-        highlightHomeColumn();
+        //highlightHomeColumn();
+
+
         for (int i = 0; i < 7; i++) {
             if ( x >= 50 && x <= 200 && y>= 150 + i * 50 && y <= 200 + i * 50) {
                 System.out.println("Player " + playerNumber + "starter frog turn");
@@ -177,7 +179,7 @@ public class Player implements MouseListener{
         }
 
         if (isClicked != 0) {
-
+            highlightHomeColumn();
             for (int i = 0; i < 8; i++) {
 
 
@@ -304,8 +306,14 @@ public class Player implements MouseListener{
                     g2d.setColor(color);
                     g2d.fillRect(50, i * 50 + 150, 150, 50);
                 }
+                else {
+                    //g2d.setColor(new Color(20, 150, 40));
+                    //g2d.fillRect(50, i * 50 + 150, 150, 50);
+                    //g2d.setColor(color);
+                }
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(50, i * 50 + 150, 150, 50);
+
                 g2d.drawString(w.getListOfChoosableFrogTypes()[i], 50, i * 50 + 175);
             }
         }

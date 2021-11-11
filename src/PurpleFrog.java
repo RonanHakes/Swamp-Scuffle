@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class PurpleFrog extends Frog {
 
@@ -55,7 +56,7 @@ public class PurpleFrog extends Frog {
 //        w.repaint();
 
         super.attack(attackedTile); //Attacks the attacked tile
-//        altSprite = zappedSprite;
+        //altSprite = zappedSprite;
 
         if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
             if(isBuffed){
@@ -65,7 +66,7 @@ public class PurpleFrog extends Frog {
             moveToTile(attackedTile);
         }
         if (toCheck.getIsOccupied() != 0 && toCheck.getIsOccupied() != belongsTo.getPlayerNumber()){
-            belongsTo.giveEnergy(2);   //This sucks
+            //belongsTo.giveEnergy(2);   //This sucks
 //            toCheck.getOccupiedBy().setAltSprite(zappedSprite);
 //            w.repaint();
 //            try{
@@ -75,7 +76,24 @@ public class PurpleFrog extends Frog {
 //            }
 //            toCheck.getOccupiedBy().setAltSprite(null);
 //            w.repaint();
-            super.attackNoCheck(toCheck);
+            toCheck.getOccupiedBy().takeDamage(1);
+            if (toCheck.getOccupiedBy().getHitPoints() <= 0) {
+                toCheck.getOccupiedBy().die();
+                if (belongsTo.getPlayerNumber() == 1) {
+                    if (w.getp2().getUnitsOwned().size() == 0) {
+                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                        w.endGame();
+                        System.out.println("WRONG WRONG WRONG");
+                    }
+                } else {
+                    if (w.getp1().getUnitsOwned().size() == 0) {
+                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                        w.endGame();
+                        System.out.println("WRONG WRONG WRONG");
+                    }
+                }
+            }
+            //super.attackNoCheck(toCheck);
             belongsTo.tileWipe();
         }
     }
