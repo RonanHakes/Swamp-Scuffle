@@ -18,8 +18,9 @@ public class Tadpole extends Unit{
     }
 
     public void die() {
-        super.die();
         belongsTo.getTadpolesOwned().removeIf(tadpole -> (tadpole == this));
+        super.die();
+
     }
     public void increaseTurnsAfterHatch(){
         turnsAfterHatch++;
@@ -32,7 +33,7 @@ public class Tadpole extends Unit{
 
     public void metamorphose() {
         onUnclicked();
-        die();
+        this.die();
 
         System.out.println("Metamorphose!!!!!!");
         //TODO: create metamorphose method
@@ -61,7 +62,6 @@ public class Tadpole extends Unit{
             SpringPeeper f = new SpringPeeper(boardX,boardY,belongsTo,w);
             f.isDisabled = true;
         }
-
     }
 
     public void paint(Graphics2D g2d) {

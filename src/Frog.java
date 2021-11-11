@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Frog extends Unit {
 
@@ -31,9 +32,9 @@ public abstract class Frog extends Unit {
 
     @Override
     public void die(){      //this overrides the Unit class' die method so that if a Frog is dying, it will also be removed from the owning player's frogsOwned arrayList
-
+        belongsTo.getFrogsOwned().removeIf(Unit -> (Unit == this));
         super.die();
-        belongsTo.getFrogsOwned().removeIf(Unit -> (Unit == this)); //this removes the frog that is dying from the owner player's frogsOwned arrayList through the use of a lambda function
+         //this removes the frog that is dying from the owner player's frogsOwned arrayList through the use of a lambda function
 
     }
 
@@ -50,6 +51,19 @@ public abstract class Frog extends Unit {
                 }
                 attackedTile.getOccupiedBy().die();
                 moveToTile(attackedTile);
+                if (belongsTo.getPlayerNumber() == 1) {
+                    if (w.getp2().getUnitsOwned().size()==0) {
+                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                        w.endGame();
+                        System.out.println("WRONG WRONG WRONG");
+                    }
+                } else {
+                    if (w.getp1().getUnitsOwned().size()==0) {
+                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                        w.endGame();
+                        System.out.println("WRONG WRONG WRONG");
+                    }
+                }
 
 
             }
@@ -164,7 +178,7 @@ public abstract class Frog extends Unit {
 
     public boolean canLayEgg(){      //Checks if an egg can be layed by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
-        if (!isClicked || belongsTo.getEnergyNum() < 3 || hasLayedEgg) {
+        if (!isClicked || belongsTo.getEnergyNum() < 3 || hasLayedEgg || hasPerformedAction) {
             return false;
         }
         switch ((belongsTo.getPlayerNumber())){

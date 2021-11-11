@@ -21,8 +21,8 @@ public abstract class Unit {
     protected boolean isHeavy;
     protected int widthMultiplier;
     protected boolean isClicked;
-    protected boolean isDisabled = false;
     protected boolean isBuffed;
+    protected boolean isDisabled = false;
 
 
     public abstract void paint(Graphics2D g2d);
@@ -44,10 +44,6 @@ public abstract class Unit {
         occupiedTile.setOccupiedBy(null);
         belongsTo.getUnitsOwned().removeIf(Unit -> (Unit == this)); //this removes the unit that is dying from the owner player's unitsOwned arrayList through the use of a lambda function
         System.out.println("post-lambda:" + belongsTo.getUnitsOwned().toString());
-        if (belongsTo.getUnitsOwned().size()==0) {
-            w.endGame();
-            System.out.println("WRONG WRONG WRONG");
-        }
 
         w.repaint();
     }
@@ -213,10 +209,8 @@ public abstract class Unit {
 
         //This bit essentially removes the unit from the occupied tile that it is being moved off of, as long as it is actually being moved off of a tile
         if (getOccupiedTile() != null){
-
             getOccupiedTile().setOccupiedBy(null);
             getOccupiedTile().setIsOccupied(0);
-
         }
         this.isBuffed = t.isBuffed(); // If the tile being moved to is buffed, the unit will now be buffed as well, and vice versa
         occupiedTile = t;

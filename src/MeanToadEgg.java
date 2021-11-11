@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Arrays;
 
-public class MeanToadEgg extends Unit{
+public class MeanToadEgg extends Egg{
     protected BufferedImage img = null;
     private int turnsAfterLaid;
 
     public MeanToadEgg(int boardX, int boardY, Player p, Window w){
-        super(boardX, boardY, p, w);
+        super(boardX, boardY, p, null, w);
     }
 
 //    public void hatch(){  TODO
@@ -61,6 +61,13 @@ public class MeanToadEgg extends Unit{
     @Override
     public void onUnclicked() {
 
+    }
+
+
+    public void hatch() {
+        die();
+        MeanToadTadpole t = new MeanToadTadpole(boardX, boardY, belongsTo, w);
+        System.out.println("Hatched!!!!!");
     }
 
 

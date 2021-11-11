@@ -16,6 +16,7 @@ public class Tile {
     private boolean canMoveTo;
     private boolean canAttack;
 
+//    private int
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
@@ -25,9 +26,7 @@ public class Tile {
         canUseUtility = false;
     }
 
-    public boolean isBuffed() {
-        return isBuffed;
-    }
+
 
     public void paint(Graphics2D g2d) {
 
@@ -39,9 +38,8 @@ public class Tile {
             }
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
-
                 occupiedBy.paint(g2d);
-//                System.out.println("null1: " + this.toString());
+//              System.out.println("null1: " + this.toString());
                 if (occupiedBy.altSprite != null){
                     occupiedBy.paintAltSprite(g2d);
                 }
@@ -66,17 +64,17 @@ public class Tile {
             }
 
         } else {
+            System.out.println("alt color (for real): " + altColor);
             if(altColor != null){
                 g2d.setColor(altColor);
+                System.out.println("Current color: " + g2d.getColor()); //<- try this basym
             } else {
                 g2d.setColor(Color.WHITE);
             }
+
             g2d.fillRect(graphicsX,graphicsY,100,100);
 
             g2d.setColor(Color.BLACK);
-
-
-
 //
         }
         g2d.setColor(Color.BLACK);
@@ -114,6 +112,14 @@ public class Tile {
 
     public void setBoardX(int boardX) {
         this.boardX = boardX;
+    }
+
+    public void setBuffed(boolean b){
+        isBuffed = b;
+    }
+
+    public boolean isBuffed() {
+        return isBuffed;
     }
 
     public int getBoardX() {
@@ -185,9 +191,5 @@ public class Tile {
 
     public void setCanAttack(boolean canAttack) {
         this.canAttack = canAttack;
-    }
-
-    public void setBuffed(boolean buffed) {
-        isBuffed = buffed;
     }
 }

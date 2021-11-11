@@ -11,6 +11,7 @@ public class AfricanBullFrog extends Frog {
     public AfricanBullFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
         setHitPoints(2);
+        maxHitPoints = hitPoints;
 
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
@@ -100,5 +101,5 @@ public class AfricanBullFrog extends Frog {
         super.paint(g2d);
     }
 
-    
+
 }

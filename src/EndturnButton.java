@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class EndturnButton implements MouseListener {
     private boolean isClicked = false;
+    private int numCLicked = 0;
     private BufferedImage img = null;
     private int graphicsX = 1920-200;
     private int graphicsY = 1080-300;
@@ -42,6 +43,11 @@ public class EndturnButton implements MouseListener {
         p.setfrogsOwned(fl);
         isClicked = true;
         System.out.println("click");
+//        if (playerNumber == 1) {
+//            w.setWhoseStarterFrogTurn(w.getp2());
+//        } else {
+//            w.setWhoseStarterFrogTurn(w.getp1());
+//        }
 
 
     }
@@ -57,7 +63,7 @@ public class EndturnButton implements MouseListener {
 
     public void paint(Graphics2D g2d) {
         try {
-            if ((w.getp1().getStarterFrogTurnCounter() >= 4)) {
+            if ((w.getp1().getStarterFrogTurnCounter() > 3)) {
                 g2d.drawImage(img, graphicsX, graphicsY, null);
                 img = ImageIO.read(new File("res\\EndTurnButton.png"));
             } else {

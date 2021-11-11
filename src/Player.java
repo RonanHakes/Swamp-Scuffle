@@ -8,11 +8,14 @@ public class Player implements MouseListener{
     private Window w;
     private int numberofFrogs = 0;
     private boolean isTurn;
+    private int isClicked = 0;
 
-
+    public int getIsClicked() {
+        return isClicked;
+    }
 
     private int turnNumber = 0;
-    private int energyNum = 3;
+    private int energyNum = 30;
     private int playerNumber;
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
@@ -111,28 +114,12 @@ public class Player implements MouseListener{
 
 
     public void starterFrogTurn(MouseEvent e) { // changed it so starterFrogTurn can paint the frog after creating it
-        int isClicked = 0;
+
         int x = e.getX();
         int y = e.getY();
         for (int i = 0; i < 7; i++) {
             if ( x >= 50 && x <= 200 && y>= 150 + i * 50 && y <= 200 + i * 50) {
-                System.out.println("Player " + playerNumber + " starter frog turn");
-                //if (getW().getBoard().getBoard()[homeColumn][starterFrogTurnCounter].getIsOccupied() == 0) {
-//                    if (i == 0) {
-//                        new AfricanBullFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else if (i == 1) {
-//                        new BluePoisonArrowFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else if (i == 2) {
-//                        new GoliathFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else if (i == 3) {
-//                        new PoisonDartFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else if (i == 4) {
-//                        new PurpleFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else if (i == 5) {
-//                        new SharpNosedRocketFrog(homeColumn, starterFrogTurnCounter, this, w);
-//                    } else {
-//                        new SpringPeeper(homeColumn, starterFrogTurnCounter, this, w);
-//                    }
+                System.out.println("Player " + playerNumber + "starter frog turn");
                     isClicked = i + 1;
                     System.out.println("Is Clicked " + isClicked);
 //                    w.repaint();
@@ -151,7 +138,9 @@ public class Player implements MouseListener{
                 if (getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
                     System.out.println("WORKING!!!!!");
                     getW().getBoard().getBoard()[homeColumn][i].setAltColor(Color.YELLOW);
+                    System.out.println("Alt Colour: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
                     w.repaint();
+                    System.out.println("Alt Colour 2: " + getW().getBoard().getBoard()[homeColumn][i].getAltColor());
                 }
 
                 if (x >= homeColumn * 100 + 560 && x <= homeColumn * 100 + 560 + 100 && y >= i * 100 + 100 && y <= i * 100 + 200 && getW().getBoard().getBoard()[homeColumn][i].getIsOccupied() == 0) {
@@ -175,7 +164,7 @@ public class Player implements MouseListener{
                         isClicked = 0;
                         starterFrogTurnCounter++;
                         for (int j = 0; j < 8; j++) {
-                            getW().getBoard().getBoard()[homeColumn][j].setAltColor(null);
+                           getW().getBoard().getBoard()[homeColumn][j].setAltColor(null);
                         }
                         w.repaint();
                         if (playerNumber == 1) {
@@ -244,9 +233,7 @@ public class Player implements MouseListener{
                         new SpringPeeper(homeColumn, i, this, w);
                         isClicked = 0;
                         starterFrogTurnCounter++;
-                        for (int j = 0; j < 8; j++) {
-                            getW().getBoard().getBoard()[homeColumn][j].setAltColor(null);
-                        }
+
                         w.repaint();
                         if (playerNumber == 1) {
                             w.setWhoseStarterFrogTurn(w.getp2());
@@ -254,6 +241,9 @@ public class Player implements MouseListener{
                             w.setWhoseStarterFrogTurn(w.getp1());
                         }
                         break;
+                    }
+                    for (int j = 0; j < 8; j++) {
+                        getW().getBoard().getBoard()[homeColumn][j].setAltColor(null);
                     }
 
 
@@ -280,6 +270,7 @@ public class Player implements MouseListener{
     public void turn() throws InterruptedException {
         w.repaint();
         starterFrogTurnCounter++;
+        System.out.println("Starter Frog Turn Counter " + starterFrogTurnCounter);
         w.repaint();
         Tile[][] tileArr = w.getBoard().getBoard();
         w.getButton().setIsClicked(false);
@@ -294,15 +285,6 @@ public class Player implements MouseListener{
         energyNum += energyPerTurn;
         w.repaint();
         System.out.println("turn: " + w.getWhoseTurn().playerNumber);
-        for (Frog frog : frogsOwned) {
-            frog.setHasPerformedAction(false);
-            frog.setDisabled(false);
-
-        }
-        for (Tadpole tadpole : tadpolesOwned) {
-            tadpole.setHasPerformedAction(false);
-           tadpole.setDisabled(false);
-        }
 
 
         ArrayList<Egg> toRemoveEgg = new ArrayList<Egg>();

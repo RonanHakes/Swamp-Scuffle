@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class SharpNosedRocketFrog extends Frog {
 
@@ -160,6 +161,11 @@ public class SharpNosedRocketFrog extends Frog {
                 }
                 attackedTile.getOccupiedBy().die();
                 moveToTile(attackedTile);
+                if (belongsTo.getUnitsOwned().size()==0) {
+                    System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                    w.endGame();
+                    System.out.println("WRONG WRONG WRONG");
+                }
             }
         } else if (canAttack(attackedTile)){
             hasPerformedAction = true;
@@ -173,6 +179,11 @@ public class SharpNosedRocketFrog extends Frog {
                     }
                     attackedTile.getOccupiedBy().die();
                     moveToTile(attackedTile);
+                    if (belongsTo.getUnitsOwned().size()==0) {
+                        System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                        w.endGame();
+                        System.out.println("WRONG WRONG WRONG");
+                    }
                 }
             }
 

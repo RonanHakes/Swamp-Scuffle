@@ -11,6 +11,7 @@ public class GoliathFrog extends Frog {
         super(boardX, boardY, p, w);
         isHeavy = true;
         setHitPoints(2);
+        maxHitPoints = hitPoints;
 
         try {
             img = ImageIO.read(new File("res\\GoliathFrogSprite.png"));

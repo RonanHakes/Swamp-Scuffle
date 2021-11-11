@@ -14,8 +14,25 @@ public class MeanToadButton {
     public MeanToadButton(Window w) {
         this.w = w;
     }
-
     private final int COST = 30;
+    private int numClicked = 0;
+    private boolean isClicked = false;
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+    public void setIsClicked(Boolean b){
+         isClicked = b;
+    }
+
+    public int getNumClicked() {
+        return numClicked;
+    }
+    public void setNumClicked(int n) {
+        numClicked = n;
+    }
+
+    
     
     public void paint(Graphics2D g2d) {
         try {
@@ -32,19 +49,22 @@ public class MeanToadButton {
 
     }
     public void mousePressed(MouseEvent e) {
-        System.out.println("stinky butt");
-        Player p = w.getWhoseTurn();
-        ArrayList<Frog> fl = p.getFrogsOwned();
-        p.setfrogsOwned(fl);
-        if (w.getWhoseTurn().getEnergyNum() >= COST) {
-            w.getWhoseTurn().setEnergyNum(w.getWhoseTurn().getEnergyNum() - COST);
 
-            new MeanToadEgg(w.getWhoseTurn().getHomeColumn(), 7, w.getWhoseTurn(), w);
+        int x = e.getX();
+        int y = e.getY();
+
+        for (int i = 0; i < 8; i++) {
+
+            if (w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
+                System.out.println("MEAN TOAD YELLOW");
+                w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].setAltColor(Color.YELLOW);
+                w.repaint();
+                System.out.println(w.getBoard().getBoard()[w.getWhoseTurn().getHomeColumn()][i].getAltColor());
+            }
         }
-        System.out.println("click");
-
-
+        isClicked = true;
     }
+
     public void mouseReleased(MouseEvent e) {
     }
     public void mouseEntered(MouseEvent e) {

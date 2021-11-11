@@ -25,13 +25,12 @@ public class Egg extends Unit{
     }
 
     public void die() {
-        super.die();
         belongsTo.getEggsOwned().removeIf(Egg -> (Egg == this));
+        super.die();
     }
 
     public void hatch() {
-        die();
-        System.out.println("Hatched!!!!!");
+        this.die();
         Tadpole t = new Tadpole(boardX, boardY, belongsTo, parent, w);
     }
 

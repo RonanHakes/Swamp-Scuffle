@@ -36,6 +36,25 @@ public class Window extends JPanel{
                     meanButton.mousePressed(e);
                 }
 
+                if (meanButton.isClicked()) {
+                    for (int i = 0; i < 8; i++) {
+                        if (x >= getWhoseTurn().getHomeColumn() * 100 + 560 && x <= getWhoseTurn().getHomeColumn() * 100 + 560 + 100 && y >= i * 100 + 100 && y <= i * 100 + 200 && getBoard().getBoard()[getWhoseTurn().getHomeColumn()][i].getIsOccupied() == 0) {
+                            meanButton.setNumClicked(i);
+                            meanButton.setIsClicked(true);
+                            if (getWhoseTurn().getEnergyNum() >= 30) {
+                                getWhoseTurn().setEnergyNum(getWhoseTurn().getEnergyNum() - 30);
+                                new MeanToadEgg(getWhoseTurn().getHomeColumn(), i, getWhoseTurn(), whoseTurn.getW());
+                                repaint();
+                                meanButton.setNumClicked(0);
+                                meanButton.setIsClicked(false);
+                                getBoard().getBoard()[whoseTurn.getHomeColumn()][i].setAltColor(null);
+                                repaint();
+                            }
+                        }
+                    }
+                }
+
+
                 if (whoseStarterFrogTurn == p1 && p1.getStarterFrogTurnCounter() < 3){
                     p1.starterFrogTurn(e);
                 }
@@ -45,13 +64,22 @@ public class Window extends JPanel{
 
                 if (x >= button.getGraphicsX() && x <= button.getGraphicsX() + button.getImg().getWidth() && y >= button.getGraphicsY() && y <= button.getGraphicsY() + button.getImg().getHeight() && (p1.getStarterFrogTurnCounter() >= 3 && p2.getStarterFrogTurnCounter() >= 3)) {   //Checks if the mousepress is within the end turn button
                     button.mousePressed(e);
+                    for (Frog frog : whoseTurn.getFrogsOwned()) {
+                        frog.setHasPerformedAction(false);
+                        frog.setDisabled(false);
+
+                    }
+                    for (Tadpole tadpole : whoseTurn.getTadpolesOwned()) {
+                        tadpole.setHasPerformedAction(false);
+                        tadpole.setDisabled(false);
+                    }
                     try {
                         switchTurn();
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
 
-                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900 && (p1.getStarterFrogTurnCounter() >= 4)){  //this looks ridiculous, but it is just checking if the click is in the whole board area
+                } else if (x >= 560 && y >= 100 && x <= 1360 && y <= 900 && (p1.getStarterFrogTurnCounter() >= 4 && !meanButton.isClicked())){  //this looks ridiculous, but it is just checking if the click is in the whole board area
                     Tile t = b.clickedOn(e);
                     System.out.println("Tile clicked: " + t.toString());
                     System.out.println("reached it!");
@@ -292,7 +320,6 @@ public class Window extends JPanel{
     public Board getBoard(){
         return b;
     }
-
 
     public EndturnButton getButton(){
         return button;

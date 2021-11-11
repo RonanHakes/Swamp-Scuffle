@@ -42,6 +42,18 @@ public class PurpleFrog extends Frog {
         int yDiff = attackedTile.getBoardY() - occupiedTile.getBoardY();
         Tile toCheck = tileArr[attackedTile.getBoardX() + xDiff][attackedTile.getBoardY() + yDiff];     //gets the tile behind the attacking tile so that it can be checked
 
+        //this is for the attack animation TODO
+//        attackedTile.getOccupiedBy().setAltSprite(zappedSprite);
+//        w.repaint();
+//        try{
+//            Thread.sleep(200);
+//            System.out.println("weweweweWA!!");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        attackedTile.getOccupiedBy().setAltSprite(null);
+//        w.repaint();
+
         super.attack(attackedTile); //Attacks the attacked tile
         altSprite = zappedSprite;
 
@@ -54,7 +66,16 @@ public class PurpleFrog extends Frog {
         }
         if (toCheck.getIsOccupied() != 0 && toCheck.getIsOccupied() != belongsTo.getPlayerNumber()){
             belongsTo.giveEnergy(2);   //This sucks
-            super.attackNoCheck(toCheck);   //Attacks the tile behind the first if it is occupied
+//            toCheck.getOccupiedBy().setAltSprite(zappedSprite);
+//            w.repaint();
+//            try{
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            toCheck.getOccupiedBy().setAltSprite(null);
+//            w.repaint();
+            super.attackNoCheck(toCheck);
         }
     }
 }

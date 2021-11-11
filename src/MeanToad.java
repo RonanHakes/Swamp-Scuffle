@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MeanToad extends Frog {
 
@@ -20,6 +21,7 @@ public class MeanToad extends Frog {
         super(boardX, boardY, p, w);
         isHeavy = true;
         setHitPoints(3);
+        maxHitPoints = hitPoints;
 
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
@@ -102,6 +104,11 @@ public class MeanToad extends Frog {
                 }
                 attackedTile.getOccupiedBy().die();
                 moveToTile(attackedTile);
+                if (belongsTo.getUnitsOwned().size()==0) {
+                    System.out.println(Arrays.deepToString(belongsTo.getUnitsOwned().toArray()));
+                    w.endGame();
+                    System.out.println("WRONG WRONG WRONG");
+                }
             }
             hasPerformedAction = true;
             onUnclicked();
@@ -127,6 +134,15 @@ public class MeanToad extends Frog {
         } else if (hitPoints == 2){
             try {
                 img = ImageIO.read(new File("res\\LowHPMeanToadSprite.png"));
+                if (img != null) {
+                    System.out.println("found image");
+                }
+            } catch (IOException e) {
+                System.out.println("Can't find image.");
+            }
+        } else if (hitPoints == 4){
+            try {
+                img = ImageIO.read(new File("res\\LovingToadSprite.png"));
                 if (img != null) {
                     System.out.println("found image");
                 }

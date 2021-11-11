@@ -41,6 +41,11 @@ public class BluePoisonArrowFrog extends Frog {
         buffSurroundingTiles();
     }
 
+    @Override
+    public boolean canAttack(Tile t){
+        return false;
+    }
+
     private void buffSurroundingTiles(){
 
         //This is terribly inefficient, but it should work for now
@@ -53,7 +58,7 @@ public class BluePoisonArrowFrog extends Frog {
                 }
             }
         }
-        
+
     }
 
 
