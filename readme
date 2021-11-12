@@ -5,7 +5,10 @@ Fix:
 - Finish african bullfrog
 - fix start turn button not changing to end turn button fast enough
 - make buttons square
+<<<<<<< HEAD
 - make sure energy is working properly
+=======
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 
 
 For future:

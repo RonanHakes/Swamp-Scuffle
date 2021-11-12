@@ -26,6 +26,7 @@ public abstract class Unit {
     private boolean isClickedByAfricanBullfrog;
     private AfricanBullFrog beingMovedBy;
 
+<<<<<<< HEAD
     public void setHeavy(boolean heavy) {
         isHeavy = heavy;
     }
@@ -33,6 +34,8 @@ public abstract class Unit {
     public boolean isHeavy() {
         return isHeavy;
     }
+=======
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 
     public abstract void paint(Graphics2D g2d);
 

@@ -3,7 +3,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.Arrays;
+=======
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 
 public class PurpleFrog extends Frog {
 
@@ -56,7 +59,11 @@ public class PurpleFrog extends Frog {
 //        w.repaint();
 
         super.attack(attackedTile); //Attacks the attacked tile
+<<<<<<< HEAD
         //altSprite = zappedSprite;
+=======
+        altSprite = zappedSprite;
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 
         if (attackedTile.getOccupiedBy().getHitPoints() <= 0){
             if(isBuffed){
@@ -66,7 +73,11 @@ public class PurpleFrog extends Frog {
             moveToTile(attackedTile);
         }
         if (toCheck.getIsOccupied() != 0 && toCheck.getIsOccupied() != belongsTo.getPlayerNumber()){
+<<<<<<< HEAD
             //belongsTo.giveEnergy(2);   //This sucks
+=======
+            belongsTo.giveEnergy(2);   //This sucks
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 //            toCheck.getOccupiedBy().setAltSprite(zappedSprite);
 //            w.repaint();
 //            try{
@@ -76,6 +87,7 @@ public class PurpleFrog extends Frog {
 //            }
 //            toCheck.getOccupiedBy().setAltSprite(null);
 //            w.repaint();
+<<<<<<< HEAD
             toCheck.getOccupiedBy().takeDamage(1);
             if (toCheck.getOccupiedBy().getHitPoints() <= 0) {
                 toCheck.getOccupiedBy().die();
@@ -94,6 +106,9 @@ public class PurpleFrog extends Frog {
                 }
             }
             //super.attackNoCheck(toCheck);
+=======
+            super.attackNoCheck(toCheck);
+>>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
             belongsTo.tileWipe();
         }
     }
