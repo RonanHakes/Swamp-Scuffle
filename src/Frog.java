@@ -16,16 +16,12 @@ public abstract class Frog extends Unit {
 
     public Frog(int boardX, int boardY, Player p, Window w) {
         super(boardX, boardY, p, w);
-<<<<<<< HEAD
         if (this instanceof AfricanBullFrog) {
             belongsTo.getFrogsOwned().add(this);
         } else {
             belongsTo.getFrogsOwned().add(0, this);
         }
 
-=======
-        belongsTo.getFrogsOwned().add(this);
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
         System.out.println("Player " + belongsTo.getPlayerNumber() + " Frogs Owned: " + belongsTo.getFrogsOwned().size());
         //ArrayList<Frog> fl = belongsTo.getFrogsOwned();
         //ArrayList<Unit> ul = belongsTo.getUnitsOwned();

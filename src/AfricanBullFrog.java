@@ -21,14 +21,10 @@ public class AfricanBullFrog extends Frog {
     public AfricanBullFrog(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, w);
         setHitPoints(2);
-<<<<<<< HEAD
         isHeavy = true;
         maxHitPoints = hitPoints;
         canLiftAlly = false;
         this.ally = null;
-=======
-        maxHitPoints = hitPoints;
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 
         if (p.getPlayerNumber() == 1){
             widthMultiplier = 1;
@@ -60,7 +56,6 @@ public class AfricanBullFrog extends Frog {
     }
 
     public void liftAlly(Tile depart, Tile arrivingAt){
-<<<<<<< HEAD
         if (canUseUtility(depart, arrivingAt)){
             depart.getOccupiedBy().moveToTile(arrivingAt);
             arrivingAt.getOccupiedBy().setClickedByAfricanBullfrog(false);
@@ -84,41 +79,15 @@ public class AfricanBullFrog extends Frog {
 
 
 
-=======
-
-    }
-
-    public void onAllyClicked(Unit ally){
-        ally.isClickedByAfricanBullfrog();
-        ally.setBeingMovedBy(this);
-
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
         Tile[][] tileArr = getW().getBoard().getBoard();
         Tile current;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
-<<<<<<< HEAD
                 if (canUseUtility(this.ally.occupiedTile, current)) {
                     current.setAltColor(new Color(60, 60, 200));
                     canLiftAlly = true;
 
-=======
-                if(isValidOneTileRadius(current)){  //If the tile that the ally is trying to be moved to is empty, it sets the canUseUtility of that tile to true, its value will have to be changed back to false somewhere but im not sure where yet TODO: <-- come back to this when gameloop is closer to being completed
-                    current.setCanUseUtility(true);
-                }
-                if (current.getBoardX() == boardX && current.getBoardY() == boardY){
-                    current.setAltColor(Color.GREEN);
-                } else if (canAttack(current)){
-                    current.setAltColor(new Color(139,0,0));
-                } else if (canUseUtility(current)){
-                    current.setAltColor(new Color(60, 60, 200));
-                } else if (canMoveTo(current)){
-                    current.setAltColor(Color.YELLOW);
-                }
-                if (current.isCanUseUtility()){ //Maybe it works if I change it down here? Probably not tho
-                    current.setCanUseUtility(false);
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
                 }
             }
         }
@@ -149,34 +118,8 @@ public class AfricanBullFrog extends Frog {
 //            }
 //        }
 
-
-        //This is a stupid dumb lazy way of doing this, and it probably won't work
-//        Tile[][] tileArr = getW().getBoard().getBoard();
-//        Tile current;
-//        for(int i = 0; i < 8; i++){
-//            for(int j = 0; j < 8; j++){
-//                current = tileArr[i][j];
-//                if(isValidOneTileRadius(current)){  //If the tile that the ally is trying to be moved to is empty, it sets the canUseUtility of that tile to true, its value will have to be changed back to false somewhere but im not sure where yet TODO: <-- come back to this when gameloop is closer to being completed
-//                    current.setCanUseUtility(true);
-//                }
-//                if (current.getBoardX() == boardX && current.getBoardY() == boardY){
-//                    current.setAltColor(Color.GREEN);
-//                } else if (canAttack(current)){
-//                    current.setAltColor(new Color(139,0,0));
-//                } else if (canUseUtility(current)){
-//                    current.setAltColor(new Color(60, 60, 200));
-//                } else if (canMoveTo(current)){
-//                    current.setAltColor(Color.YELLOW);
-//                }
-//                if (current.isCanUseUtility()){ //Maybe it works if I change it down here? Probably not tho
-//                    current.setCanUseUtility(false);
-//                }
-//            }
-//        }
-
     }
 
-<<<<<<< HEAD
 
     public boolean canUseUtility(Tile depart, Tile arrivingAt){
         if (depart.getOccupiedBy() instanceof AfricanBullFrog) {
@@ -197,11 +140,6 @@ public class AfricanBullFrog extends Frog {
             ally = null;
 
         }
-=======
-
-    public boolean canUseUtility(Tile depart, Tile arrivingAt){
-        return !hasPerformedAction && (depart.getIsOccupied() == belongsTo.getPlayerNumber() && isValidOneTileRadius(arrivingAt) && isValidOneTileRadius(depart));
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
     }
 
     @Override
@@ -220,11 +158,7 @@ public class AfricanBullFrog extends Frog {
                 } else if (canAttack(current)) {
                     current.setAltColor(new Color(139, 0, 0));
                     current.setCanAttack(true);
-<<<<<<< HEAD
                 } else if (isValidOneTileRadius(current) && current.getIsOccupied() == belongsTo.getPlayerNumber() && !(current.getOccupiedBy() instanceof  AfricanBullFrog) && !current.getOccupiedBy().isHeavy()) {
-=======
-                } else if (canUseUtility(current)) {
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
                     current.setAltColor(new Color(60, 180, 200));
                     current.setCanUseUtility(true);
                 } else if (canMoveTo(current)) {
@@ -240,14 +174,7 @@ public class AfricanBullFrog extends Frog {
 
     }
     public void useUtility(Tile depart, Tile arrivingAt){
-<<<<<<< HEAD
 
-=======
-        if (canUseUtility(depart, arrivingAt)){
-            depart.getOccupiedBy().moveToTile(arrivingAt);
-        }
-        hasPerformedAction = true;
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
     }
 
     @Override
@@ -266,7 +193,6 @@ public class AfricanBullFrog extends Frog {
     }
 
 
-<<<<<<< HEAD
     public boolean isCanLiftAlly() {
         return canLiftAlly;
     }
@@ -274,6 +200,4 @@ public class AfricanBullFrog extends Frog {
     public void setCanLiftAlly(boolean canLiftAlly) {
         this.canLiftAlly = canLiftAlly;
     }
-=======
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
 }

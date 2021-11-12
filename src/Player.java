@@ -15,11 +15,7 @@ public class Player implements MouseListener{
     }
 
     private int turnNumber = 0;
-<<<<<<< HEAD
     private int energyNum = 2;
-=======
-    private int energyNum = 30;
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
     private int playerNumber;
     private ArrayList<Unit> unitsOwned = new ArrayList<>(); // arrayList of unitsOwned
     private ArrayList<Frog> frogsOwned = new ArrayList<>(); // arrayList of frog units that are owned
@@ -311,14 +307,9 @@ public class Player implements MouseListener{
                     g2d.fillRect(50, i * 50 + 150, 150, 50);
                 }
                 else {
-<<<<<<< HEAD
                     //g2d.setColor(new Color(20, 150, 40));
                     //g2d.fillRect(50, i * 50 + 150, 150, 50);
                     //g2d.setColor(color);
-=======
-                    g2d.setColor(new Color(20, 150, 40));
-                    g2d.fillRect(50, i * 50 + 150, 150, 50);
->>>>>>> 55e624b3ecb446602accd916017ce05688a1cf6a
                 }
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(50, i * 50 + 150, 150, 50);
