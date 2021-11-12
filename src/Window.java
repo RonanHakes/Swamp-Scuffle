@@ -392,11 +392,13 @@ public class Window extends JPanel{
             close.paint(g2d);
             Font default1 = g2d.getFont();
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-            if (p1.getStarterFrogTurnCounter() < 3 && p2.getStarterFrogTurnCounter() < 3) {
+            if (p1.getStarterFrogTurnCounter() <= 3 && p2.getStarterFrogTurnCounter() < 3) {
                 g2d.drawString("Player " + String.valueOf(whoseStarterFrogTurn.getPlayerNumber()) + " Starter Frog Turn", 1920/2 - 150, 60 );
                 System.out.println("Working");
-            } else {
+            } else if (p1.getTurnNumber() >=1) {
                 g2d.drawString("Player " + String.valueOf(whoseTurn.getPlayerNumber()) + " Turn", 1920/2 - 75, 60);
+            } else {
+
             }
             System.out.println(b.avgTile(b.getBoard()[7][1], b.getBoard()[7][3]));
             g2d.setFont(default1);

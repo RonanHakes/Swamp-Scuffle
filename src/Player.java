@@ -301,16 +301,20 @@ public class Player implements MouseListener{
 
     public void paint(Graphics2D g2d) {
         if (w.getp1().getStarterFrogTurnCounter() < 3 || w.getp2().getStarterFrogTurnCounter() < 3) {
+            //g2d.setColor(new Color(20, 150, 40));
+            //g2d.fillRect(50,150,150,350);
+
             for (int i = 0; i < 7; i++) {
                 if (isClicked == i + 1) {
                     g2d.setColor(color);
                     g2d.fillRect(50, i * 50 + 150, 150, 50);
-                }
-                else {
+                    System.out.println(color);
+                } else {
                     //g2d.setColor(new Color(20, 150, 40));
                     //g2d.fillRect(50, i * 50 + 150, 150, 50);
                     //g2d.setColor(color);
                 }
+
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(50, i * 50 + 150, 150, 50);
 
