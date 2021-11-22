@@ -45,6 +45,7 @@ public class Egg extends Unit{
             } catch (IOException e) {
                 System.out.println("Can't find image.");
             }
+            isHeavy = true; //This is an absolutely terrible way of doing this but it works
         } else if (parent instanceof BluePoisonArrowFrog) {
             try {
                 img = ImageIO.read(new File("res\\BluePoisonEgg.png"));
@@ -63,6 +64,7 @@ public class Egg extends Unit{
             } catch (IOException e) {
                 System.out.println("Can't find image.");
             }
+            isHeavy = true; //This is an absolutely terrible way of doing this but it works
         } else if (parent instanceof PoisonDartFrog) {
             try {
                 img = ImageIO.read(new File("res\\PoisonDartEgg.png"));

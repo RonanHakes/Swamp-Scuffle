@@ -11,6 +11,7 @@ public class MeanToadTadpole extends Tadpole{
 
     public MeanToadTadpole(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, null, w);
+        isHeavy = true;
     }
 
     public void metamorphose() {

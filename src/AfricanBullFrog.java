@@ -84,7 +84,7 @@ public class AfricanBullFrog extends Frog {
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
-                if (canUseUtility(this.ally.occupiedTile, current)) {
+                if (canUseUtility(this.ally.occupiedTile, current) && !(current.getOccupiedBy() instanceof  AfricanBullFrog) && !current.getOccupiedBy().isHeavy() && !hasPerformedAction) {
                     current.setAltColor(new Color(60, 60, 200));
                     canLiftAlly = true;
 
@@ -125,10 +125,10 @@ public class AfricanBullFrog extends Frog {
         if (depart.getOccupiedBy() instanceof AfricanBullFrog) {
             return false;
         }
-        if (arrivingAt.getIsOccupied() != 0){
+        if (arrivingAt.getIsOccupied() != 0 || hasPerformedAction){
             return false;
         }
-        return !hasPerformedAction && (depart.getIsOccupied() == belongsTo.getPlayerNumber() && isValidOneTileRadius(arrivingAt) && isValidOneTileRadius(depart));
+        return (depart.getIsOccupied() == belongsTo.getPlayerNumber() && isValidOneTileRadius(arrivingAt) && isValidOneTileRadius(depart));
     }
 
     @Override
@@ -158,7 +158,7 @@ public class AfricanBullFrog extends Frog {
                 } else if (canAttack(current)) {
                     current.setAltColor(new Color(139, 0, 0));
                     current.setCanAttack(true);
-                } else if (isValidOneTileRadius(current) && current.getIsOccupied() == belongsTo.getPlayerNumber() && !(current.getOccupiedBy() instanceof  AfricanBullFrog) && !current.getOccupiedBy().isHeavy()) {
+                } else if (isValidOneTileRadius(current) && current.getIsOccupied() == belongsTo.getPlayerNumber() && !(current.getOccupiedBy() instanceof  AfricanBullFrog) && !current.getOccupiedBy().isHeavy() && !hasPerformedAction) {
                     current.setAltColor(new Color(60, 180, 200));
                     current.setCanUseUtility(true);
                 } else if (canMoveTo(current)) {

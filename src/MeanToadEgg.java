@@ -12,6 +12,7 @@ public class MeanToadEgg extends Egg{
 
     public MeanToadEgg(int boardX, int boardY, Player p, Window w){
         super(boardX, boardY, p, null, w);
+        isHeavy = true;
     }
 
 //    public void hatch(){  TODO

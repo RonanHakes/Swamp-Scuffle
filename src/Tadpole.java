@@ -74,6 +74,7 @@ public class Tadpole extends Unit{
             } catch (IOException e) {
                 System.out.println("Can't find image.");
             }
+            isHeavy = true; //This is an absolutely terrible way of doing this but it works
         } else if (parent instanceof BluePoisonArrowFrog) {
             try {
                 img = ImageIO.read(new File("res\\TPBluePoison.png"));
@@ -92,6 +93,7 @@ public class Tadpole extends Unit{
             } catch (IOException e) {
                 System.out.println("Can't find image.");
             }
+            isHeavy = true; //This is an absolutely terrible way of doing this but it works
         } else if (parent instanceof MeanToad) {
             try {
                 img = ImageIO.read(new File("res\\TPMeanToad.png"));
