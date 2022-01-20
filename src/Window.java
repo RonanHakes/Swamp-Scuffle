@@ -122,9 +122,6 @@ public class Window extends JPanel{
 
                     }
 
-//                    if (t.getOccupiedBy().isClickedByAfricanBullfrog()){
-//
-//                    }
                     if (t.getIsOccupied() == whoseTurn.getPlayerNumber()){ //Checks if there is an allied unit on the tile being clicked on
                         if (!t.getOccupiedBy().isClicked() && !t.getOccupiedBy().getBelongsTo().isHasClickedUnit()){ //Will run the onClicked method of a unit on this tile, as long as it is not already clicked
                             t.getOccupiedBy().onClicked();
@@ -147,13 +144,6 @@ public class Window extends JPanel{
                                     System.out.println("a print statement");
                                     ((AfricanBullFrog) whoseTurn.getFrogsOwned().get(i)).setAlly(t.getOccupiedBy());
                                     ((AfricanBullFrog) whoseTurn.getFrogsOwned().get(i)).onAllyClicked(t.getOccupiedBy());
-//                                } else if (whoseTurn.getFrogsOwned().get(i).canAttack(t)) {
-//                                    whoseTurn.getFrogsOwned().get(i).attack(t);
-//                                } else if (whoseTurn.getFrogsOwned().get(i).canUseUtility(t)) {
-//                                    whoseTurn.getFrogsOwned().get(i).useUtility(t);
-//                                }
-//                                else if (whoseTurn.getFrogsOwned().get(i).canMoveTo(t)) {
-//                                    whoseTurn.getFrogsOwned().get(i).move(t);
                                 }
 
                             }
@@ -181,7 +171,6 @@ public class Window extends JPanel{
                         item.onUnclicked();
                     }
 
-//                    whoseTurn.getFrogsOwned().forEach(Frog -> Frog.onUnclicked());    //<- this one is cooler
 
                 }
 

@@ -81,8 +81,6 @@ public abstract class Unit {
         tileArr[boardX][boardY].setOccupiedBy(this);
         belongsTo.getUnitsOwned().add(this);
         System.out.println("Player " + belongsTo.getPlayerNumber() + " Units Owned: " + belongsTo.getUnitsOwned().size());
-        //ArrayList<Unit> temp = belongsTo.getUnitsOwned().add(this);
-        //belongsTo.setUnitsOwned(temp);
         occupiedTile = tileArr[boardX][boardY];
         w.getBoard().setBoard(tileArr);
 
@@ -132,11 +130,6 @@ public abstract class Unit {
                 if (current.isCanAttack() || current.isCanUseUtility() || current.isCanMoveTo() || current.getIsOccupied() != 0){
                     current.setAltColor(null);
                 }
-//                if (w.getMeanButton().getNumClicked() != 0 || w.getMeanButton().isClicked()){
-//                    System.out.println("numC: " + w.getMeanButton().getNumClicked())
-//                    current.setAltColor(null);
-//                }
-
 
                 current.unclickWipe();
             }

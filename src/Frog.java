@@ -23,13 +23,7 @@ public abstract class Frog extends Unit {
         }
 
         System.out.println("Player " + belongsTo.getPlayerNumber() + " Frogs Owned: " + belongsTo.getFrogsOwned().size());
-        //ArrayList<Frog> fl = belongsTo.getFrogsOwned();
-        //ArrayList<Unit> ul = belongsTo.getUnitsOwned();
-        //ul.add(this); // adds unit to end of unitsOwned list
-        //fl.add(this); // adds unit to end of frogsOwned list
 
-        //belongsTo.setfrogsOwned(fl);    //Actually moves those changes to player
-        //belongsTo.setUnitsOwned(ul);
         w.repaint();
         System.out.println("w: " + w);
     }
@@ -75,7 +69,7 @@ public abstract class Frog extends Unit {
             hasPerformedAction = true;
             onUnclicked();
             belongsTo.tileWipe();
-        }   //todo dont forget to add buffs
+        }
     }
 
     protected void attackNoCheck(Tile attackedTile) {
@@ -178,18 +172,18 @@ public abstract class Frog extends Unit {
             Egg e = new Egg(xCurrent, yCurrent, belongsTo, this, w);
 
             switch (belongsTo.getPlayerNumber()) {
-                case 1:
+                case 1 -> {
                     moveToTile(tileArr[boardX + 1][boardY]);
                     e.moveToTile(tileArr[xCurrent][yCurrent]);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     moveToTile(tileArr[boardX - 1][boardY]);
                     e.moveToTile(tileArr[xCurrent][yCurrent]);
-                    break;
-                default:
+                }
+                default -> {
                     System.out.println("impossible.");
                     System.out.println("p: " + belongsTo.getPlayerNumber());
-                    break;
+                }
             }
         }
         belongsTo.setEnergyNum(belongsTo.getEnergyNum() - 3);
@@ -198,7 +192,7 @@ public abstract class Frog extends Unit {
         hasLayedEgg = true;
     }
 
-    public boolean canLayEgg() {      //Checks if an egg can be layed by the currently selected instance of frog
+    public boolean canLayEgg() {      //Checks if an egg can be laid by the currently selected instance of frog
         Tile[][] tileArr = w.getBoard().getBoard();
         if (!isClicked || belongsTo.getEnergyNum() < 3 || hasLayedEgg || hasPerformedAction) {
             return false;
@@ -245,9 +239,6 @@ public abstract class Frog extends Unit {
             g2d.drawImage(img, graphicsX, graphicsY, 50 * widthMultiplier, 50, null);
         }
 
-//        if()
-
-//        System.out.println(this);
 
     }
 

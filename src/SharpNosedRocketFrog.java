@@ -52,21 +52,10 @@ public class SharpNosedRocketFrog extends Frog {
         if (super.canMoveTo(t)) { // checks if it is moving only one square
             return true;
         }
-        if ((avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)) && t.getIsOccupied() == 0) {
-            return true;
-        }
-
-        return false;
-//        if (avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)){  //Checks if there is a unit to jump over
-//        return true;
-//        } else {
-//        return false;
-//        }
+    return (avgTile.getIsOccupied() != 0 && isValidTwoTileRadius(t)) && t.getIsOccupied() == 0;
 
 
-
-
-    }
+}
 
     @Override
     public boolean isValidTwoTileRadius(Tile t){  //This is a misnomer actually, because this will only return true not for a radius but only in straight lines
@@ -87,11 +76,7 @@ public class SharpNosedRocketFrog extends Frog {
         if ((x == boardX + 2 || x == boardX - 2) && (y != boardY + 1 && y != boardY - 1 )) {
             return true;
         }
-        if ((y == boardY + 2 || y == boardY - 2) && (x != boardX + 1 && x != boardX - 1 )) {
-            return true;
-        }
-
-        return false;
+        return (y == boardY + 2 || y == boardY - 2) && (x != boardX + 1 && x != boardX - 1);
     }
 
     @Override
@@ -145,7 +130,11 @@ public class SharpNosedRocketFrog extends Frog {
             for(int j = 0; j < 8; j++){
                 current = tileArr[i][j];
                 if (current.getBoardX() == boardX && current.getBoardY() == boardY){
-                    current.setAltColor(Color.GREEN);
+                    if (isDisabled) {
+                        current.setAltColor(Color.GRAY);
+                    } else {
+                        current.setAltColor(Color.GREEN);
+                    }
                 } else if (canAttack(current)){
                     current.setAltColor(new Color(139,0,0));
                     current.setCanAttack(true);

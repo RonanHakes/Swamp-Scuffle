@@ -326,13 +326,7 @@ public class Player implements MouseListener{
 
     public void turn() throws InterruptedException {
         tileWipe();
-//        if (starterFrogTurnCounter < 3){
-//            starterFrogTurnCounter++;
-//        }
-//        if (turnNumber % 20 == 0){
-//            starterFrogTurnCounter--;
-//
-//        }
+
         w.repaint();
         starterFrogTurnCounter++;
         System.out.println("Starter Frog Turn Counter " + starterFrogTurnCounter);
@@ -384,7 +378,6 @@ public class Player implements MouseListener{
 
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                //tileArr[i][j].setAltColor(null);
                 if(tileArr[i][j].getOccupiedBy() != null){
                     if (tileArr[i][j].getOccupiedBy().getAltSprite() != null){
                         tileArr[i][j].getOccupiedBy().setAltSprite(null);
@@ -398,19 +391,6 @@ public class Player implements MouseListener{
             }
         }
         System.out.println("turno " + turnNumber);
-
-
-
-        /*while (!w.getButton().getIsClicked()) { //Checks if the end turn button is clicked. If not, then it runs the loop again
-            if (unitsOwned.size() == 0) { // ends game if player has no units
-                System.out.println("Game end!");
-                System.exit(0);
-            }
-
-        }
-
-         */
-
     }
 
 

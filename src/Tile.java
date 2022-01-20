@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,8 +16,6 @@ public class Tile {
     private boolean canUseUtility;
     private boolean canMoveTo;
     private boolean canAttack;
-
-//    private int
 
     public Tile(int boardX, int boardY, int graphicsX, int graphicsY) { // tile constructor
         this.boardX = boardX;
@@ -39,7 +38,6 @@ public class Tile {
             g2d.fillRect(graphicsX, graphicsY, 100, 100);
             if(occupiedBy != null){
                 occupiedBy.paint(g2d);
-//              System.out.println("null1: " + this.toString());
                 if (occupiedBy.altSprite != null){
                     occupiedBy.paintAltSprite(g2d);
                 }
@@ -64,13 +62,8 @@ public class Tile {
             }
 
         } else {
-//            System.out.println("alt color (for real): " + altColor);
-            if(altColor != null){
-                g2d.setColor(altColor);
-//                System.out.println("Current color: " + g2d.getColor()); //<- try this basym
-            } else {
-                g2d.setColor(new Color(20, 150, 40));
-            }
+
+            g2d.setColor(Objects.requireNonNullElseGet(altColor, () -> new Color(20, 150, 40)));
 
             g2d.fillRect(graphicsX,graphicsY,100,100);
 
@@ -88,6 +81,12 @@ public class Tile {
         canMoveTo = false;
         canAttack = false;
         canUseUtility = false;
+        if(getOccupiedBy() != null){
+            if(getOccupiedBy().isDisabled){
+                altColor = null;
+            }
+        }
+
     }
 
     public void setIsOccupied(int isOccupied) {
