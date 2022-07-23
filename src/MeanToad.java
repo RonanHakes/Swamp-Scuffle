@@ -65,10 +65,7 @@ public class MeanToad extends Frog {
         int x = t.getBoardX();
         int y = t.getBoardY();
 
-        if (getW().getBoard().getBoard()[x][y].getIsOccupied() != 0 || !isValidOneTileRadius(t) && !isValidTwoTileRadius(t)) {
-            return false;
-        }
-        return true;
+        return getW().getBoard().getBoard()[x][y].getIsOccupied() == 0 && (isValidOneTileRadius(t) || isValidTwoTileRadius(t));
     }
 
     @Override

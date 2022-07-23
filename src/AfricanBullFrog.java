@@ -56,7 +56,7 @@ public class AfricanBullFrog extends Frog {
     }
 
     public void liftAlly(Tile depart, Tile arrivingAt){
-        if (canUseUtility(depart, arrivingAt)){
+        if (canUseUtility(depart, arrivingAt) && belongsTo.getEnergyNum() >= 2){
             depart.getOccupiedBy().moveToTile(arrivingAt);
             arrivingAt.getOccupiedBy().setClickedByAfricanBullfrog(false);
             arrivingAt.getOccupiedBy().setBeingMovedBy(null);

@@ -25,6 +25,7 @@ public class Player implements MouseListener{
     private boolean hasClickedUnit;
     private int energyPerTurn;
     private PlayerInfoSegment pIS;
+    private StarterFrogChoiceMenu starterFrogMenu;
     private boolean isStarterFrogTurn;
     private int homeColumn;
     public int getHomeColumn() {
@@ -75,6 +76,7 @@ public class Player implements MouseListener{
         this.w = w;
         hasClickedUnit = false;
         pIS = new PlayerInfoSegment(this, w);
+        starterFrogMenu = new StarterFrogChoiceMenu();
         if (playerNumber == 1) {
             homeColumn = 0;
             color = Color.BLUE;
@@ -301,6 +303,7 @@ public class Player implements MouseListener{
 
     public void paint(Graphics2D g2d) {
         if (w.getp1().getStarterFrogTurnCounter() < 3 || w.getp2().getStarterFrogTurnCounter() < 3) {
+
             //g2d.setColor(new Color(20, 150, 40));
             //g2d.fillRect(50,150,150,350);
 
